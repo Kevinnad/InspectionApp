@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/tvName"
+        android:text="HL"
+        style="@style/Body"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvMin"
+        style="@style/Body"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideLineEnd"
+        android:layout_width="wrap_content"
+        android:text="76"
+        android:padding="10dp"
+        android:gravity="end"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvMax"
+        style="@style/Body"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/guideLineMid"
+        android:layout_width="wrap_content"
+        android:text="82"
+        android:padding="10dp"
+        android:gravity="end"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/tvActual"
+        style="@style/Body"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideLineMid"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:inputType="number"
+        android:padding="10dp"
+        android:text="80"
+        android:layout_height="wrap_content"/>
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineEnd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.60"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineMid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLineLast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
