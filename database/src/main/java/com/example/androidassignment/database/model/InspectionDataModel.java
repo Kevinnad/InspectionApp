@@ -2,7 +2,11 @@ package com.example.androidassignment.database.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import com.example.androidassignment.database.database.Converters;
+
+import java.util.ArrayList;
 
 
 @Entity(tableName = "InspectionTable")
@@ -11,8 +15,10 @@ public class InspectionDataModel {
      int id;
     String rakeLoadingNumber;
     String orderNumber;
-    String itemCode;
-    String wareHouse;
+    int itemCode;
+    int wareHouse;
+    @TypeConverters(Converters.class)
+    ArrayList<Data> items;
 
     public void setId(int id) {
         this.id = id;
@@ -49,19 +55,19 @@ public class InspectionDataModel {
         this.orderNumber = orderNumber;
     }
 
-    public String getItemCode() {
+    public int getItemCode() {
         return itemCode;
     }
 
-    public void setItemCode(String itemCode) {
+    public void setItemCode(int itemCode) {
         this.itemCode = itemCode;
     }
 
-    public String getWareHouse() {
+    public int getWareHouse() {
         return wareHouse;
     }
 
-    public void setWareHouse(String wareHouse) {
+    public void setWareHouse(int wareHouse) {
         this.wareHouse = wareHouse;
     }
 
@@ -72,4 +78,14 @@ public class InspectionDataModel {
     public void setStack(String stack) {
         this.stack = stack;
     }
+
+    public ArrayList<Data> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Data> items) {
+        this.items = items;
+    }
+
+
 }

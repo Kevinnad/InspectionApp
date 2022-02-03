@@ -1,27 +1,21 @@
 package com.example.androidassignment.viewmodel;
 
-import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.androidassignment.database.database.AppDataBase;
 import com.example.androidassignment.database.database.DataBaseProvider;
+import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.views.DataModel;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Action;
 import io.reactivex.rxjava3.functions.Consumer;
@@ -55,7 +49,7 @@ public class InspectionViewModel extends ViewModel {
                     @Override
                     public void onComplete() {
                         inserSuccessLiveData.postValue(true);
-                        getPreviousData();
+                        getLastInspection();
                     }
 
                     @Override
@@ -68,39 +62,91 @@ public class InspectionViewModel extends ViewModel {
     public void getPreviousData() {
 
         if (currentId > 1) {
-            dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId - 1).subscribe(new Consumer<InspectionDataModel>() {
+            dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId - 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
                 @Override
                 public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                     handleResponse(inspectionDataModels);
                     currentId = inspectionDataModels.getId();
                 }
-            });
+            },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+
+        }
+    }
+   public void getAllItemData(String itemCode) {
+
+            dataBaseProvider.getAppDatabase().itemCodeDao().getAllItemData(itemCode).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Data>>() {
+                @Override
+                public void accept(@NonNull List<Data> data) throws Exception {
+
+                }
+            },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+
+
+    }
+
+    public void getNextData() {
+
+        if (currentId > 1) {
+            dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId + 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
+                @Override
+                public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
+                    handleResponse(inspectionDataModels);
+                    currentId = inspectionDataModels.getId();
+                }
+            },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+
         }
     }
 
     public void getLastInspection() {
 
-        dataBaseProvider.getAppDatabase().inspectionDao().getLastInspection().subscribe(new Consumer<InspectionDataModel>() {
+        dataBaseProvider.getAppDatabase().inspectionDao().getLastInspection().subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
             @Override
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 lastId = inspectionDataModels.getId();
-                currentId = lastId+1;
+                currentId = lastId + 1;
             }
-        });
+        },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
     }
 
     private void handleResponse(InspectionDataModel inspectionDataModels) {
         previousInspection.postValue(inspectionDataModels);
     }
 
-    void formInspectionItemList(){
+    public ItemCodeAttributesDataModel formInspectionItemList(int itemCode, ArrayList<String> list) {
 
+        if (itemCode == 0) {
+            ItemCodeAttributesDataModel itemCodeAttributesDataModel = new ItemCodeAttributesDataModel();
 
-        ArrayList<DataModel> list = new ArrayList<>();
-        list.add(new DataModel("HL", "76", "82", ""));
-        list.add(new DataModel("KB", "0", "0.1", ""));
-        list.add(new DataModel("RDGRN", "0", "12", ""));
-        list.add(new DataModel("POTIA", "0", "5", ""));
+            ArrayList<Data> list1 = new ArrayList<>();
+            list1.add(new Data("HL", "76", "82", ""));
+            list1.add(new Data("KB", "0", "0.1", ""));
+            list1.add(new Data("RDGRN", "0", "12", ""));
+            list1.add(new Data("POTIA", "0", "5", ""));
+
+            itemCodeAttributesDataModel.dataList = list1;
+            return itemCodeAttributesDataModel;
+        } else if (itemCode == 1) {
+
+            ItemCodeAttributesDataModel itemCodeAttributesDataModel = new ItemCodeAttributesDataModel();
+            ArrayList<Data> list3 = new ArrayList<>();
+            list3.add(new Data("HL", "76", "82", ""));
+            list3.add(new Data("RDGRN", "0", "12", ""));
+            list3.add(new Data("POTIA", "0", "5", ""));
+
+            itemCodeAttributesDataModel.dataList = list3;
+
+            return itemCodeAttributesDataModel;
+        } else {
+
+            ItemCodeAttributesDataModel itemCodeAttributesDataModel = new ItemCodeAttributesDataModel();
+            ArrayList<Data> list2 = new ArrayList<>();
+            list2.add(new Data("HL", "76", "82", ""));
+            list2.add(new Data("KB", "0", "0.1", ""));
+            list2.add(new Data("RDGRN", "0", "12", ""));
+            itemCodeAttributesDataModel.dataList = list2;
+            return itemCodeAttributesDataModel;
+        }
 
     }
 }

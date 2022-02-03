@@ -1,21 +1,22 @@
-package com.example.androidassignment.views;
+package com.example.androidassignment.database.model;
 
 public class DataModel {
 
-    public DataModel(String name,
+    public DataModel(String attribute,
                      String min,
                      String max,
-                     String actual) {
+                     String actual,String itemCode) {
 
         this.actual = actual;
         this.min = min;
         this.max = max;
-        this.name = name;
+        this.attribute = attribute;
 
     }
 
     public String max;
     public String min;
     public String actual;
-    public String name;
+    public String attribute;
+    public String itemCode;
 }

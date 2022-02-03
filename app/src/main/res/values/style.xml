@@ -16,7 +16,7 @@
         <item name="android:ellipsize">end</item>
     </style>
     <style name="Title.Small">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:ellipsize">end</item>
     </style>
 

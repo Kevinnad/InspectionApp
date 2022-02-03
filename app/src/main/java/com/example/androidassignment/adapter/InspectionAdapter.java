@@ -1,23 +1,24 @@
 package com.example.androidassignment.adapter;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.databinding.RowItemBinding;
-import com.example.androidassignment.views.DataModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InspectionAdapter extends RecyclerView.Adapter<InspectionAdapter.ViewHolder> {
 
-    public InspectionAdapter(List<DataModel> localDataSet){
+    public InspectionAdapter(List<Data> localDataSet){
         this.localDataSet = localDataSet;
     }
 
-    private List<DataModel> localDataSet;
+    private List<Data> localDataSet;
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -28,11 +29,28 @@ public class InspectionAdapter extends RecyclerView.Adapter<InspectionAdapter.Vi
             this.binding = binding;
         }
 
-        public void bind(DataModel dataset) {
-            binding.tvMax.setText(dataset.max);
-            binding.tvMin.setText(dataset.min);
-            binding.tvActual.setText(dataset.actual);
-            binding.tvName.setText(dataset.name);
+        public void bind(Data dataset) {
+            binding.tvMax.setText(dataset.getMaxValue());
+            binding.tvMin.setText(dataset.getMinValue());
+            binding.tvActual.setText(dataset.getActualValue());
+            binding.tvName.setText(dataset.getName());
+
+            binding.tvActual.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    dataset.setActualValue(editable.toString());
+                }
+            });
         }
     }
 

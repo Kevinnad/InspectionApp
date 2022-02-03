@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public interface InspectionDao {
 
     @Query("SELECT * FROM inspectiontable WHERE id = :id")
     Single<InspectionDataModel> getSingleInspection(int id);
+
 
     @Query("SELECT * FROM inspectiontable ORDER BY id DESC LIMIT 1")
     Single<InspectionDataModel> getLastInspection();
