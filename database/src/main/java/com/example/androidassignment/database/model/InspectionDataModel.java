@@ -12,11 +12,12 @@ import java.util.ArrayList;
 @Entity(tableName = "InspectionTable")
 public class InspectionDataModel {
     @PrimaryKey(autoGenerate = true)
-     int id;
+    int id;
     String rakeLoadingNumber;
-    String orderNumber;
+    int orderNumber;
     int itemCode;
     int wareHouse;
+    boolean isSync;
     @TypeConverters(Converters.class)
     ArrayList<Data> items;
 
@@ -24,7 +25,7 @@ public class InspectionDataModel {
         this.id = id;
     }
 
-    String stack;
+    int stack;
     String updatedAt;
 
     public String getUpdatedAt() {
@@ -47,11 +48,11 @@ public class InspectionDataModel {
         this.rakeLoadingNumber = rakeLoadingNumber;
     }
 
-    public String getOrderNumber() {
+    public int getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(String orderNumber) {
+    public void setOrderNumber(int orderNumber) {
         this.orderNumber = orderNumber;
     }
 
@@ -71,11 +72,11 @@ public class InspectionDataModel {
         this.wareHouse = wareHouse;
     }
 
-    public String getStack() {
+    public int getStack() {
         return stack;
     }
 
-    public void setStack(String stack) {
+    public void setStack(int stack) {
         this.stack = stack;
     }
 
@@ -87,5 +88,11 @@ public class InspectionDataModel {
         this.items = items;
     }
 
+    public boolean isSync() {
+        return isSync;
+    }
 
+    public void setSync(boolean sync) {
+        isSync = sync;
+    }
 }

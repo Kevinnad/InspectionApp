@@ -113,7 +113,7 @@ public class InspectionViewModel extends ViewModel {
         previousInspection.postValue(inspectionDataModels);
     }
 
-    public ItemCodeAttributesDataModel formInspectionItemList(int itemCode, ArrayList<String> list) {
+    public ItemCodeAttributesDataModel formInspectionItemList(int itemCode) {
 
         if (itemCode == 0) {
             ItemCodeAttributesDataModel itemCodeAttributesDataModel = new ItemCodeAttributesDataModel();

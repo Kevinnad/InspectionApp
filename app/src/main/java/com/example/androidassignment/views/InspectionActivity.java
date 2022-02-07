@@ -26,10 +26,10 @@ public class InspectionActivity extends AppCompatActivity {
 
     ActivityPreLoadingInspectionBinding binding;
     InspectionViewModel inspectionViewModel;
-    ItemCodeAttributesDataModel itemList;
+    ArrayList<Data> itemList;
     int previousID = 0;
     boolean isNew = true;
-    private int currentVisibleId;
+    private InspectionDataModel inspectionDataModel;
     ArrayAdapter<String> stackAdapter;
     ArrayAdapter<String> autoCompleteAdapter;
     ArrayAdapter<String> orderNumAdapter;
@@ -65,21 +65,22 @@ public class InspectionActivity extends AppCompatActivity {
     private void initOtherSpinnerData(int i) {
 
         final ArrayList<String> list3 = new ArrayList<String>();
-        if(i == 1){
+        if (i == 1) {
             list3.add("001MW01");
             list3.add("001MW02");
             list3.add("001MW02");
-        }if(i == 2){
+        }
+        if (i == 2) {
             list3.add("002MW01");
             list3.add("002MW02");
             list3.add("002MW02");
-        }else{
+        } else {
             list3.add("003MW01");
             list3.add("003MW02");
             list3.add("003MW02");
         }
 
-       stackAdapter = new ArrayAdapter<String>(
+        stackAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_dropdown_item_1line, list3);
         binding.spStack.setAdapter(
                 new NothingSelectedSpinnerAdapter(
@@ -87,7 +88,9 @@ public class InspectionActivity extends AppCompatActivity {
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-
+        if(inspectionDataModel != null){
+            binding.spStack.setSelection(inspectionDataModel.getStack());
+        }
 
     }
 
@@ -136,15 +139,17 @@ public class InspectionActivity extends AppCompatActivity {
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-
+        if(inspectionDataModel != null){
+            binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
+        }
         binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (adapterView == null || adapterView.getItemAtPosition(i) == null || adapterView.getItemAtPosition(i).equals("[Select]")) {
 
                 } else if (isNew) {
-                    itemList = inspectionViewModel.formInspectionItemList(i, list1);
-                    setAdapter(itemList.dataList);
+                    itemList = inspectionViewModel.formInspectionItemList(i).dataList;
+                    setAdapter(itemList);
                 }
 
                 setWareHouse(i);
@@ -160,16 +165,16 @@ public class InspectionActivity extends AppCompatActivity {
     private void setWareHouse(int i) {
 
         final ArrayList<String> list2 = new ArrayList<String>();
-        if(i == 1){
+        if (i == 1) {
             list2.add("MW01");
             list2.add("MW02");
             list2.add("MW03");
-        }else{
+        } else {
             list2.add("SW01");
             list2.add("SW02");
             list2.add("SW03");
         }
-         warehouseAdapter = new ArrayAdapter<String>(
+        warehouseAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_dropdown_item_1line, list2);
         binding.spWarehouse.setAdapter(
                 new NothingSelectedSpinnerAdapter(
@@ -177,7 +182,9 @@ public class InspectionActivity extends AppCompatActivity {
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-
+        if(inspectionDataModel != null){
+            binding.spWarehouse.setSelection(inspectionDataModel.getWareHouse());
+        }
         binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -209,7 +216,9 @@ public class InspectionActivity extends AppCompatActivity {
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-
+        if(inspectionDataModel != null){
+            binding.spOrderNum.setSelection(inspectionDataModel.getOrderNumber());
+        }
         binding.spOrderNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -291,34 +300,61 @@ public class InspectionActivity extends AppCompatActivity {
     }
 
     void setInspection(InspectionDataModel inspectionDataModel) {
+        this.inspectionDataModel = inspectionDataModel;
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
-        binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
-        binding.spWarehouse.setSelection(inspectionDataModel.getWareHouse());
+        setOrderNumber(inspectionDataModel.getRakeLoadingNumber());
+        binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
+        itemList = inspectionDataModel.getItems();
         setAdapter(inspectionDataModel.getItems());
+        toggleAction(!inspectionDataModel.isSync());
+    }
+
+    void setOrderNumber(String rake){
+        if(rake.equals("20/B124/RAK/0000001/2021")){
+            initSpinnerData(0);
+        }else{
+            initSpinnerData(1);
+        }
+    }
+
+    void toggleAction(boolean isEnable) {
+        binding.autoCompleteLoadingNum.setEnabled(isEnable);
+        binding.spItemCode.setEnabled(isEnable);
+        binding.spOrderNum.setEnabled(isEnable);
+        binding.spWarehouse.setEnabled(isEnable);
+        binding.spStack.setEnabled(isEnable);
+        binding.tvSync.setEnabled(isEnable);
     }
 
     void saveInspection(boolean isNext) {
         InspectionDataModel inspectionDataModel = new InspectionDataModel();
         inspectionDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
-        inspectionDataModel.setOrderNumber(binding.spOrderNum.getSelectedItem().toString());
+        inspectionDataModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
         inspectionDataModel.setItemCode(binding.spItemCode.getSelectedItemPosition());
         inspectionDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
-        inspectionDataModel.setItems(itemList.dataList);
+        inspectionDataModel.setStack(binding.spStack.getSelectedItemPosition());
+        inspectionDataModel.setItems(itemList);
         if (previousID != 0)
             inspectionDataModel.setId(previousID);
 
-
         if (isNext) {
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
-
                 inspectionViewModel.getNextData();
-
-            } else
+            } else{
+                callSaveInspection(inspectionDataModel);
                 resetInspectionScreen();
+            }
+        } else {
+            inspectionDataModel.setSync(true);
+            binding.tvSync.setVisibility(View.VISIBLE);
+            this.inspectionDataModel = inspectionDataModel;
+            callSaveInspection(inspectionDataModel);
         }
+    }
 
-        inspectionViewModel.addData(inspectionDataModel);
-
+    void callSaveInspection(InspectionDataModel minspectionDataModel){
+        if(inspectionDataModel!=null && !inspectionDataModel.isSync())
+        inspectionViewModel.addData(minspectionDataModel);
     }
 
     void resetInspectionScreen() {
@@ -328,6 +364,8 @@ public class InspectionActivity extends AppCompatActivity {
         binding.tvMax.setVisibility(View.GONE);
         binding.tvActual.setVisibility(View.GONE);
         isNew = true;
+        inspectionDataModel = null;
+        toggleAction(true);
         Toast.makeText(this, "Data Saved", Toast.LENGTH_LONG).show();
     }
 }

@@ -21,6 +21,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvSync"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#2CFF07"
+        android:gravity="center"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:textSize="13sp"
+        android:text="Synced"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -29,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle">
+        app:layout_constraintTop_toBottomOf="@id/tvSync">
 
 
         <TextView
@@ -192,6 +207,7 @@
             android:layout_marginBottom="20dp"
             app:layout_constraintTop_toBottomOf="@id/tvMin"
             app:layout_constraintBottom_toTopOf="@id/bt_submit"
+            tools:itemCount="5"
             tools:listitem="@layout/row_item" />
 
         <Button
