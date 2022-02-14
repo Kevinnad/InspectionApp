@@ -10,6 +10,7 @@ import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
+import com.example.androidassignment.database.model.TestInspectionModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class InspectionViewModel extends ViewModel {
     public DataBaseProvider dataBaseProvider;
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> previousInspection = new MutableLiveData();
+    public MutableLiveData<List<TestInspectionModel>> testInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
 
@@ -82,11 +84,52 @@ public class InspectionViewModel extends ViewModel {
             },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
 
 
+    }public void getAllData() {
+
+            dataBaseProvider.getAppDatabase().testInspectionDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<TestInspectionModel>>() {
+                @Override
+                public void accept(@NonNull List<TestInspectionModel> data) throws Exception {
+                    testInspection.postValue(data);
+                }
+            },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+
+
+    }
+
+    public void insertAllTestInspectionData(List<TestInspectionModel> models) {
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                dataBaseProvider.getAppDatabase().testInspectionDao().insert(models);
+
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        inserSuccessLiveData.postValue(true);
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+                        Log.e("test",e.getMessage());
+
+                    }
+                });
+
     }
 
     public void getNextData() {
 
-        if (currentId > 1) {
+        if (currentId <= lastId) {
             dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId + 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
                 @Override
                 public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {

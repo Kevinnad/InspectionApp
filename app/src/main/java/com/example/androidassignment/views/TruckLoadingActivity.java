@@ -17,20 +17,21 @@ import com.example.androidassignment.adapter.InspectionAdapter;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
+import com.example.androidassignment.database.model.TruckLoadingDataModel;
 import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
-import com.example.androidassignment.viewmodel.InspectionViewModel;
+import com.example.androidassignment.databinding.ActivityTruckLoadingInspectionBinding;
+import com.example.androidassignment.viewmodel.TruckLoadingViewModel;
 
 import java.util.ArrayList;
 
-public class InspectionActivity extends AppCompatActivity {
+public class TruckLoadingActivity extends AppCompatActivity {
 
-    ActivityPreLoadingInspectionBinding binding;
-    InspectionViewModel inspectionViewModel;
+    ActivityTruckLoadingInspectionBinding binding;
+    TruckLoadingViewModel truckLoadingViewModel;
     ArrayList<Data> itemList;
     int previousID = 0;
     boolean isNew = true;
-    private InspectionDataModel inspectionDataModel;
+    private TruckLoadingDataModel truckLoadingDataModel;
     ArrayAdapter<String> stackAdapter;
     ArrayAdapter<String> autoCompleteAdapter;
     ArrayAdapter<String> orderNumAdapter;
@@ -40,11 +41,11 @@ public class InspectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityPreLoadingInspectionBinding.inflate(getLayoutInflater());
+        binding = ActivityTruckLoadingInspectionBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
-        inspectionViewModel = new ViewModelProvider(this).get(InspectionViewModel.class);
+        truckLoadingViewModel = new ViewModelProvider(this).get(TruckLoadingViewModel.class);
 
         createDataBase();
         observers();
@@ -55,11 +56,11 @@ public class InspectionActivity extends AppCompatActivity {
 
     void createDataBase() {
 
-        inspectionViewModel.dataBaseProvider = DataBaseProvider.getInstance(getApplicationContext());
+        truckLoadingViewModel.dataBaseProvider = DataBaseProvider.getInstance(getApplicationContext());
     }
 
     void loadData() {
-        inspectionViewModel.getLastInspection();
+        truckLoadingViewModel.getLastInspection();
     }
 
 
@@ -89,17 +90,10 @@ public class InspectionActivity extends AppCompatActivity {
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
-            binding.spStack.setSelection(inspectionDataModel.getStack());
+        if(truckLoadingDataModel != null){
+            binding.spStack.setSelection(truckLoadingDataModel.getStack());
         }
 
-    }
-
-    void setAdapter(ArrayList<Data> dataList) {
-        binding.tvMax.setVisibility(View.VISIBLE);
-        binding.tvMin.setVisibility(View.VISIBLE);
-        binding.tvActual.setVisibility(View.VISIBLE);
-        binding.rvList.setAdapter(new InspectionAdapter(dataList));
     }
 
     private void initAutocompleteAdapter() {
@@ -119,48 +113,6 @@ public class InspectionActivity extends AppCompatActivity {
         });
     }
 
-    private void setItemCode(int i) {
-
-        final ArrayList<String> list1 = new ArrayList<String>();
-
-        if (i == 1) {
-            list1.add("F02002TJ60A");
-            list1.add("F02002TJ60B");
-        }else {
-            list1.add("A02002TJ60A");
-            list1.add("A02002TJ60B");
-        }
-
-        itemCodeAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list1);
-        binding.spItemCode.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        itemCodeAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if(inspectionDataModel != null){
-            binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
-        }
-        binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView == null || adapterView.getItemAtPosition(i) == null || adapterView.getItemAtPosition(i).equals("[Select]")) {
-
-                } else if (isNew) {
-                    itemList = inspectionViewModel.formInspectionItemList(i).dataList;
-                    setAdapter(itemList);
-                }
-
-                setWareHouse(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
 
     private void setWareHouse(int i) {
 
@@ -182,8 +134,8 @@ public class InspectionActivity extends AppCompatActivity {
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
-            binding.spWarehouse.setSelection(inspectionDataModel.getWareHouse());
+        if(truckLoadingDataModel != null){
+            binding.spWarehouse.setSelection(truckLoadingDataModel.getWareHouse());
         }
         binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -216,13 +168,13 @@ public class InspectionActivity extends AppCompatActivity {
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
-            binding.spOrderNum.setSelection(inspectionDataModel.getOrderNumber());
+        if(truckLoadingDataModel != null){
+            binding.spOrderNum.setSelection(truckLoadingDataModel.getOrderNumber());
         }
         binding.spOrderNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setItemCode(i);
+                setWareHouse(i);
             }
 
             @Override
@@ -245,8 +197,8 @@ public class InspectionActivity extends AppCompatActivity {
         });
 
         binding.btPrev.setOnClickListener(view -> {
-            if (inspectionViewModel.lastId > 0  && inspectionViewModel.currentId > 1)
-                inspectionViewModel.getPreviousData();
+            if (truckLoadingViewModel.lastId > 0  && truckLoadingViewModel.currentId > 1)
+                truckLoadingViewModel.getPreviousData();
             else
                 Toast.makeText(this, "No Previous Data", Toast.LENGTH_LONG).show();
         });
@@ -261,66 +213,78 @@ public class InspectionActivity extends AppCompatActivity {
             Toast.makeText(this,
                     "Select Order number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spOrderNum.getSelectedItem() == null) {
-            Toast.makeText(this,
-                    "Select Order number", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (binding.spItemCode.getSelectedItem() == null) {
-            Toast.makeText(this,
-                    "Select Itemcode", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (binding.spWarehouse.getSelectedItem() == null) {
+        }  else if (binding.spWarehouse.getSelectedItem() == null || binding.spWarehouse.getSelectedItemPosition() ==0) {
             Toast.makeText(this,
                     "Select Warehouse", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spStack.getSelectedItem() == null) {
+        } else if (binding.spStack.getSelectedItem() == null || binding.spStack.getSelectedItemPosition() ==0) {
             Toast.makeText(this,
                     "Select Stack", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (!validateItemList()) {
+        }else if (binding.etNoTruck.getText() == null || binding.etNoTruck.getText().toString().isEmpty()) {
             Toast.makeText(this,
-                    "Enter Actual Value", Toast.LENGTH_SHORT).show();
+                    "Enter Number of Trucks", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etTruckID.getText() == null || binding.etTruckID.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Truck Id", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etTruckNo.getText() == null || binding.etTruckNo.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Truck Number", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etNoOfBags.getText() == null || binding.etNoOfBags.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Number of Bags", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etBagStickQuality.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Input Bag Stick Quality", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etChelliCount.getText() == null || binding.etChelliCount.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter ChelliCount", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    boolean validateItemList(){
-        boolean isValid = true;
-        for(Data data : itemList){
-            if(TextUtils.isEmpty(data.getActualValue())){
-                isValid = false;
-                break;
-            }
-        }
-        return isValid;
-    }
+
 
     void observers() {
-        inspectionViewModel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
+        truckLoadingViewModel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
 
             }
         });
 
-        inspectionViewModel.previousInspection.observe(this, new Observer<InspectionDataModel>() {
+        truckLoadingViewModel.previousInspection.observe(this, new Observer<TruckLoadingDataModel>() {
             @Override
-            public void onChanged(InspectionDataModel dataModel) {
+            public void onChanged(TruckLoadingDataModel dataModel) {
                 previousID = dataModel.getId();
                 isNew = false;
                 setInspection(dataModel);
             }
         });
     }
-    void setInspection(InspectionDataModel inspectionDataModel) {
-        this.inspectionDataModel = inspectionDataModel;
-        binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
-        setOrderNumber(inspectionDataModel.getRakeLoadingNumber());
-        binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
-        itemList = inspectionDataModel.getItems();
-        setAdapter(inspectionDataModel.getItems());
-        toggleAction(!inspectionDataModel.isSync());
+    void setInspection(TruckLoadingDataModel truckLoadingDataModel) {
+        this.truckLoadingDataModel = truckLoadingDataModel;
+        binding.autoCompleteLoadingNum.setText(truckLoadingDataModel.getRakeLoadingNumber());
+        setOrderNumber(truckLoadingDataModel.getRakeLoadingNumber());
+        binding.etTruckNo.setText(truckLoadingDataModel.getTruckNumber());
+        binding.etTruckID.setText(String.valueOf(truckLoadingDataModel.getTruckID()));
+        binding.etNoTruck.setText(String.valueOf(truckLoadingDataModel.getNoOfTrucks()));
+        binding.etChelliCount.setText(truckLoadingDataModel.getChelliCount());
+        binding.etNoOfBags.setText(truckLoadingDataModel.getNumOfBags());
+        if(truckLoadingDataModel.getQuality() == 0)
+        {
+            binding.rbGood.setChecked(true);
+        }
+        else
+            binding.rbAverage.setChecked(true);
+        binding.tvSync.setVisibility((truckLoadingDataModel.isSync()) ? View.VISIBLE : View.GONE);
+        toggleAction(!truckLoadingDataModel.isSync());
     }
 
     void setOrderNumber(String rake){
@@ -333,59 +297,73 @@ public class InspectionActivity extends AppCompatActivity {
 
     void toggleAction(boolean isEnable) {
         binding.autoCompleteLoadingNum.setEnabled(isEnable);
-        binding.spItemCode.setEnabled(isEnable);
         binding.spOrderNum.setEnabled(isEnable);
         binding.spWarehouse.setEnabled(isEnable);
         binding.spStack.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
+        binding.etTruckNo.setEnabled(isEnable);
+        binding.etChelliCount.setEnabled(isEnable);
+        binding.etNoOfBags.setEnabled(isEnable);
+        binding.etBagStickQuality.setEnabled(isEnable);
+        binding.etTruckID.setEnabled(isEnable);
     }
 
     void saveInspection(boolean isNext) {
-        InspectionDataModel inspectionDataModel = new InspectionDataModel();
-        inspectionDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
-        inspectionDataModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
-        inspectionDataModel.setItemCode(binding.spItemCode.getSelectedItemPosition());
-        inspectionDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
-        inspectionDataModel.setStack(binding.spStack.getSelectedItemPosition());
-        inspectionDataModel.setItems(itemList);
+        TruckLoadingDataModel truckLoadingDataModel = new TruckLoadingDataModel();
+        truckLoadingDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
+        truckLoadingDataModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
+        truckLoadingDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
+        truckLoadingDataModel.setStack(binding.spStack.getSelectedItemPosition());
+        truckLoadingDataModel.setNoOfTrucks(Integer.parseInt(binding.etNoTruck.getText().toString()));
+        truckLoadingDataModel.setTruckID(Integer.parseInt(binding.etTruckID.getText().toString()));
+        truckLoadingDataModel.setNumOfBags(binding.etNoOfBags.getText().toString());
+        truckLoadingDataModel.setChelliCount(binding.etChelliCount.getText().toString());
+        truckLoadingDataModel.setTruckNumber(binding.etTruckNo.getText().toString());
+        if(binding.rbAverage.isChecked())
+            truckLoadingDataModel.setQuality(1);
+        else
+            truckLoadingDataModel.setQuality(0);
+
+
+        
         if (previousID != 0)
-            inspectionDataModel.setId(previousID);
+            truckLoadingDataModel.setId(previousID);
 
         if (isNext) {
-            if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
-                inspectionViewModel.getNextData();
+            if (truckLoadingViewModel.lastId > 0 && truckLoadingViewModel.currentId + 1 <= truckLoadingViewModel.lastId) {
+                truckLoadingViewModel.getNextData();
             } else{
-                callSaveInspection(inspectionDataModel);
+                callSaveInspection(truckLoadingDataModel);
                 resetInspectionScreen();
             }
         } else {
-            inspectionDataModel.setSync(true);
-            callSaveInspection(inspectionDataModel);
+            truckLoadingDataModel.setSync(true);
+            callSaveInspection(truckLoadingDataModel);
             binding.tvSync.setVisibility(View.VISIBLE);
         }
     }
 
-    void callSaveInspection(InspectionDataModel minspectionDataModel){
+    void callSaveInspection(TruckLoadingDataModel mtruckLoadingDataModel){
         if(binding.tvSync.getVisibility() == View.GONE){
-            this.inspectionDataModel = minspectionDataModel;
-            inspectionViewModel.addData(minspectionDataModel);
+            this.truckLoadingDataModel = mtruckLoadingDataModel;
+            truckLoadingViewModel.addData(mtruckLoadingDataModel);
             Toast.makeText(this, "Data Saved", Toast.LENGTH_LONG).show();
         }
     }
 
     void resetInspectionScreen() {
         previousID = 0;
-        binding.spItemCode.setSelection(0);
         binding.spWarehouse.setSelection(0);
         binding.spStack.setSelection(0);
-        binding.spItemCode.setSelection(0);
-        binding.rvList.setAdapter(null);
-        binding.tvMin.setVisibility(View.GONE);
-        binding.tvMax.setVisibility(View.GONE);
-        binding.tvActual.setVisibility(View.GONE);
         binding.tvSync.setVisibility(View.GONE);
+        binding.etNoTruck.setText("");
+        binding.etTruckID.setText("");
+        binding.etTruckNo.setText("");
+        binding.etNoOfBags.setText("");
+        binding.etChelliCount.setText("");
+        binding.etBagStickQuality.clearCheck();
         isNew = true;
-        inspectionDataModel = null;
+        truckLoadingDataModel = null;
         toggleAction(true);
     }
 }

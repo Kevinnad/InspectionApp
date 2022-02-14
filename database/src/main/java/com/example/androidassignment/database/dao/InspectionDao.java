@@ -3,6 +3,7 @@ package com.example.androidassignment.database.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -29,11 +30,12 @@ public interface InspectionDao {
     @Query("SELECT * FROM inspectiontable ORDER BY id DESC LIMIT 1")
     Single<InspectionDataModel> getLastInspection();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(InspectionDataModel model);
 
     @Delete
     void delete(InspectionDataModel model);
+
 
     @Update
     void update(InspectionDataModel model);

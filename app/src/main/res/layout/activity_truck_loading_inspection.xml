@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#FFC107"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Truck loading"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvSync"
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="#2CFF07"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Synced"
+            android:textSize="13sp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSync">
+
+
+            <TextView
+                android:id="@+id/tvRakeLoadingNum"
+                style="@style/Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Rake Loading Number"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/autoCompleteLoadingNum"
+                style="@style/Title.Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/autocomplete_textview_background"
+                android:completionThreshold="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="8dp"
+                app:layout_constraintBottom_toBottomOf="@id/tvRakeLoadingNum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvRakeLoadingNum"
+                tools:text="ffdfdffdfdfdfdfdfdfdfdfdfdfdf" />
+
+
+            <TextView
+                android:id="@+id/tvOrderNum"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Order number (STO in ERP)"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/autoCompleteLoadingNum" />
+
+            <Spinner
+                android:id="@+id/spOrderNum"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/tvOrderNum"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvOrderNum" />
+
+            <TextView
+                android:id="@+id/tvNoTruck"
+                style="@style/Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="No. of Trucks"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvStack" />
+
+            <EditText
+                android:id="@+id/etNoTruck"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="@id/tvNoTruck"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvNoTruck" />
+
+            <TextView
+                android:id="@+id/tvWarehouse"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Warehouse"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOrderNum" />
+
+            <Spinner
+                android:id="@+id/spWarehouse"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
+                app:layout_constraintBottom_toBottomOf="@id/tvWarehouse"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvWarehouse" />
+
+            <TextView
+                android:id="@+id/tvStack"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Stack"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvWarehouse" />
+
+            <Spinner
+                android:id="@+id/spStack"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/tvStack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvStack" />
+
+
+            <TextView
+                android:id="@+id/tvTruckID"
+                style="@style/Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:inputType="number"
+                android:text="Truck ID"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNoTruck" />
+
+            <EditText
+                android:id="@+id/etTruckID"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                app:layout_constraintBottom_toBottomOf="@id/tvTruckID"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvTruckID" />
+
+
+            <TextView
+                android:id="@+id/tvTruckNo"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Truck Number"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTruckID" />
+
+            <EditText
+                android:id="@+id/etTruckNo"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                app:layout_constraintBottom_toBottomOf="@id/tvTruckNo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvTruckNo" />
+
+            <TextView
+                android:id="@+id/tvNoOfBags"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="No. of Bags"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTruckNo" />
+
+            <EditText
+                android:id="@+id/etNoOfBags"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                app:layout_constraintBottom_toBottomOf="@id/tvNoOfBags"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvNoOfBags" />
+
+            <TextView
+                android:id="@+id/tvBagStickQuality"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Bags Stick Quality"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNoOfBags" />
+
+            <RadioGroup
+                android:id="@+id/etBagStickQuality"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/tvBagStickQuality"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvBagStickQuality">
+
+                <RadioButton
+                    android:id="@+id/rbGood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Good" />
+
+                <RadioButton
+                    android:id="@+id/rbAverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Average" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tvChelliCount"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Chelli Count"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvBagStickQuality" />
+
+            <EditText
+                android:id="@+id/etChelliCount"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:inputType="number"
+                app:layout_constraintBottom_toBottomOf="@id/tvChelliCount"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvChelliCount" />
+
+            <Button
+                android:id="@+id/bt_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/submit"
+                android:textSize="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/bt_next"
+                app:layout_constraintStart_toEndOf="@id/bt_prev" />
+
+            <Button
+                android:id="@+id/bt_prev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/previous"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/bt_submit"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/bt_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/bt_submit" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideLineEnd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.50" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
