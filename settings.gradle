@@ -1,3 +1,4 @@
 rootProject.name = "AndroidAssignment"
 include ':app'
 include ':database'
+include ':network'

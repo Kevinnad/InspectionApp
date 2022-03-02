@@ -1,48 +1,42 @@
 package com.example.androidassignment.views;
 
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidassignment.NothingSelectedSpinnerAdapter;
 import com.example.androidassignment.R;
-import com.example.androidassignment.adapter.InspectionAdapter;
-import com.example.androidassignment.base.BaseActivity;
 import com.example.androidassignment.base.BaseInspectionActivity;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
-import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
-import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
-import com.example.androidassignment.viewmodel.InspectionViewModel;
+import com.example.androidassignment.database.model.WagonPreLoadingDataModel;
+import com.example.androidassignment.databinding.ActivityWagonPreLoadingBinding;
+import com.example.androidassignment.viewmodel.WagonPreLoadingViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadingInspectionBinding> {
+public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWagonPreLoadingBinding> {
 
-    ActivityPreLoadingInspectionBinding binding;
-    InspectionViewModel inspectionViewModel;
+    ActivityWagonPreLoadingBinding binding;
+    WagonPreLoadingViewModel inspectionViewModel;
     ArrayList<Data> itemList;
     int previousID = 0;
     boolean isNew = true;
-    private InspectionDataModel inspectionDataModel;
+    private WagonPreLoadingDataModel inspectionDataModel;
     ArrayAdapter<String> stackAdapter;
     ArrayAdapter<String> autoCompleteAdapter;
     ArrayAdapter<String> orderNumAdapter;
     ArrayAdapter<String> warehouseAdapter;
-    ArrayAdapter<String> itemCodeAdapter;
+
 
     @Override
-    public ActivityPreLoadingInspectionBinding getBinding() {
-        binding = ActivityPreLoadingInspectionBinding.inflate(getLayoutInflater());
+    public ActivityWagonPreLoadingBinding getBinding() {
+        binding = ActivityWagonPreLoadingBinding.inflate(getLayoutInflater());
         return binding;
     }
 
@@ -65,7 +59,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     @Override
     public void prevAction() {
-        if (inspectionViewModel.lastId > 0  && inspectionViewModel.currentId > 1)
+        if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId > 1)
             inspectionViewModel.getPreviousData();
         else
             Toast.makeText(this, "No Previous Data", Toast.LENGTH_SHORT).show();
@@ -74,12 +68,12 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     @Override
     public void submitAction() {
         if (isValid())
-        saveInspection(false);
+            saveInspection(false);
     }
 
     @Override
     public void initViewModel() {
-        inspectionViewModel = new ViewModelProvider(this).get(InspectionViewModel.class);
+        inspectionViewModel = new ViewModelProvider(this).get(WagonPreLoadingViewModel.class);
         createDataBase();
         inspectionViewModel.initRepository();
 
@@ -96,28 +90,22 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     private void initOtherSpinnerData(int i) {
 
-        final List<String> list3 = inspectionViewModel.inspectionRepository.getStackList(i);
+        final List<String> list3 = inspectionViewModel.inspectionRepository.getWagonSerialNum(i);
 
         stackAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_dropdown_item_1line, list3);
-        binding.spStack.setAdapter(
+        binding.spWagonSerialNo.setAdapter(
                 new NothingSelectedSpinnerAdapter(
                         stackAdapter,
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
-            binding.spStack.setSelection(inspectionDataModel.getStack());
+        if (inspectionDataModel != null) {
+            binding.spWagonSerialNo.setSelection(inspectionDataModel.getWagonSerialNum());
         }
 
     }
 
-    void setAdapter(ArrayList<Data> dataList) {
-        binding.tvMax.setVisibility(View.VISIBLE);
-        binding.tvMin.setVisibility(View.VISIBLE);
-        binding.tvActual.setVisibility(View.VISIBLE);
-        binding.rvList.setAdapter(new InspectionAdapter(dataList));
-    }
 
     private void initAutocompleteAdapter() {
         final List<String> list = inspectionViewModel.inspectionRepository.getRackLoadingData();
@@ -135,57 +123,23 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         });
     }
 
-    private void setItemCode(int i) {
-
-        final List<String> list1 = inspectionViewModel.inspectionRepository.getItemCode(i);
-
-        itemCodeAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list1);
-        binding.spItemCode.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        itemCodeAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if(inspectionDataModel != null){
-            binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
-        }
-        binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView == null || adapterView.getItemAtPosition(i) == null || adapterView.getItemAtPosition(i).equals("[Select]")) {
-
-                } else if (isNew) {
-                    itemList = inspectionViewModel.inspectionRepository.getInspectionItemList(i).dataList;
-                    setAdapter(itemList);
-                }
-
-                setWareHouse(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
 
     private void setWareHouse(int i) {
 
-        final List<String> list2 = inspectionViewModel.inspectionRepository.getWareHouseList(i);
+        final List<String> list2 = inspectionViewModel.inspectionRepository.getWagonCapacity(i);
 
         warehouseAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_dropdown_item_1line, list2);
-        binding.spWarehouse.setAdapter(
+        binding.spWagonCapacity.setAdapter(
                 new NothingSelectedSpinnerAdapter(
                         warehouseAdapter,
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
-            binding.spWarehouse.setSelection(inspectionDataModel.getWareHouse());
+        if (inspectionDataModel != null) {
+            binding.spWagonCapacity.setSelection(inspectionDataModel.getWagonCapacity());
         }
-        binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spWagonCapacity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 initOtherSpinnerData(i);
@@ -199,24 +153,26 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
     private void initSpinnerData(int i) {
-        final List<String> list = inspectionViewModel.inspectionRepository.getOrderNumber(i);
+        final List<String> list = inspectionViewModel.inspectionRepository.getWagonType(i);
 
         orderNumAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_dropdown_item_1line, list);
-        binding.spOrderNum.setAdapter(
+        binding.spWagonType.setAdapter(
                 new NothingSelectedSpinnerAdapter(
                         orderNumAdapter,
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
-            binding.spOrderNum.setSelection(inspectionDataModel.getOrderNumber());
+        if (inspectionDataModel != null) {
+            binding.spWagonType.setSelection(inspectionDataModel.getWagonType());
         }
-        binding.spOrderNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spWagonType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setItemCode(i);
+                setWareHouse(i);
+
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
@@ -230,44 +186,26 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             Toast.makeText(this,
                     "Input Rake loading number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spOrderNum.getSelectedItem() == null) {
+        } else if (binding.spWagonType.getSelectedItem() == null) {
             Toast.makeText(this,
-                    "Select Order number", Toast.LENGTH_SHORT).show();
+                    "Select Wagon Type", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spOrderNum.getSelectedItem() == null) {
+        } else if (binding.spWagonCapacity.getSelectedItem() == null) {
             Toast.makeText(this,
-                    "Select Order number", Toast.LENGTH_SHORT).show();
+                    "Select Wagon Capacity", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spItemCode.getSelectedItem() == null) {
+        } else if (binding.spWagonSerialNo.getSelectedItem() == null) {
             Toast.makeText(this,
-                    "Select Itemcode", Toast.LENGTH_SHORT).show();
+                    "Select Wagon Serial Number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spWarehouse.getSelectedItem() == null) {
+        } else if (binding.etNoOfTrucks.getText().toString().isEmpty()) {
             Toast.makeText(this,
-                    "Select Warehouse", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (binding.spStack.getSelectedItem() == null) {
-            Toast.makeText(this,
-                    "Select Stack", Toast.LENGTH_SHORT).show();
-            return false;
-        }else if (!validateItemList()) {
-            Toast.makeText(this,
-                    "Enter Actual Value", Toast.LENGTH_SHORT).show();
+                    "Enter Truck Number", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    boolean validateItemList(){
-        boolean isValid = true;
-        for(Data data : itemList){
-            if(TextUtils.isEmpty(data.getActualValue())){
-                isValid = false;
-                break;
-            }
-        }
-        return isValid;
-    }
 
     void observers() {
         inspectionViewModel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
@@ -277,9 +215,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             }
         });
 
-        inspectionViewModel.previousInspection.observe(this, new Observer<InspectionDataModel>() {
+        inspectionViewModel.previousInspection.observe(this, new Observer<WagonPreLoadingDataModel>() {
             @Override
-            public void onChanged(InspectionDataModel dataModel) {
+            public void onChanged(WagonPreLoadingDataModel dataModel) {
                 inspectionViewModel.currentId = dataModel.getId();
                 previousID = dataModel.getId();
                 isNew = false;
@@ -287,48 +225,80 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             }
         });
     }
-    void setInspection(InspectionDataModel inspectionDataModel) {
+
+    void setInspection(WagonPreLoadingDataModel inspectionDataModel) {
         this.inspectionDataModel = inspectionDataModel;
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
+        binding.etTotalWeight.setText(inspectionDataModel.getTotalWeight());
+        binding.etNoOfTrucks.setText(inspectionDataModel.getTruckNo());
+        binding.etSpillBeans.setText(inspectionDataModel.getSpillBeans());
         setOrderNumber(inspectionDataModel.getRakeLoadingNumber());
+        if (inspectionDataModel.getRemarks() == 0) {
+            binding.rbRemarksYes.setChecked(true);
+        } else
+            binding.rbRemarksNo.setChecked(true);
+        if (inspectionDataModel.getSeal() == 0) {
+            binding.rbSealYes.setChecked(true);
+        } else
+            binding.rbSealNo.setChecked(true);
+        if (inspectionDataModel.getDoorLocked() == 0) {
+            binding.rbDoorYes.setChecked(true);
+        } else
+            binding.rbDoorNo.setChecked(true);
+        if (inspectionDataModel.getTarpauline() == 0) {
+            binding.rbTrapaulineYes.setChecked(true);
+        } else
+            binding.rbTrapaulineNo.setChecked(true);
+
         binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
-        itemList = inspectionDataModel.getItems();
-        setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
     }
 
-    void setOrderNumber(String rake){
-        if(rake.equals("20/B124/RAK/0000001/2021")){
+    void setOrderNumber(String rake) {
+        if (rake.equals("20/B124/RAK/0000001/2021")) {
             initSpinnerData(0);
-        }else{
+        } else {
             initSpinnerData(1);
         }
     }
 
     void toggleAction(boolean isEnable) {
         binding.autoCompleteLoadingNum.setEnabled(isEnable);
-        binding.spItemCode.setEnabled(isEnable);
-        binding.spOrderNum.setEnabled(isEnable);
-        binding.spWarehouse.setEnabled(isEnable);
-        binding.spStack.setEnabled(isEnable);
+        binding.spWagonSerialNo.setEnabled(isEnable);
+        binding.spWagonCapacity.setEnabled(isEnable);
+        binding.spWagonType.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
     }
 
     void saveInspection(boolean isNext) {
-        InspectionDataModel inspectionDataModel = new InspectionDataModel();
+        WagonPreLoadingDataModel inspectionDataModel = new WagonPreLoadingDataModel();
         inspectionDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
-        inspectionDataModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
-        inspectionDataModel.setItemCode(binding.spItemCode.getSelectedItemPosition());
-        inspectionDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
-        inspectionDataModel.setStack(binding.spStack.getSelectedItemPosition());
-        inspectionDataModel.setItems(itemList);
+        inspectionDataModel.setWagonCapacity(binding.spWagonCapacity.getSelectedItemPosition());
+        inspectionDataModel.setWagonType(binding.spWagonType.getSelectedItemPosition());
+        inspectionDataModel.setWagonSerialNum(binding.spWagonSerialNo.getSelectedItemPosition());
+        if(binding.rbDoorNo.isChecked())
+            inspectionDataModel.setDoorLocked(1);
+        else
+            inspectionDataModel.setDoorLocked(0);
+        if(binding.rbTrapaulineNo.isChecked())
+            inspectionDataModel.setTarpauline(1);
+        else
+            inspectionDataModel.setTarpauline(0);
+        if(binding.rbRemarksNo.isChecked())
+            inspectionDataModel.setRemarks(1);
+        else
+            inspectionDataModel.setRemarks(0);
+        if(binding.rbSealNo.isChecked())
+            inspectionDataModel.setSeal(1);
+        else
+            inspectionDataModel.setSeal(0);
         if (previousID != 0)
             inspectionDataModel.setId(previousID);
 
         if (isNext) {
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
                 inspectionViewModel.getNextData();
-            } else{
+            } else {
                 callSaveInspection(inspectionDataModel);
                 resetInspectionScreen();
             }
@@ -339,8 +309,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         }
     }
 
-    void callSaveInspection(InspectionDataModel minspectionDataModel){
-        if(binding.tvSync.getVisibility() == View.GONE){
+    void callSaveInspection(WagonPreLoadingDataModel minspectionDataModel) {
+        if (binding.tvSync.getVisibility() == View.GONE) {
             this.inspectionDataModel = minspectionDataModel;
             inspectionViewModel.addData(minspectionDataModel);
             Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
@@ -349,17 +319,13 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     void resetInspectionScreen() {
         previousID = 0;
-        binding.spItemCode.setSelection(0);
-        binding.spWarehouse.setSelection(0);
-        binding.spStack.setSelection(0);
-        binding.spItemCode.setSelection(0);
-        binding.rvList.setAdapter(null);
-        binding.tvMin.setVisibility(View.GONE);
-        binding.tvMax.setVisibility(View.GONE);
-        binding.tvActual.setVisibility(View.GONE);
+        binding.spWagonSerialNo.setSelection(0);
+        binding.spWagonType.setSelection(0);
+        binding.spWagonCapacity.setSelection(0);
         binding.tvSync.setVisibility(View.GONE);
         isNew = true;
         inspectionDataModel = null;
         toggleAction(true);
     }
+
 }

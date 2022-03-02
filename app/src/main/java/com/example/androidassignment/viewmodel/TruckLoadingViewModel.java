@@ -33,6 +33,7 @@ public class TruckLoadingViewModel extends ViewModel {
 
     public void addData(TruckLoadingDataModel dataModel) {
 
+
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Throwable {

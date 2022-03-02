@@ -1,41 +1,31 @@
 package com.example.androidassignment.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 
-import com.example.androidassignment.R;
+import com.example.androidassignment.base.BaseActivity;
+import com.example.androidassignment.base.BaseInspectionActivity;
 import com.example.androidassignment.databinding.ActivityLandingBinding;
 
-public class LandingActivity extends AppCompatActivity {
+public class LandingActivity extends BaseActivity<ActivityLandingBinding> {
 
     ActivityLandingBinding activityLandingBinding;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public ActivityLandingBinding getBinding() {
         activityLandingBinding = ActivityLandingBinding.inflate(getLayoutInflater());
-        setContentView(activityLandingBinding.getRoot());
+        return activityLandingBinding;
+    }
 
-        activityLandingBinding.btPreLoadingInspection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LandingActivity.this,InspectionActivity.class));
-            }
-        });
-        activityLandingBinding.btTruckLoading.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LandingActivity.this,TruckLoadingActivity.class));
-            }
-        });
-        activityLandingBinding.btTestInspection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LandingActivity.this,TestInspectionActivity.class));
-            }
-        });
+    @Override
+    public void initView() {
+        activityLandingBinding.btPreLoadingInspection.setOnClickListener(view -> startActivity(new Intent(LandingActivity.this, InspectionActivity.class)));
+        activityLandingBinding.btTruckLoading.setOnClickListener(view -> startActivity(new Intent(LandingActivity.this, TruckLoadingActivity.class)));
+        activityLandingBinding.btTruckUnloading.setOnClickListener(view -> startActivity(new Intent(LandingActivity.this, TruckUnloadingActivity.class)));
+        activityLandingBinding.btWagonPreLoading.setOnClickListener(view -> startActivity(new Intent(LandingActivity.this, WagonPreLoadingActivity.class)));
+    }
+
+    @Override
+    public void initViewModel() {
+
     }
 }

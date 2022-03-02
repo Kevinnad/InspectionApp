@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFC107"
+        android:gravity="center"
+        android:padding="5dp"
+        android:textSize="20dp"
+        android:text="Pre loading Inspection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSync"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#2CFF07"
+        android:gravity="center"
+        android:padding="5dp"
+        android:layout_marginRight="10dp"
+        android:textSize="13sp"
+        android:text="Synced"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSync">
+
+
+        <TextView
+            android:id="@+id/tvRakeLoadingNum"
+            style="@style/Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Rake Loading Number"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/autoCompleteLoadingNum"
+            style="@style/Title.Small"
+            android:layout_width="0dp"
+            android:maxLines="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/autocomplete_textview_background"
+            android:completionThreshold="1"
+            android:padding="8dp"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="@id/tvRakeLoadingNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvRakeLoadingNum"
+            tools:text="ffdfdffdfdfdfdfdfdfdfdfdfdfdf" />
+
+        <TextView
+            android:id="@+id/tvWagonType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/autoCompleteLoadingNum"
+            android:layout_marginTop="15dp"
+            style="@style/Body"
+            android:text="Wagon Type"
+            />
+
+        <Spinner
+            android:id="@+id/spWagonType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Body"
+            app:layout_constraintBottom_toBottomOf="@id/tvWagonType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvWagonType"
+            />
+        <TextView
+            android:id="@+id/tvWagonCapacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Wagon Capacity"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWagonType"
+            android:layout_marginTop="15dp"
+            />
+        <Spinner
+            android:id="@+id/spWagonCapacity"
+            style="@style/Body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tvWagonCapacity"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvWagonCapacity"
+            />
+
+        <TextView
+            android:id="@+id/tvWagonSerialNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Wagon Serial Number"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWagonCapacity"
+            android:layout_marginTop="15dp"/>
+        <Spinner
+            android:id="@+id/spWagonSerialNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Body"
+            app:layout_constraintBottom_toBottomOf="@id/tvWagonSerialNo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvWagonSerialNo"/>
+
+        <TextView
+            android:id="@+id/tvTarpauline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tarpauline placed at doors"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWagonSerialNo"
+            android:layout_marginTop="15dp"
+            />
+        <RadioGroup
+            android:id="@+id/rgTarpauline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tvTarpauline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvTarpauline"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="YES"
+
+                />
+
+            <RadioButton
+                android:id="@+id/No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="NO"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvDoorLocked"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Door Locked or Not"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTarpauline"
+            android:layout_marginTop="15dp"
+            />
+        <RadioGroup
+            android:id="@+id/rgDoorLocked"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tvDoorLocked"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvDoorLocked"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/Yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="YES"
+
+                />
+
+            <RadioButton
+                android:id="@+id/no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="No"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvSeal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Seal Placed or Not"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDoorLocked"
+            android:layout_marginTop="15dp"
+            />
+        <RadioGroup
+            android:id="@+id/rgSeal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tvSeal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvSeal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbSealYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="YES"
+
+                />
+
+            <RadioButton
+                android:id="@+id/rbSealNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="NO"
+                />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvRemarks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Remarks"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSeal"
+            android:layout_marginTop="15dp"
+            />
+        <RadioGroup
+            android:id="@+id/rgRemarks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/tvRemarks"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvRemarks"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbRemarksYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="YES"
+
+                />
+
+            <RadioButton
+                android:id="@+id/rbRemarksNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="No"
+                />
+        </RadioGroup>
+
+
+        <TextView
+            android:id="@+id/tvNoOfTrucks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="No Of Trucks"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRemarks"
+            android:layout_marginTop="15dp"/>
+        <EditText
+            android:id="@+id/etNoOfTrucks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Body"
+            app:layout_constraintBottom_toBottomOf="@id/tvNoOfTrucks"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvNoOfTrucks"
+            />
+
+
+        <TextView
+            android:id="@+id/tvSpillBeans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Spillage Beans Collected"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNoOfTrucks"
+            android:layout_marginTop="15dp"
+            />
+        <EditText
+            android:id="@+id/etSpillBeans"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Body"
+            app:layout_constraintBottom_toBottomOf="@id/tvSpillBeans"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvSpillBeans"
+            />
+        <TextView
+            android:id="@+id/tvTotalWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Total Weight"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSpillBeans"
+            android:layout_marginTop="15dp"        />
+        <EditText
+            android:id="@+id/etTotalWeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Body"
+            app:layout_constraintBottom_toBottomOf="@id/tvTotalWeight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvTotalWeight"
+            />
+
+
+
+        <Button
+            android:id="@+id/bt_submit"
+            app:layout_constraintStart_toEndOf="@id/bt_prev"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bt_next"
+            android:text= "@string/submit"
+            android:textSize="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/bt_prev"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bt_submit"
+            android:text="@string/previous"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/bt_next"
+            app:layout_constraintStart_toEndOf="@id/bt_submit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/next"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLineEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLineStart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.58"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

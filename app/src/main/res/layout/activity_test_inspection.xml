@@ -1,17 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.TestInspectionActivity">
+    >
+
+    <TextView
+        android:id="@+id/tvRakeNo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Rake Loading Number"
+        />
+    <AutoCompleteTextView
+        android:id="@+id/txtRakeNo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/tvRakeNo"/>
+
+    <TextView
+        android:id="@+id/wagontype"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:text="Wagon Type"
+        />
 
     <Spinner
-        android:id="@+id/sp_test"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/WagonType"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_toRightOf="@+id/wagontype"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        />
+    <TextView
+        android:id="@+id/WagonCapacity"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Wagon Capacity"
+        android:layout_marginTop="130dp"
+
+        />
+    <Spinner
+        android:id="@+id/wagoncapacity"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:layout_toRightOf="@+id/WagonCapacity"
+
+        />
+
+    <TextView
+        android:id="@+id/WagonSerialNo"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Wagon Serial Number"
+        android:layout_marginTop="190dp"/>
+    <Spinner
+        android:id="@+id/wagonserialnumber"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="190dp"
+        android:layout_toRightOf="@+id/WagonSerialNo"/>
+
+    <TextView
+        android:id="@+id/Tarpaulineplacedatdoors"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Tarpauline placed at doors"
+        android:layout_marginTop="250dp"
+
+        />
+    <RadioGroup
+        android:id="@+id/rg1"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp"
+        android:layout_toRightOf="@+id/Tarpaulineplacedatdoors"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/yes"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:text ="YES"
+            android:layout_toRightOf="@+id/Tarpaulineplacedatdoors"
+
+            />
+
+        <RadioButton
+            android:id="@+id/No"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:text ="NO"
+            android:layout_toRightOf="@+id/YES"
+            />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/Doorlockedornot"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Door Locked or Not"
+        android:layout_marginTop="310dp"
+
+        />
+    <RadioGroup
+        android:id="@+id/rg2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="310dp"
+        android:layout_toRightOf="@+id/Doorlockedornot"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/Yes"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:text ="YES"
+            android:layout_toRightOf="@+id/Doorlockedornot"
+
+            />
+
+        <RadioButton
+            android:id="@+id/no"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:text ="No"
+            android:layout_toRightOf="@+id/Yes"
+            />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/Sealplacedornot"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Seal Placed or Not"
+        android:layout_marginTop="370dp"
+
+        />
+    <RadioGroup
+        android:id="@+id/rg3"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="370dp"
+        android:layout_toRightOf="@+id/Sealplacedornot"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/YEs"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:text ="YES"
+            android:layout_toRightOf="@+id/Sealplacedornot"
+
+            />
+
+        <RadioButton
+            android:id="@+id/Noo"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:text ="NO"
+            android:layout_toRightOf="@+id/YEs"
+            />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/Remarks"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Remarks"
+        android:layout_marginTop="430dp"
+
+        />
+    <RadioGroup
+        android:id="@+id/rg4"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="430dp"
+        android:layout_toRightOf="@+id/Remarks"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/yes1"
+            android:layout_width="68dp"
+            android:layout_height="wrap_content"
+            android:text ="YES"
+            android:layout_toRightOf="@+id/Remarks"
+
+            />
+
+        <RadioButton
+            android:id="@+id/noo"
+            android:layout_width="88dp"
+            android:layout_height="wrap_content"
+            android:text ="No"
+            android:layout_toRightOf="@+id/yes1"
+            />
+    </RadioGroup>
+
+
+    <TextView
+        android:id="@+id/editTextNoOfTrucks"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="No Of Trucks"
+        android:layout_marginTop="490dp"/>
+    <EditText
+        android:id="@+id/editTextNoOfTrucks2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="490dp"
+        android:layout_toRightOf="@+id/editTextNoOfTrucks"
+        />
+
+
+    <TextView
+        android:id="@+id/Spillagebeanscollected"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Spillage Beans Collected"
+        android:layout_marginTop="550dp"
+        />
+    <EditText
+        android:id="@+id/Spillagebeanscollected2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="550dp"
+        android:layout_toRightOf="@+id/Spillagebeanscollected"
+        />
+    <TextView
+        android:id="@+id/TotalWeight"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Total Weight"
+        android:layout_marginTop="610dp"
+        />
+    <EditText
+        android:id="@+id/totalweight2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="610dp"
+        android:layout_toRightOf="@+id/TotalWeight"
+
+        />
+
+
+    <Button
+        android:id="@+id/Add"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:layout_marginTop="660dp"
+
+        />
+
+    <Button
+        android:id="@+id/Previous"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/Add"
+        android:text="Previous"
+        android:layout_marginTop="660dp"
+
+        />
+    <Button
+        android:id="@+id/Next"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_marginTop="660dp"
+        android:layout_toRightOf="@+id/Previous"
+
+        />
+
+
+</RelativeLayout>

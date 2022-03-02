@@ -200,7 +200,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
             if (truckLoadingViewModel.lastId > 0  && truckLoadingViewModel.currentId > 1)
                 truckLoadingViewModel.getPreviousData();
             else
-                Toast.makeText(this, "No Previous Data", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "No Previous Data", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -347,7 +347,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
         if(binding.tvSync.getVisibility() == View.GONE){
             this.truckLoadingDataModel = mtruckLoadingDataModel;
             truckLoadingViewModel.addData(mtruckLoadingDataModel);
-            Toast.makeText(this, "Data Saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
         }
     }
 

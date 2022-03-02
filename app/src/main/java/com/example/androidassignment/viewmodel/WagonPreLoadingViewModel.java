@@ -5,28 +5,29 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.example.androidassignment.database.database.DataBaseProvider;
-import com.example.androidassignment.database.model.InspectionDataModel;
+import com.example.androidassignment.database.model.WagonPreLoadingDataModel;
 import com.example.androidassignment.database.model.TestInspectionModel;
 import com.example.androidassignment.repository.InspectionRepository;
+import com.example.androidassignment.repository.WagonPreLoadingRepository;
 
 import java.util.List;
 
-public class InspectionViewModel extends ViewModel {
+public class WagonPreLoadingViewModel extends ViewModel {
 
     public DataBaseProvider dataBaseProvider;
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
-    public MutableLiveData<InspectionDataModel> previousInspection = new MutableLiveData();
-    public MutableLiveData<InspectionDataModel> lastInspection = new MutableLiveData();
+    public MutableLiveData<WagonPreLoadingDataModel> previousInspection = new MutableLiveData();
+    public MutableLiveData<WagonPreLoadingDataModel> lastInspection = new MutableLiveData();
     public MutableLiveData<List<TestInspectionModel>> testInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
-    public InspectionRepository inspectionRepository;
+    public WagonPreLoadingRepository inspectionRepository;
 
     public void initRepository() {
-        inspectionRepository = new InspectionRepository(dataBaseProvider);
+        inspectionRepository = new WagonPreLoadingRepository(dataBaseProvider);
     }
 
-    public void addData(InspectionDataModel dataModel) {
+    public void addData(WagonPreLoadingDataModel dataModel) {
 
         inspectionRepository.insertData(dataModel, inserSuccessLiveData);
     }
@@ -42,9 +43,9 @@ public class InspectionViewModel extends ViewModel {
     }
 
     public void getLastInspection() {
-        lastInspection.observeForever(new Observer<InspectionDataModel>() {
+        lastInspection.observeForever(new Observer<WagonPreLoadingDataModel>() {
             @Override
-            public void onChanged(InspectionDataModel dataModel) {
+            public void onChanged(WagonPreLoadingDataModel dataModel) {
                 lastId = dataModel.getId();
                 currentId = lastId + 1;
             }
@@ -53,3 +54,4 @@ public class InspectionViewModel extends ViewModel {
     }
 
 }
+
