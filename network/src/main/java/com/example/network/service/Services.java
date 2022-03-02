@@ -8,6 +8,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 import static com.example.network.NetworkConstant.BASE_URL;
@@ -15,7 +16,7 @@ import static com.example.network.NetworkConstant.BASE_URL;
 public interface Services {
 
     @POST("insertInspection")
-    Observable<Response> syncInspection(InspectionAPIModel inspectionAPIModel);
+    Observable<Response<InspectionAPIModel>> syncInspection(@Body InspectionAPIModel inspectionAPIModel);
 
 static Services createService(){
 

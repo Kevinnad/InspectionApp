@@ -36,16 +36,9 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     boolean isNew = true;
     private TruckUnloadingModel truckUnloadingModel;
     ArrayAdapter<String> stackAdapter;
-    ArrayAdapter<String> autoCompleteAdapter;
     ArrayAdapter<String> orderNumAdapter;
     ArrayAdapter<String> warehouseAdapter;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_truck_unloading);
-    }
 
     @Override
     public ActivityTruckUnloadingBinding getBinding() {
@@ -123,7 +116,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     private void initAutocompleteAdapter() {
         final List<String> list = truckUnloadingViewmodel.inspectionRepository.getRackLoadingData();
 
-        autoCompleteAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_dropdown_item_1line, list);
         binding.autoCompleteLoadingNum.setAdapter(autoCompleteAdapter);
 
