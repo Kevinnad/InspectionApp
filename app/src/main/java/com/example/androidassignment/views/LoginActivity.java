@@ -24,7 +24,10 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
     @Override
     public void initView() {
 
-        binding.button4.setOnClickListener(view -> startActivity(new Intent(this, HomeActivity.class)));
+        binding.button4.setOnClickListener(view -> {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        });
 
 
 

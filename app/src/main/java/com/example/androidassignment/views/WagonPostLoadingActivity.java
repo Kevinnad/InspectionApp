@@ -43,6 +43,7 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding = ActivityWagonPostLoadingBinding.inflate(getLayoutInflater());
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.toolbarTitle.setText("Wagon Post Loading Inspection");
 
         return binding;
     }

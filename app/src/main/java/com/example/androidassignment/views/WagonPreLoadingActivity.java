@@ -40,7 +40,6 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
         binding = ActivityWagonPreLoadingBinding.inflate(getLayoutInflater());
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
-
         return binding;
     }
 

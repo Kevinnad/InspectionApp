@@ -47,6 +47,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
         setContentView(view);
         binding.toolbar.btnBack.setOnClickListener(view1 -> finish());
         binding.toolbar.btnHome.setOnClickListener(view1 ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.toolbarTitle.setText("Truck Loading");
 
         truckLoadingViewModel = new ViewModelProvider(this).get(TruckLoadingViewModel.class);
 

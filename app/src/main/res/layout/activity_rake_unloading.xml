@@ -9,43 +9,47 @@
         android:id="@+id/toolbar"
         layout="@layout/layout_toolbar"/>
 
+    <Button
+        android:id="@+id/bt_wagon_pre_loading"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bt_truck_loading"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Wagon Pre LOADING"
+        android:layout_margin="20dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+    <Button
+        android:id="@+id/bt_truck_loading"
+        app:layout_constraintTop_toBottomOf="@id/bt_wagon_pre_loading"
+        app:layout_constraintBottom_toTopOf="@id/bt_truck_unloading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="TRUCK LOADING"
+        android:layout_margin="20dp"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/bt_truck_unloading"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_truck_loading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bt_wagon_pre_loading"
-        android:text="TRUCK UNLOADING"
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/bt_wagon_pre_loading"
-        app:layout_constraintTop_toBottomOf="@id/bt_truck_unloading"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="WAGON PRE UNLOADING"
-        app:layout_constraintBottom_toTopOf="@id/bt_wagon_post_loading"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/bt_wagon_post_loading"
-        app:layout_constraintTop_toBottomOf="@id/bt_wagon_pre_loading"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="WAGON POST UNLOADING"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
         app:layout_constraintBottom_toTopOf="@id/bt_stack_quality"
+        android:text="TRUCK UNLOADING at warehouse"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        app:layout_constraintVertical_chainStyle="packed"
         android:layout_height="wrap_content"/>
+
     <Button
         android:id="@+id/bt_stack_quality"
-        app:layout_constraintTop_toBottomOf="@id/bt_wagon_post_loading"
+        app:layout_constraintTop_toBottomOf="@id/bt_truck_unloading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

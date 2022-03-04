@@ -19,6 +19,8 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
 
         binding.btRakeLoading.setOnClickListener(view -> startActivity(new Intent(this, RakeLoadingActivity.class)));
         binding.btRakeUnloading.setOnClickListener(view -> startActivity(new Intent(this, RakeUnloadingActivity.class)));
+
+        binding.toolbar.toolbarTitle.setText("Home");
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
 

@@ -46,6 +46,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
         binding = ActivityTruckUnloadingBinding.inflate(getLayoutInflater());
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.toolbarTitle.setText("Truck Unloading");
 
         return binding;
     }

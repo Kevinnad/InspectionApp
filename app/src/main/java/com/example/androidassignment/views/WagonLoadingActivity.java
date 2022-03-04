@@ -40,6 +40,8 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
     @Override
     public ActivityWagonLoadingInspectionBinding getBinding() {
         binding = ActivityWagonLoadingInspectionBinding.inflate(getLayoutInflater());
+        binding.toolbar.toolbarTitle.setText("Wagon Pre Loading Inspection");
+
         return binding;
     }
 

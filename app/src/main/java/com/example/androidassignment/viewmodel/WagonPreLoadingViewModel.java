@@ -31,7 +31,6 @@ public class WagonPreLoadingViewModel extends ViewModel {
 
         inspectionRepository.insertData(dataModel, inserSuccessLiveData);
     }
-
     public void getPreviousData() {
         if (currentId > 1)
             inspectionRepository.getPrevious(currentId, previousInspection);
