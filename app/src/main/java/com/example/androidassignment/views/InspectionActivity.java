@@ -1,5 +1,6 @@
 package com.example.androidassignment.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,6 +45,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     @Override
     public ActivityPreLoadingInspectionBinding getBinding() {
         binding = ActivityPreLoadingInspectionBinding.inflate(getLayoutInflater());
+        binding.toolbar.btnBack.setOnClickListener(view -> finish());
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+
         return binding;
     }
 

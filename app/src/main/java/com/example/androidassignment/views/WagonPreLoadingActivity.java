@@ -1,5 +1,6 @@
 package com.example.androidassignment.views;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +38,9 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
     @Override
     public ActivityWagonPreLoadingBinding getBinding() {
         binding = ActivityWagonPreLoadingBinding.inflate(getLayoutInflater());
+        binding.toolbar.btnBack.setOnClickListener(view -> finish());
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+
         return binding;
     }
 

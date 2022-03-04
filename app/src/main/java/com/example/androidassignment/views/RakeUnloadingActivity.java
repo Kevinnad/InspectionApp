@@ -11,19 +11,24 @@ import com.example.androidassignment.databinding.ActivityRakeUnloadingBinding;
 
 public class RakeUnloadingActivity extends BaseActivity<ActivityRakeUnloadingBinding> {
 
-    ActivityRakeUnloadingBinding ActivityRakeUnloadingBinding;
+    ActivityRakeUnloadingBinding binding;
 
     @Override
     public ActivityRakeUnloadingBinding getBinding() {
-        ActivityRakeUnloadingBinding = ActivityRakeUnloadingBinding.inflate(getLayoutInflater());
-        return ActivityRakeUnloadingBinding;
+        binding = ActivityRakeUnloadingBinding.inflate(getLayoutInflater());
+        return binding;
     }
 
     @Override
     public void initView() {
-        ActivityRakeUnloadingBinding.btTruckUnloading.setOnClickListener(view -> startActivity(new Intent(this, TruckUnloadingActivity.class)));
-        ActivityRakeUnloadingBinding.btWagonPreLoading.setOnClickListener(view -> startActivity(new Intent(this, WagonPreLoadingActivity.class)));
-        ActivityRakeUnloadingBinding.btWagonPostLoading.setOnClickListener(view -> startActivity(new Intent(this, WagonPostLoadingActivity.class)));
+
+        binding.toolbar.btnBack.setOnClickListener(view -> finish());
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+
+        binding.btStackQuality.setOnClickListener(view -> startActivity(new Intent(this, StackQualityInspectionActivity.class)));
+        binding.btWagonPreLoading.setOnClickListener(view -> startActivity(new Intent(this, WagonPreLoadingActivity.class)));
+        binding.btWagonPostLoading.setOnClickListener(view -> startActivity(new Intent(this, WagonPostLoadingActivity.class)));
+        binding.btStackQuality.setOnClickListener(view -> startActivity(new Intent(this, StackQualityInspectionActivity.class)));
     }
 
     @Override

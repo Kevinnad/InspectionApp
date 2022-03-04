@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -43,6 +44,9 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     @Override
     public ActivityTruckUnloadingBinding getBinding() {
         binding = ActivityTruckUnloadingBinding.inflate(getLayoutInflater());
+        binding.toolbar.btnBack.setOnClickListener(view -> finish());
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+
         return binding;
     }
 

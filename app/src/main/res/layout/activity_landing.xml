@@ -4,17 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="50dp"
     tools:context=".views.RakeLoadingActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar"/>
+
 
     <Button
         android:id="@+id/bt_pre_loading_inspection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bt_truck_loading"
         android:text="PRE LOADING INSPECTION"
         android:layout_width="match_parent"
         android:layout_margin="20dp"
+        app:layout_constraintVertical_chainStyle="packed"
         android:layout_height="wrap_content"/>
 
     <Button
@@ -24,6 +30,8 @@
         app:layout_constraintStart_toStartOf="parent"
         android:text="TRUCK LOADING"
         android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

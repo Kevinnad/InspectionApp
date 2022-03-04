@@ -1,5 +1,6 @@
 package com.example.androidassignment.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -44,6 +45,8 @@ public class TruckLoadingActivity extends AppCompatActivity {
         binding = ActivityTruckLoadingInspectionBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        binding.toolbar.btnBack.setOnClickListener(view1 -> finish());
+        binding.toolbar.btnHome.setOnClickListener(view1 ->  startActivity(new Intent(this, HomeActivity.class)));
 
         truckLoadingViewModel = new ViewModelProvider(this).get(TruckLoadingViewModel.class);
 

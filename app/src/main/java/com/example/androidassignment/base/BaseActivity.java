@@ -15,7 +15,6 @@ public abstract class BaseActivity<B> extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = getBinding();
         setContentView(((ViewBinding)binding).getRoot());
-
         initViewModel();
         initView();
     }

@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".views.HomeActivity">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/layout_toolbar"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_rake_loading"
         app:layout_constraintStart_toStartOf="parent"

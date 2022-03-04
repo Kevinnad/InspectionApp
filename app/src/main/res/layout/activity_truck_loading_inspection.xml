@@ -8,19 +8,13 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tvTitle"
-            style="@style/Header"
-            android:layout_width="0dp"
+
+
+        <include
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Truck loading"
-            android:textSize="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            layout="@layout/layout_toolbar"/>
 
         <TextView
             android:id="@+id/tvSync"
@@ -35,7 +29,7 @@
             android:textSize="13sp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
