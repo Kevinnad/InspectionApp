@@ -8,7 +8,7 @@ import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.TestInspectionModel;
 import com.example.androidassignment.database.model.WagonLoadingDataModel;
 import com.example.androidassignment.database.model.WagonPreLoadingDataModel;
-import com.example.androidassignment.repository.WagonPreLoadingRepository;
+import com.example.androidassignment.repository.WagonLoadingRepository;
 
 import java.util.List;
 
@@ -21,10 +21,10 @@ public class WagonLoadingViewModel extends ViewModel {
     public MutableLiveData<List<TestInspectionModel>> testInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
-    public WagonPreLoadingRepository inspectionRepository;
+    public WagonLoadingRepository inspectionRepository;
 
     public void initRepository() {
-        inspectionRepository = new WagonPreLoadingRepository(dataBaseProvider);
+        inspectionRepository = new WagonLoadingRepository(dataBaseProvider);
     }
 
     public void addData(WagonLoadingDataModel dataModel) {

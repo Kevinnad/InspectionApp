@@ -2,23 +2,23 @@
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/appBarClaim"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:elevation="0dp"
+    android:background="@color/blue"
     android:elevation="0dp"
     android:fitsSystemWindows="true"
     >
 
     <androidx.appcompat.widget.Toolbar
 
-        android:id="@+id/toolbarClaimCoffee"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_scrollFlags="scroll|enterAlways">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginEnd="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -34,10 +34,11 @@
 
             <TextView
                 android:id="@+id/toolbarTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 style="@style/Header"
                 android:textSize="18dp"
+                android:gravity="center"
                 tools:text=""
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -53,7 +54,6 @@
                 android:background="?actionBarItemBackground"
                 app:layout_constraintTop_toTopOf="@id/toolbarTitle"
                 app:layout_constraintBottom_toBottomOf="@id/toolbarTitle"
-                android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
