@@ -12,7 +12,7 @@
         style="@style/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="#FFC107"
+        android:background="@color/blue"
         android:gravity="center"
         android:padding="5dp"
         android:textSize="20dp"
