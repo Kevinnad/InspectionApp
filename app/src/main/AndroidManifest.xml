@@ -27,6 +27,7 @@
         <activity android:name=".views.HomeActivity" />
         <activity android:name=".views.WagonPostLoadingActivity" />
         <activity android:name=".views.WagonPreLoadingActivity" />
+        <activity android:name=".views.WagonLoadingActivity" />
         <activity android:name=".views.TruckUnloadingActivity" />
         <activity
             android:name=".views.RakeLoadingActivity"
