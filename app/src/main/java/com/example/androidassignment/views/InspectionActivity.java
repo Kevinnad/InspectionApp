@@ -39,6 +39,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     ArrayAdapter<String> orderNumAdapter;
     ArrayAdapter<String> warehouseAdapter;
     ArrayAdapter<String> itemCodeAdapter;
+    InspectionAdapter inspectionAdapter;
 
     @Override
     public ActivityPreLoadingInspectionBinding getBinding() {
@@ -116,7 +117,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         binding.tvMax.setVisibility(View.VISIBLE);
         binding.tvMin.setVisibility(View.VISIBLE);
         binding.tvActual.setVisibility(View.VISIBLE);
-        binding.rvList.setAdapter(new InspectionAdapter(dataList));
+        inspectionAdapter = new InspectionAdapter(dataList);
+        binding.rvList.setAdapter(inspectionAdapter);
     }
 
     private void initAutocompleteAdapter() {
@@ -312,6 +314,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         binding.spWarehouse.setEnabled(isEnable);
         binding.spStack.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
+
+        inspectionAdapter.setSync(!isEnable);
+        inspectionAdapter.notifyDataSetChanged();
     }
 
     void saveInspection(boolean isNext) {
