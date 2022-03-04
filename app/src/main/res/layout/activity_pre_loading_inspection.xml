@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/Title"
+        style="@style/Header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/blue"
