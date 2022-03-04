@@ -14,7 +14,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:textSize="20dp"
-        android:text="Pre loading Inspection"
+        android:text="Wagon Post loading Inspection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -138,7 +138,7 @@
             android:id="@+id/tvTarpauline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tarpauline placed at doors"
+            android:text="Tarpauline placed at doors after closing"
             style="@style/Body"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"

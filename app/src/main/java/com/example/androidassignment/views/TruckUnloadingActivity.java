@@ -125,9 +125,9 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
 
         autoCompleteAdapter = new ArrayAdapter<String>(
                 this, android.R.layout.simple_dropdown_item_1line, list);
-        binding.autoCompleteLoadingNum.setAdapter(autoCompleteAdapter);
+        binding.autoCompleteUnLoadingNum.setAdapter(autoCompleteAdapter);
 
-        binding.autoCompleteLoadingNum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.autoCompleteUnLoadingNum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -193,7 +193,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     }
 
     private boolean isValid() {
-        if (binding.autoCompleteLoadingNum.getText() == null || binding.autoCompleteLoadingNum.getText().toString().isEmpty()) {
+        if (binding.autoCompleteUnLoadingNum.getText() == null || binding.autoCompleteUnLoadingNum.getText().toString().isEmpty()) {
             Toast.makeText(this,
                     "Input Rake loading number", Toast.LENGTH_SHORT).show();
             return false;
@@ -249,7 +249,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     }
     void setInspection(TruckUnloadingModel truckUnloadingModel) {
         this.truckUnloadingModel = truckUnloadingModel;
-        binding.autoCompleteLoadingNum.setText(truckUnloadingModel.getRakeLoadingNumber());
+        binding.autoCompleteUnLoadingNum.setText(truckUnloadingModel.getRakeLoadingNumber());
         setOrderNumber(truckUnloadingModel.getRakeLoadingNumber());
         binding.etTruckNo.setText(truckUnloadingModel.getTruckNumber());
         binding.etWagonNo.setText(truckUnloadingModel.getWagonNum());
@@ -273,7 +273,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     }
 
     void toggleAction(boolean isEnable) {
-        binding.autoCompleteLoadingNum.setEnabled(isEnable);
+        binding.autoCompleteUnLoadingNum.setEnabled(isEnable);
         binding.spOrderNum.setEnabled(isEnable);
         binding.spWarehouse.setEnabled(isEnable);
         binding.spStack.setEnabled(isEnable);
@@ -282,7 +282,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
 
     void saveInspection(boolean isNext) {
         TruckUnloadingModel truckUnloadingModel = new TruckUnloadingModel();
-        truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
+        truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteUnLoadingNum.getText().toString());
         binding.etNoOfBags.setText(truckUnloadingModel.getUnloadedBags());
         if(truckUnloadingModel.getQuality() == 0)
         {
@@ -290,7 +290,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
         }
         else
             binding.rbAverage.setChecked(true);
-        truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
+        truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteUnLoadingNum.getText().toString());
         truckUnloadingModel.setWagonNum(binding.etWagonNo.getText().toString());
         truckUnloadingModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
         truckUnloadingModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());

@@ -59,7 +59,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/autoCompleteLoadingNum"
+                android:id="@+id/autoCompleteUnLoadingNum"
                 style="@style/Title.Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:text="Order number (STO in ERP)"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/autoCompleteLoadingNum" />
+                app:layout_constraintTop_toBottomOf="@id/autoCompleteUnLoadingNum" />
 
             <Spinner
                 android:id="@+id/spOrderNum"

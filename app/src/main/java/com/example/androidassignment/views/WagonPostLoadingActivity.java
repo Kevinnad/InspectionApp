@@ -264,7 +264,9 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         inspectionDataModel.setWagonCapacity(binding.spWagonCapacity.getSelectedItemPosition());
         inspectionDataModel.setWagonType(binding.spWagonType.getSelectedItemPosition());
         inspectionDataModel.setWagonSerialNum(binding.spWagonSerialNo.getSelectedItemPosition());
-
+        inspectionDataModel.setTruckNo(binding.etNoOfTrucks.getText().toString());
+        inspectionDataModel.setSpillBeans(binding.etSpillBeans.getText().toString());
+        inspectionDataModel.setTotalWeight(binding.etTotalWeight.getText().toString());
         if (previousID != 0)
             inspectionDataModel.setId(previousID);
 

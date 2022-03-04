@@ -276,6 +276,9 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
         inspectionDataModel.setWagonCapacity(binding.spWagonCapacity.getSelectedItemPosition());
         inspectionDataModel.setWagonType(binding.spWagonType.getSelectedItemPosition());
         inspectionDataModel.setWagonSerialNum(binding.spWagonSerialNo.getSelectedItemPosition());
+        inspectionDataModel.setTruckNo(binding.etNoOfTrucks.getText().toString());
+        inspectionDataModel.setSpillBeans(binding.etSpillBeans.getText().toString());
+        inspectionDataModel.setTotalWeight(binding.etTotalWeight.getText().toString());
         if(binding.rbDoorNo.isChecked())
             inspectionDataModel.setDoorLocked(1);
         else

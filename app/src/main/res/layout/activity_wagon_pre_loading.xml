@@ -14,7 +14,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:textSize="20dp"
-        android:text="Pre loading Inspection"
+        android:text="Wagon Pre loading Inspection"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
