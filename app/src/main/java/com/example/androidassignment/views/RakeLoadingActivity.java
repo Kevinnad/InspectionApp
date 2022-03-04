@@ -19,6 +19,7 @@ public class RakeLoadingActivity extends BaseActivity<ActivityLandingBinding> {
     public void initView() {
         activityLandingBinding.btPreLoadingInspection.setOnClickListener(view -> startActivity(new Intent(RakeLoadingActivity.this, InspectionActivity.class)));
         activityLandingBinding.btTruckLoading.setOnClickListener(view -> startActivity(new Intent(RakeLoadingActivity.this, TruckLoadingActivity.class)));
+        activityLandingBinding.btWagonPreLoading.setOnClickListener(view -> startActivity(new Intent(RakeLoadingActivity.this, WagonLoadingActivity.class)));
     }
 
     @Override
