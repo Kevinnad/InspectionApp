@@ -16,10 +16,15 @@ public class InspectionAdapter extends RecyclerView.Adapter<InspectionAdapter.Vi
 
     public InspectionAdapter(List<Data> localDataSet){
         this.localDataSet = localDataSet;
+        this.isSync = isSync;
     }
 
     private List<Data> localDataSet;
+    private boolean isSync;
 
+    public void setSync(boolean sync) {
+        isSync = sync;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final RowItemBinding binding;
@@ -29,7 +34,7 @@ public class InspectionAdapter extends RecyclerView.Adapter<InspectionAdapter.Vi
             this.binding = binding;
         }
 
-        public void bind(Data dataset) {
+        public void bind(Data dataset, boolean isSync) {
             binding.tvMax.setText(dataset.getMaxValue());
             binding.tvMin.setText(dataset.getMinValue());
             binding.tvActual.setText(dataset.getActualValue());
@@ -51,6 +56,9 @@ public class InspectionAdapter extends RecyclerView.Adapter<InspectionAdapter.Vi
                     dataset.setActualValue(editable.toString());
                 }
             });
+
+            if(isSync)
+                binding.tvActual.setEnabled(false);
         }
     }
 
@@ -68,7 +76,7 @@ public class InspectionAdapter extends RecyclerView.Adapter<InspectionAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
-        viewHolder.bind(localDataSet.get(position));
+        viewHolder.bind(localDataSet.get(position), isSync);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -52,7 +52,7 @@ public class TruckUnloadingViewmodel extends ViewModel {
 
     public void getNextData() {
         if (currentId <= lastId)
-            inspectionRepository.getPrevious(currentId, previousInspection);
+            inspectionRepository.getNext(currentId, previousInspection);
     }
 
     public void getLastInspection() {
