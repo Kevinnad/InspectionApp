@@ -297,6 +297,13 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding.spWagonSerialNo.setSelection(0);
         binding.spWagonType.setSelection(0);
         binding.spWagonCapacity.setSelection(0);
+        binding.etNoOfTrucks.setText("");
+        binding.etSpillBeans.setText("");
+        binding.etTotalWeight.setText("");
+        binding.rgDoorLocked.clearCheck();
+        binding.rgRemarks.clearCheck();
+        binding.rgSeal.clearCheck();
+        binding.rgTarpauline.clearCheck();
         binding.tvSync.setVisibility(View.GONE);
         isNew = true;
         inspectionDataModel = null;

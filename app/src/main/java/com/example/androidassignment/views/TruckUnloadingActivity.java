@@ -285,6 +285,8 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
             binding.rbAverage.setChecked(true);
         truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteUnLoadingNum.getText().toString());
         truckUnloadingModel.setWagonNum(binding.etWagonNo.getText().toString());
+        truckUnloadingModel.setTruckNumber(binding.etTruckNo.getText().toString());
+        truckUnloadingModel.setUnloadedBags(binding.etNoOfBags.getText().toString());
         truckUnloadingModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
         truckUnloadingModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
         truckUnloadingModel.setStack(binding.spStack.getSelectedItemPosition());
@@ -315,6 +317,10 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
 
     void resetInspectionScreen() {
         previousID = 0;
+        binding.etWagonNo.setText("");
+        binding.etTruckNo.setText("");
+        binding.etNoOfBags.setText("");
+        binding.etBagStickQuality.clearCheck();
         binding.spWarehouse.setSelection(0);
         binding.spStack.setSelection(0);
         binding.tvSync.setVisibility(View.GONE);

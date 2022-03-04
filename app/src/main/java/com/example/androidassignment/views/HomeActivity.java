@@ -18,6 +18,7 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
     public void initView() {
 
         binding.btRakeLoading.setOnClickListener(view -> startActivity(new Intent(this, RakeLoadingActivity.class)));
+        binding.btRakeUnloading.setOnClickListener(view -> startActivity(new Intent(this, RakeUnloadingActivity.class)));
 
     }
 
