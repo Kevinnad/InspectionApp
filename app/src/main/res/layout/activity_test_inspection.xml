@@ -416,6 +416,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.50" />
 
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideLineStart"
             android:layout_width="match_parent"
