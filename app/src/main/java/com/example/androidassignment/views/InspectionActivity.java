@@ -79,8 +79,10 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     @Override
     public void submitAction() {
-        if (isValid())
-        saveInspection(false);
+        if (inspectionViewModel.lastId > 0  && inspectionViewModel.currentId > 1){
+            inspectionViewModel.syncAllData();
+        }else
+            Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
     }
 
     @Override

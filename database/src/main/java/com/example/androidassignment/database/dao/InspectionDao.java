@@ -33,6 +33,9 @@ public interface InspectionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(InspectionDataModel model);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<InspectionDataModel> model);
+
     @Delete
     void delete(InspectionDataModel model);
 

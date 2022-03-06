@@ -70,9 +70,6 @@ public class InspectionRepository extends BaseRepository {
 
                     @Override
                     public void onComplete() {
-                        if (inspectionDataModel.isSync())
-                            syncData(inspectionDataModel, mutableLiveData);
-                        else
                             mutableLiveData.postValue(true);
                     }
 
@@ -122,32 +119,47 @@ public class InspectionRepository extends BaseRepository {
     public void syncData(Object object, MutableLiveData mutableLiveData) {
         mutableLiveData.postValue(true);
 
-        InspectionAPIModel inspectionAPIModel = NetworkMapper.transfer((InspectionDataModel) object);
+        dataBaseProvider.getAppDatabase().inspectionDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<InspectionDataModel>>() {
+            @Override
+            public void accept(List<InspectionDataModel> inspectionDataModels) throws Throwable {
 
-        services.syncInspection(inspectionAPIModel)
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .subscribe(new Observer<Response>() {
-                    @Override
-                    public void onSubscribe(io.reactivex.disposables.Disposable d) {
+                for(InspectionDataModel dataModel : inspectionDataModels){
+                    dataModel.setSync(true);
+                }
 
-                    }
+                dataBaseProvider.getAppDatabase().inspectionDao().insertAll(inspectionDataModels);
+                mutableLiveData.postValue(inspectionDataModels);
+            }
+        });
 
-                    @Override
-                    public void onNext(Response value) {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        mutableLiveData.postValue(true);
-                    }
-                });
+//        InspectionAPIModel inspectionAPIModel = NetworkMapper.transfer((InspectionDataModel) object);
+//
+//        services.syncInspection(inspectionAPIModel)
+//                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+//                .subscribe(new Observer<Response>() {
+//                    @Override
+//                    public void onSubscribe(io.reactivex.disposables.Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(Response value) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        mutableLiveData.postValue(true);
+//                    }
+//                });
     }
+
 
 
     public ItemCodeAttributesDataModel getInspectionItemList(int itemCode) {

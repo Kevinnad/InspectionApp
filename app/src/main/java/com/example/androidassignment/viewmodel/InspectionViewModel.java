@@ -17,7 +17,7 @@ public class InspectionViewModel extends ViewModel {
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> previousInspection = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> lastInspection = new MutableLiveData();
-    public MutableLiveData<List<TestInspectionModel>> testInspection = new MutableLiveData();
+    public MutableLiveData<List<InspectionDataModel>> syncInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
     public InspectionRepository inspectionRepository;
@@ -50,6 +50,10 @@ public class InspectionViewModel extends ViewModel {
             }
         });
         inspectionRepository.getLastData(currentId, lastInspection);
+    }
+
+    public void syncAllData(){
+        inspectionRepository.syncData("",syncInspection);
     }
 
 }
