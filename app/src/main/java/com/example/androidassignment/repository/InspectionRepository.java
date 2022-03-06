@@ -117,7 +117,6 @@ public class InspectionRepository extends BaseRepository {
 
     @Override
     public void syncData(Object object, MutableLiveData mutableLiveData) {
-        mutableLiveData.postValue(true);
 
         dataBaseProvider.getAppDatabase().inspectionDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<InspectionDataModel>>() {
             @Override

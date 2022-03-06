@@ -17,7 +17,7 @@ public class StackQualityInspectionViewmodel extends ViewModel {
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
     public MutableLiveData<StackQualityInspectionModel> previousInspection = new MutableLiveData();
     public MutableLiveData<StackQualityInspectionModel> lastInspection = new MutableLiveData();
-    public MutableLiveData<List<TestInspectionModel>> testInspection = new MutableLiveData();
+    public MutableLiveData<List<StackQualityInspectionModel>> syncInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
     public StackQualityInspectionRepository inspectionRepository;
@@ -47,9 +47,16 @@ public class StackQualityInspectionViewmodel extends ViewModel {
             public void onChanged(StackQualityInspectionModel dataModel) {
                 lastId = dataModel.getId();
                 currentId = lastId + 1;
+                if(dataModel.isSync()){
+                    previousInspection.postValue(dataModel);
+                }
             }
         });
         inspectionRepository.getLastData(currentId, lastInspection);
+    }
+
+    public void syncAllData(){
+        inspectionRepository.syncData("",syncInspection);
     }
 
 }

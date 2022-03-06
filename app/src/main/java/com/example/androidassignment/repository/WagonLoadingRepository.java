@@ -9,6 +9,7 @@ import com.example.androidassignment.base.BaseRepository;
 import com.example.androidassignment.dataStore.InspectionDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
+import com.example.androidassignment.database.model.TruckUnloadingModel;
 import com.example.androidassignment.database.model.WagonLoadingDataModel;
 import com.example.network.service.Services;
 
@@ -116,8 +117,20 @@ public class WagonLoadingRepository extends BaseRepository {
 
     @Override
     public void syncData(Object object, MutableLiveData mutableLiveData) {
-        mutableLiveData.postValue(true);
+//        mutableLiveData.postValue(true);
 
+        dataBaseProvider.getAppDatabase().wagonLoadingDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<WagonLoadingDataModel>>() {
+            @Override
+            public void accept(List<WagonLoadingDataModel> inspectionDataModels) throws Throwable {
+
+                for(WagonLoadingDataModel dataModel : inspectionDataModels){
+                    dataModel.setSync(true);
+                }
+
+                dataBaseProvider.getAppDatabase().wagonLoadingDao().insertAll(inspectionDataModels);
+                mutableLiveData.postValue(inspectionDataModels);
+            }
+        });
     }
 
 

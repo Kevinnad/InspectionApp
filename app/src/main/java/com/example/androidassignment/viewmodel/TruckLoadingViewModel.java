@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
+import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.TruckLoadingDataModel;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
 import com.example.androidassignment.database.model.TruckLoadingDataModel;
@@ -27,6 +28,7 @@ public class TruckLoadingViewModel extends ViewModel {
     public DataBaseProvider dataBaseProvider;
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
     public MutableLiveData<TruckLoadingDataModel> previousInspection = new MutableLiveData();
+    public MutableLiveData<List<TruckLoadingDataModel>> syncInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
 
@@ -107,6 +109,9 @@ public class TruckLoadingViewModel extends ViewModel {
             public void accept(@NonNull TruckLoadingDataModel inspectionDataModels) throws Exception {
                 lastId = inspectionDataModels.getId();
                 currentId = lastId + 1;
+                if(inspectionDataModels.isSync()){
+                    previousInspection.postValue(inspectionDataModels);
+                }
             }
         },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
     }
@@ -115,5 +120,19 @@ public class TruckLoadingViewModel extends ViewModel {
         previousInspection.postValue(inspectionDataModels);
     }
 
+    public void syncAllData(){
+        dataBaseProvider.getAppDatabase().truckLoadingDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<TruckLoadingDataModel>>() {
+            @Override
+            public void accept(List<TruckLoadingDataModel> inspectionDataModels) throws Throwable {
+
+                for(TruckLoadingDataModel dataModel : inspectionDataModels){
+                    dataModel.setSync(true);
+                }
+
+                dataBaseProvider.getAppDatabase().truckLoadingDao().insertAll(inspectionDataModels);
+                syncInspection.postValue(inspectionDataModels);
+            }
+        });
+    }
 
 }

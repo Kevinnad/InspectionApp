@@ -47,6 +47,9 @@ public class InspectionViewModel extends ViewModel {
             public void onChanged(InspectionDataModel dataModel) {
                 lastId = dataModel.getId();
                 currentId = lastId + 1;
+                if(dataModel.isSync()){
+                    previousInspection.postValue(dataModel);
+                }
             }
         });
         inspectionRepository.getLastData(currentId, lastInspection);

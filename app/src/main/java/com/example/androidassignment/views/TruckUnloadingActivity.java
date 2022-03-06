@@ -78,8 +78,10 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
 
     @Override
     public void submitAction() {
-        if (isValid())
-            saveInspection(false);
+        if (truckUnloadingViewmodel.lastId > 0){
+            truckUnloadingViewmodel.syncAllData();
+        }else
+            Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -302,8 +304,14 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
             if (truckUnloadingViewmodel.lastId > 0 && truckUnloadingViewmodel.currentId + 1 <= truckUnloadingViewmodel.lastId) {
                 truckUnloadingViewmodel.getNextData();
             } else{
-                callSaveInspection(truckUnloadingModel);
-                resetInspectionScreen();
+
+                if (this.truckUnloadingModel != null && this.truckUnloadingModel.isSync()) {
+                    Toast.makeText(this,
+                            "No Next Data", Toast.LENGTH_SHORT).show();
+                }else {
+                    callSaveInspection(truckUnloadingModel);
+                    resetInspectionScreen();
+                }
             }
         } else {
             truckUnloadingModel.setSync(true);
