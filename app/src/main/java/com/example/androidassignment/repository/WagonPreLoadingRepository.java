@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.androidassignment.base.BaseRepository;
 import com.example.androidassignment.dataStore.InspectionDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
+import com.example.androidassignment.database.model.WagonLoadingDataModel;
 import com.example.androidassignment.database.model.WagonPreLoadingDataModel;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
 import com.example.androidassignment.mapper.NetworkMapper;
@@ -120,7 +121,19 @@ public class WagonPreLoadingRepository extends BaseRepository {
 
     @Override
     public void syncData(Object object, MutableLiveData mutableLiveData) {
-        mutableLiveData.postValue(true);
+
+        dataBaseProvider.getAppDatabase().wagonPreLoadingDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<WagonPreLoadingDataModel>>() {
+            @Override
+            public void accept(List<WagonPreLoadingDataModel> inspectionDataModels) throws Throwable {
+
+                for(WagonPreLoadingDataModel dataModel : inspectionDataModels){
+                    dataModel.setSync(true);
+                }
+
+                dataBaseProvider.getAppDatabase().wagonPreLoadingDao().insertAll(inspectionDataModels);
+                mutableLiveData.postValue(inspectionDataModels);
+            }
+        });
 
 //        InspectionAPIModel inspectionAPIModel = NetworkMapper.transfer((WagonPreLoadingDataModel) object);
 //

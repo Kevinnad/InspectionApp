@@ -18,7 +18,7 @@ public class WagonLoadingViewModel extends ViewModel {
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
     public MutableLiveData<WagonLoadingDataModel> previousInspection = new MutableLiveData();
     public MutableLiveData<WagonLoadingDataModel> lastInspection = new MutableLiveData();
-    public MutableLiveData<List<TestInspectionModel>> testInspection = new MutableLiveData();
+    public MutableLiveData<List<WagonLoadingDataModel>> syncInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
     public WagonLoadingRepository inspectionRepository;
@@ -48,9 +48,16 @@ public class WagonLoadingViewModel extends ViewModel {
             public void onChanged(WagonLoadingDataModel dataModel) {
                 lastId = dataModel.getId();
                 currentId = lastId + 1;
+                if(dataModel.isSync()){
+                    previousInspection.postValue(dataModel);
+                }
             }
         });
         inspectionRepository.getLastData(currentId, lastInspection);
+    }
+
+    public void syncAllData(){
+        inspectionRepository.syncData("",syncInspection);
     }
 
 }

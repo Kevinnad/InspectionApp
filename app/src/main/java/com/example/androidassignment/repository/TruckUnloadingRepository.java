@@ -121,33 +121,45 @@ public class TruckUnloadingRepository extends BaseRepository {
 
     @Override
     public void syncData(Object object, MutableLiveData mutableLiveData) {
-        mutableLiveData.postValue(true);
 
-        InspectionAPIModel inspectionAPIModel = NetworkMapper.transfer((InspectionDataModel) object);
+        dataBaseProvider.getAppDatabase().truckUnloadingDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<TruckUnloadingModel>>() {
+            @Override
+            public void accept(List<TruckUnloadingModel> inspectionDataModels) throws Throwable {
 
-        services.syncInspection(inspectionAPIModel)
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .subscribe(new Observer<Response>() {
-                    @Override
-                    public void onSubscribe(io.reactivex.disposables.Disposable d) {
+                for(TruckUnloadingModel dataModel : inspectionDataModels){
+                    dataModel.setSync(true);
+                }
 
-                    }
+                dataBaseProvider.getAppDatabase().truckUnloadingDao().insertAll(inspectionDataModels);
+                mutableLiveData.postValue(inspectionDataModels);
+            }
+        });
 
-                    @Override
-                    public void onNext(Response value) {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        mutableLiveData.postValue(true);
-                    }
-                });
+//        InspectionAPIModel inspectionAPIModel = NetworkMapper.transfer((InspectionDataModel) object);
+//
+//        services.syncInspection(inspectionAPIModel)
+//                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+//                .subscribe(new Observer<Response>() {
+//                    @Override
+//                    public void onSubscribe(io.reactivex.disposables.Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(Response value) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        mutableLiveData.postValue(true);
+//                    }
+//                });
     }
     public List<String> getWareHouseList(int i) {
         return truckUnloadingDataStore.getWareHouse(i);

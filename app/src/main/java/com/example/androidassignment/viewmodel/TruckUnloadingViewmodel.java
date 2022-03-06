@@ -29,8 +29,8 @@ public class TruckUnloadingViewmodel extends ViewModel {
     public DataBaseProvider dataBaseProvider;
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
     public MutableLiveData<TruckUnloadingModel> lastInspection = new MutableLiveData();
-
     public MutableLiveData<TruckUnloadingModel> previousInspection = new MutableLiveData();
+    public MutableLiveData<List<TruckUnloadingModel>> syncInspection = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
     public TruckUnloadingRepository inspectionRepository;
@@ -61,11 +61,17 @@ public class TruckUnloadingViewmodel extends ViewModel {
             public void onChanged(TruckUnloadingModel dataModel) {
                 lastId = dataModel.getId();
                 currentId = lastId + 1;
+                if(dataModel.isSync()){
+                    previousInspection.postValue(dataModel);
+                }
             }
         });
         inspectionRepository.getLastData(currentId, lastInspection);
     }
 
+    public void syncAllData(){
+        inspectionRepository.syncData("",syncInspection);
+    }
 
 }
 

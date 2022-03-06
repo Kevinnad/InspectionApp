@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.androidassignment.database.model.TruckUnloadingModel;
 import com.example.androidassignment.database.model.WagonLoadingDataModel;
 import com.example.androidassignment.database.model.WagonPreLoadingDataModel;
 
@@ -29,6 +30,9 @@ public interface WagonLoadingDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(WagonLoadingDataModel model);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<WagonLoadingDataModel> model);
 
     @Delete
     void delete(WagonLoadingDataModel model);

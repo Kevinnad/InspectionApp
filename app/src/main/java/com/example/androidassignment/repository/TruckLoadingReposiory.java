@@ -12,6 +12,9 @@ import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.mapper.NetworkMapper;
 import com.example.network.model.InspectionAPIModel;
 import com.example.network.service.Services;
+
+import java.util.List;
+
 import io.reactivex.Observer;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
@@ -116,33 +119,45 @@ public class TruckLoadingReposiory extends BaseRepository {
 
     @Override
     public void syncData(Object object, MutableLiveData mutableLiveData) {
-        mutableLiveData.postValue(true);
 
-        InspectionAPIModel inspectionAPIModel = NetworkMapper.transfer((InspectionDataModel) object);
+        dataBaseProvider.getAppDatabase().inspectionDao().getAll().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<InspectionDataModel>>() {
+            @Override
+            public void accept(List<InspectionDataModel> inspectionDataModels) throws Throwable {
 
-        services.syncInspection(inspectionAPIModel)
-                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
-                .subscribe(new Observer<Response>() {
-                    @Override
-                    public void onSubscribe(io.reactivex.disposables.Disposable d) {
+                for(InspectionDataModel dataModel : inspectionDataModels){
+                    dataModel.setSync(true);
+                }
 
-                    }
+                dataBaseProvider.getAppDatabase().inspectionDao().insertAll(inspectionDataModels);
+                mutableLiveData.postValue(inspectionDataModels);
+            }
+        });
 
-                    @Override
-                    public void onNext(Response value) {
+//        InspectionAPIModel inspectionAPIModel = NetworkMapper.transfer((InspectionDataModel) object);
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        mutableLiveData.postValue(true);
-                    }
-                });
+//        services.syncInspection(inspectionAPIModel)
+//                .subscribeOn(io.reactivex.schedulers.Schedulers.io())
+//                .subscribe(new Observer<Response>() {
+//                    @Override
+//                    public void onSubscribe(io.reactivex.disposables.Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(Response value) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        mutableLiveData.postValue(true);
+//                    }
+//                });
     }
 
 }

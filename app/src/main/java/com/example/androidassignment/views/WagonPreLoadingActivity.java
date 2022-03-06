@@ -70,8 +70,10 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
 
     @Override
     public void submitAction() {
-        if (isValid())
-            saveInspection(false);
+        if (inspectionViewModel.lastId > 0){
+            inspectionViewModel.syncAllData();
+        }else
+            Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -305,8 +307,14 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
                 inspectionViewModel.getNextData();
             } else {
-                callSaveInspection(inspectionDataModel);
-                resetInspectionScreen();
+
+                if (this.inspectionDataModel != null && this.inspectionDataModel.isSync()) {
+                    Toast.makeText(this,
+                            "No Next Data", Toast.LENGTH_SHORT).show();
+                }else {
+                    callSaveInspection(inspectionDataModel);
+                    resetInspectionScreen();
+                }
             }
         } else {
             inspectionDataModel.setSync(true);

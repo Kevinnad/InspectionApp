@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.StackQualityInspectionModel;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public interface StackQualityInspectionDao {
     @Delete
     void delete(StackQualityInspectionModel model);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<StackQualityInspectionModel> model);
 
     @Update
     void update(StackQualityInspectionModel model);

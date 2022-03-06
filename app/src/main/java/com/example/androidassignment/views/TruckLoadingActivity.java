@@ -191,8 +191,10 @@ public class TruckLoadingActivity extends AppCompatActivity {
     private void initInspectionAdapter() {
 
         binding.btSubmit.setOnClickListener(view -> {
-            if (isValid())
-                saveInspection(false);
+            if (truckLoadingViewModel.lastId > 0){
+                truckLoadingViewModel.syncAllData();
+            }else
+                Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
         });
 
         binding.btNext.setOnClickListener(view -> {
@@ -328,8 +330,6 @@ public class TruckLoadingActivity extends AppCompatActivity {
         else
             truckLoadingDataModel.setQuality(0);
 
-
-        
         if (previousID != 0)
             truckLoadingDataModel.setId(previousID);
 
@@ -337,8 +337,14 @@ public class TruckLoadingActivity extends AppCompatActivity {
             if (truckLoadingViewModel.lastId > 0 && truckLoadingViewModel.currentId + 1 <= truckLoadingViewModel.lastId) {
                 truckLoadingViewModel.getNextData();
             } else{
-                callSaveInspection(truckLoadingDataModel);
-                resetInspectionScreen();
+
+                if (this.truckLoadingDataModel != null && this.truckLoadingDataModel.isSync()) {
+                    Toast.makeText(this,
+                            "No Next Data", Toast.LENGTH_SHORT).show();
+                }else {
+                    callSaveInspection(truckLoadingDataModel);
+                    resetInspectionScreen();
+                }
             }
         } else {
             truckLoadingDataModel.setSync(true);

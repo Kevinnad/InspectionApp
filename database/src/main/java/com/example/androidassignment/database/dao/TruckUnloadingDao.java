@@ -32,6 +32,9 @@ public interface TruckUnloadingDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(TruckUnloadingModel model);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<TruckUnloadingModel> model);
+
     @Delete
     void delete(TruckUnloadingModel model);
 

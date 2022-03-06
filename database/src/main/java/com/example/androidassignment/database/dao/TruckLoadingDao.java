@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.androidassignment.database.model.InspectionDataModel;
+import com.example.androidassignment.database.model.StackQualityInspectionModel;
 import com.example.androidassignment.database.model.TruckLoadingDataModel;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public interface TruckLoadingDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(TruckLoadingDataModel model);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertAll(List<TruckLoadingDataModel> model);
 
     @Delete
     void delete(TruckLoadingDataModel model);
