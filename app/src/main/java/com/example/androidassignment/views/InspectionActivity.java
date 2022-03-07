@@ -46,7 +46,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     public ActivityPreLoadingInspectionBinding getBinding() {
         binding = ActivityPreLoadingInspectionBinding.inflate(getLayoutInflater());
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
-        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )));
         binding.toolbar.toolbarTitle.setText("Pre Loading Inspection");
 
         return binding;

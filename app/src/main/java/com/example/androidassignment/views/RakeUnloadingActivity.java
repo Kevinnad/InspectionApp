@@ -23,10 +23,10 @@ public class RakeUnloadingActivity extends BaseActivity<ActivityRakeUnloadingBin
     public void initView() {
 
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
-        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )));
         binding.toolbar.toolbarTitle.setText("Rake Unloading");
 
-        binding.btTruckLoading.setOnClickListener(view -> startActivity(new Intent(this, TruckLoadingActivity.class)));
+        binding.btTruckLoading.setOnClickListener(view -> startActivity(new Intent(this, UnloadingTruckLoadingActivity.class)));
         binding.btWagonPreLoading.setOnClickListener(view -> startActivity(new Intent(this, WagonPreLoadingActivity.class)));
         binding.btTruckUnloading.setOnClickListener(view -> startActivity(new Intent(this, TruckUnloadingActivity.class)));
         binding.btStackQuality.setOnClickListener(view -> startActivity(new Intent(this, StackQualityInspectionActivity.class)));

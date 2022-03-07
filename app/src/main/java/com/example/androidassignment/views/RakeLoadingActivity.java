@@ -18,7 +18,7 @@ public class RakeLoadingActivity extends BaseActivity<ActivityLandingBinding> {
     @Override
     public void initView() {
         activityLandingBinding.toolbar.btnBack.setOnClickListener(view -> finish());
-        activityLandingBinding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        activityLandingBinding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )));
         activityLandingBinding.toolbar.toolbarTitle.setText("Rake Loading");
 
         activityLandingBinding.btPreLoadingInspection.setOnClickListener(view -> startActivity(new Intent(RakeLoadingActivity.this, InspectionActivity.class)));

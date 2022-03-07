@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bt_truck_loading"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Wagon Pre LOADING"
+        android:text="Wagon Pre unLOADING"
         android:layout_margin="20dp"
         app:layout_constraintVertical_chainStyle="packed"
         android:layout_width="match_parent"

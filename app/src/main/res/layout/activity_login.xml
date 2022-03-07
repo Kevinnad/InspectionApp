@@ -21,15 +21,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_bg_top" />
 
-    <TextView
+    <ImageView
         android:id="@+id/textView7"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="ITC Limited"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        android:textStyle="normal|bold"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/itc_logo"
         app:layout_constraintBottom_toTopOf="@+id/cl_login_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -113,7 +109,7 @@
         android:id="@+id/button4"
         android:layout_width="200dp"
         android:layout_height="55dp"
-        android:background="@color/blue"
+        android:background="@drawable/login_button_background"
         android:text="Login"
         android:textAlignment="center"
         android:textAllCaps="false"

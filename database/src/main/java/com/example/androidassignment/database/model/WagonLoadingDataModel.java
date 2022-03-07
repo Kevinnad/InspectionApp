@@ -16,6 +16,7 @@ public class WagonLoadingDataModel {
     int seal;
     int remarks;
     int doorLocked;
+    int previousCargo;
     String wagonID;
     String spillBeans;
     String wagonNumber;
@@ -87,6 +88,14 @@ public class WagonLoadingDataModel {
 
     public int getRemarks() {
         return remarks;
+    }
+
+    public int getPreviousCargo() {
+        return previousCargo;
+    }
+
+    public void setPreviousCargo(int previousCargo) {
+        this.previousCargo = previousCargo;
     }
 
     public void setRemarks(int remarks) {

@@ -1,38 +1,36 @@
 package com.example.androidassignment.views;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import com.example.androidassignment.NothingSelectedSpinnerAdapter;
 import com.example.androidassignment.R;
-import com.example.androidassignment.adapter.InspectionAdapter;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
-import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.database.model.TruckLoadingDataModel;
-import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
+import com.example.androidassignment.database.model.UnloadingTruckLoadingDataModel;
+import com.example.androidassignment.database.model.UnloadingTruckLoadingDataModel;
 import com.example.androidassignment.databinding.ActivityTruckLoadingInspectionBinding;
 import com.example.androidassignment.viewmodel.TruckLoadingViewModel;
+import com.example.androidassignment.viewmodel.UnLoadingTruckLoadingViewModel;
 
 import java.util.ArrayList;
 
-public class TruckLoadingActivity extends AppCompatActivity {
+public class UnloadingTruckLoadingActivity extends AppCompatActivity {
 
     ActivityTruckLoadingInspectionBinding binding;
-    TruckLoadingViewModel truckLoadingViewModel;
+    UnLoadingTruckLoadingViewModel truckLoadingViewModel;
     ArrayList<Data> itemList;
     int previousID = 0;
     boolean isNew = true;
-    private TruckLoadingDataModel truckLoadingDataModel;
+    private UnloadingTruckLoadingDataModel truckLoadingDataModel;
     ArrayAdapter<String> stackAdapter;
     ArrayAdapter<String> autoCompleteAdapter;
     ArrayAdapter<String> orderNumAdapter;
@@ -49,7 +47,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
         binding.toolbar.btnHome.setOnClickListener(view1 ->  startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )));
         binding.toolbar.toolbarTitle.setText("Truck Loading");
 
-        truckLoadingViewModel = new ViewModelProvider(this).get(TruckLoadingViewModel.class);
+        truckLoadingViewModel = new ViewModelProvider(this).get(UnLoadingTruckLoadingViewModel.class);
 
         createDataBase();
         observers();
@@ -265,16 +263,16 @@ public class TruckLoadingActivity extends AppCompatActivity {
             }
         });
 
-        truckLoadingViewModel.previousInspection.observe(this, new Observer<TruckLoadingDataModel>() {
+        truckLoadingViewModel.previousInspection.observe(this, new Observer<UnloadingTruckLoadingDataModel>() {
             @Override
-            public void onChanged(TruckLoadingDataModel dataModel) {
+            public void onChanged(UnloadingTruckLoadingDataModel dataModel) {
                 previousID = dataModel.getId();
                 isNew = false;
                 setInspection(dataModel);
             }
         });
     }
-    void setInspection(TruckLoadingDataModel truckLoadingDataModel) {
+    void setInspection(UnloadingTruckLoadingDataModel truckLoadingDataModel) {
         this.truckLoadingDataModel = truckLoadingDataModel;
         binding.autoCompleteLoadingNum.setText(truckLoadingDataModel.getRakeLoadingNumber());
         setOrderNumber(truckLoadingDataModel.getRakeLoadingNumber());
@@ -315,7 +313,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
     }
 
     void saveInspection(boolean isNext) {
-        TruckLoadingDataModel truckLoadingDataModel = new TruckLoadingDataModel();
+        UnloadingTruckLoadingDataModel truckLoadingDataModel = new UnloadingTruckLoadingDataModel();
         truckLoadingDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
         truckLoadingDataModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
         truckLoadingDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
@@ -353,7 +351,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
         }
     }
 
-    void callSaveInspection(TruckLoadingDataModel mtruckLoadingDataModel){
+    void callSaveInspection(UnloadingTruckLoadingDataModel mtruckLoadingDataModel){
         if(binding.tvSync.getVisibility() == View.GONE){
             this.truckLoadingDataModel = mtruckLoadingDataModel;
             truckLoadingViewModel.addData(mtruckLoadingDataModel);

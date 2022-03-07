@@ -81,6 +81,7 @@
             style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvWagonType"
             app:layout_constraintEnd_toEndOf="parent"
+            android:spinnerMode="dialog"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvWagonType"
             />
@@ -99,6 +100,7 @@
             android:id="@+id/spWagonCapacity"
             style="@style/Body"
             android:layout_width="0dp"
+            android:spinnerMode="dialog"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/tvWagonCapacity"
             app:layout_constraintEnd_toEndOf="parent"
@@ -124,6 +126,7 @@
             app:layout_constraintBottom_toBottomOf="@id/tvWagonSerialNo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            android:spinnerMode="dialog"
             app:layout_constraintTop_toTopOf="@id/tvWagonSerialNo"/>
 
         <TextView
@@ -149,7 +152,7 @@
             >
 
             <RadioButton
-                android:id="@+id/yes"
+                android:id="@+id/rbTarpaulineyes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text ="YES"
@@ -157,7 +160,7 @@
                 />
 
             <RadioButton
-                android:id="@+id/No"
+                android:id="@+id/rbTarpaulineNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text ="NO"
@@ -175,31 +178,18 @@
             app:layout_constraintTop_toBottomOf="@id/tvTarpauline"
             android:layout_marginTop="15dp"
             />
-        <RadioGroup
-            android:id="@+id/rgDoorLocked"
+        <EditText
+            android:id="@+id/etDoorLocked"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvDoorLocked"
             app:layout_constraintEnd_toEndOf="parent"
+            android:maxLength="3"
+            android:inputType="number"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvDoorLocked"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/Yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="YES"
-
-                />
-
-            <RadioButton
-                android:id="@+id/no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="No"
-                />
-        </RadioGroup>
+            />
 
         <TextView
             android:id="@+id/tvSeal"
@@ -249,32 +239,17 @@
             app:layout_constraintTop_toBottomOf="@id/tvSeal"
             android:layout_marginTop="15dp"
             />
-        <RadioGroup
-            android:id="@+id/rgRemarks"
+
+        <EditText
+            android:id="@+id/etRemarks"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvRemarks"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvRemarks"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rbRemarksYes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="YES"
-
-                />
-
-            <RadioButton
-                android:id="@+id/rbRemarksNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="No"
-                />
-        </RadioGroup>
-
+            />
 
         <TextView
             android:id="@+id/tvNoOfTrucks"

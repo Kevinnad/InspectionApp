@@ -48,7 +48,7 @@ public class StackQualityInspectionActivity extends BaseInspectionActivity<Activ
         binding.toolbar.toolbarTitle.setText("Stack Quality Inspection");
 
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
-        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )));
 
         return binding;
     }

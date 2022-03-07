@@ -63,7 +63,7 @@
         app:layout_constraintTop_toBottomOf="@id/bt_truck_unloading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="WAGON POST UNLOADING"
+        android:text="WAGON POST LOADING"
         app:layout_constraintVertical_chainStyle="packed"
         android:layout_margin="20dp"
         android:layout_width="match_parent"

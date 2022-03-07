@@ -84,6 +84,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/tvOrderNum"
+            android:spinnerMode="dialog"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvOrderNum" />
@@ -104,6 +105,7 @@
             android:id="@+id/spItemCode"
             style="@style/SpinnerTextViewItem"
             android:layout_width="0dp"
+            android:spinnerMode="dialog"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/tvItemCode"
             app:layout_constraintEnd_toEndOf="parent"
@@ -150,6 +152,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/tvStack"
             app:layout_constraintEnd_toEndOf="parent"
+            android:spinnerMode="dialog"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvStack" />
 

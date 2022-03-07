@@ -79,6 +79,7 @@
 
             <Spinner
                 android:id="@+id/spOrderNum"
+                android:spinnerMode="dialog"
                 style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -106,6 +107,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/tvItemCode"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:spinnerMode="dialog"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
                 app:layout_constraintTop_toTopOf="@id/tvItemCode" />
 
@@ -146,6 +148,7 @@
                 android:id="@+id/spStack"
                 style="@style/Body"
                 android:layout_width="0dp"
+                android:spinnerMode="dialog"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/tvStack"
                 app:layout_constraintEnd_toEndOf="parent"

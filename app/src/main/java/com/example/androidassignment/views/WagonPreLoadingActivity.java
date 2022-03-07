@@ -38,8 +38,9 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
     @Override
     public ActivityWagonPreLoadingBinding getBinding() {
         binding = ActivityWagonPreLoadingBinding.inflate(getLayoutInflater());
+        binding.toolbar.toolbarTitle.setText("Wagon pre unloading Inspection");
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
-        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )));
         return binding;
     }
 
@@ -203,9 +204,37 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
             Toast.makeText(this,
                     "Select Wagon Serial Number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.etNoOfTrucks.getText().toString().isEmpty()) {
+        }   else if (binding.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
-                    "Enter Truck Number", Toast.LENGTH_SHORT).show();
+                    "Check Tarpauline placed at doors after closing", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etDoorLocked.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Check Door Locked or Not", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.rgSeal.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Seal Placed or Not", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etRemarks.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Remarks", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etNoOfTrucks.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Number Of Trucks", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etSpillBeans.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Spillage beans collecte", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etSealNum.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Seal Numbers", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etTotalWeight.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Total Weight", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -236,20 +265,17 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
         binding.etTotalWeight.setText(inspectionDataModel.getTotalWeight());
         binding.etNoOfTrucks.setText(inspectionDataModel.getTruckNo());
+        binding.etRemarks.setText(inspectionDataModel.getRemarks());
         binding.etSpillBeans.setText(inspectionDataModel.getSpillBeans());
+        binding.etSealNum.setText(inspectionDataModel.getSealNum());
         setOrderNumber(inspectionDataModel.getRakeLoadingNumber());
-        if (inspectionDataModel.getRemarks() == 0) {
-            binding.rbRemarksYes.setChecked(true);
-        } else
-            binding.rbRemarksNo.setChecked(true);
+
         if (inspectionDataModel.getSeal() == 0) {
             binding.rbSealYes.setChecked(true);
         } else
             binding.rbSealNo.setChecked(true);
-        if (inspectionDataModel.getDoorLocked() == 0) {
-            binding.rbDoorYes.setChecked(true);
-        } else
-            binding.rbDoorNo.setChecked(true);
+        binding.etDoorLocked.setText(inspectionDataModel.getDoorLocked());
+
         if (inspectionDataModel.getTarpauline() == 0) {
             binding.rbTrapaulineYes.setChecked(true);
         } else
@@ -284,18 +310,15 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
         inspectionDataModel.setTruckNo(binding.etNoOfTrucks.getText().toString());
         inspectionDataModel.setSpillBeans(binding.etSpillBeans.getText().toString());
         inspectionDataModel.setTotalWeight(binding.etTotalWeight.getText().toString());
-        if(binding.rbDoorNo.isChecked())
-            inspectionDataModel.setDoorLocked(1);
-        else
-            inspectionDataModel.setDoorLocked(0);
+        inspectionDataModel.setRemarks(binding.etRemarks.getText().toString());
+        inspectionDataModel.setDoorLocked(binding.etDoorLocked.getText().toString());
+        inspectionDataModel.setSealNum(binding.etSealNum.getText().toString());
+
         if(binding.rbTrapaulineNo.isChecked())
             inspectionDataModel.setTarpauline(1);
         else
             inspectionDataModel.setTarpauline(0);
-        if(binding.rbRemarksNo.isChecked())
-            inspectionDataModel.setRemarks(1);
-        else
-            inspectionDataModel.setRemarks(0);
+
         if(binding.rbSealNo.isChecked())
             inspectionDataModel.setSeal(1);
         else
@@ -336,6 +359,14 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
         binding.spWagonSerialNo.setSelection(0);
         binding.spWagonType.setSelection(0);
         binding.spWagonCapacity.setSelection(0);
+        binding.etNoOfTrucks.setText("");
+        binding.etSpillBeans.setText("");
+        binding.etRemarks.setText("");
+        binding.etTotalWeight.setText("");
+        binding.etDoorLocked.setText("");
+        binding.etSealNum.setText("");
+        binding.rgSeal.clearCheck();
+        binding.rgTarpauline.clearCheck();
         binding.tvSync.setVisibility(View.GONE);
         isNew = true;
         inspectionDataModel = null;

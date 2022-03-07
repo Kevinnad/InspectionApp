@@ -19,16 +19,25 @@ public class WagonPreLoadingDataModel {
     boolean isSync;
     int tarpauline;
     int seal;
-    int remarks;
-    int doorLocked;
+    String remarks;
+    String  doorLocked;
     String truckNo;
     String spillBeans;
+    String sealNum;
     String totalWeight;
     public void setId(int id) {
         this.id = id;
     }
 
     String updatedAt;
+
+    public String getSealNum() {
+        return sealNum;
+    }
+
+    public void setSealNum(String sealNum) {
+        this.sealNum = sealNum;
+    }
 
     public String getUpdatedAt() {
         return updatedAt;
@@ -90,19 +99,19 @@ public class WagonPreLoadingDataModel {
         this.seal = seal;
     }
 
-    public int getRemarks() {
+    public String getRemarks() {
         return remarks;
     }
 
-    public void setRemarks(int remarks) {
+    public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
 
-    public int getDoorLocked() {
+    public String getDoorLocked() {
         return doorLocked;
     }
 
-    public void setDoorLocked(int doorLocked) {
+    public void setDoorLocked(String  doorLocked) {
         this.doorLocked = doorLocked;
     }
 

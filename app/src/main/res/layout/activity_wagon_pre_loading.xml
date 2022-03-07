@@ -81,6 +81,7 @@
             style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvWagonType"
             app:layout_constraintEnd_toEndOf="parent"
+            android:spinnerMode="dialog"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvWagonType"
             />
@@ -100,6 +101,7 @@
             style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:spinnerMode="dialog"
             app:layout_constraintBottom_toBottomOf="@id/tvWagonCapacity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
@@ -121,6 +123,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/Body"
+            android:spinnerMode="dialog"
             app:layout_constraintBottom_toBottomOf="@id/tvWagonSerialNo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
@@ -130,7 +133,7 @@
             android:id="@+id/tvTarpauline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Tarpauline placed at doors"
+            android:text="Tarpauline placed at doors after closing"
             style="@style/Body"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
@@ -175,31 +178,20 @@
             app:layout_constraintTop_toBottomOf="@id/tvTarpauline"
             android:layout_marginTop="15dp"
             />
-        <RadioGroup
-            android:id="@+id/rgDoorLocked"
+
+        <EditText
+            android:id="@+id/etDoorLocked"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvDoorLocked"
             app:layout_constraintEnd_toEndOf="parent"
+            android:maxLength="3"
+            android:inputType="number"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvDoorLocked"
-            android:orientation="horizontal">
+            />
 
-            <RadioButton
-                android:id="@+id/rbDoorYes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="YES"
-
-                />
-
-            <RadioButton
-                android:id="@+id/rbDoorNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="No"
-                />
-        </RadioGroup>
 
         <TextView
             android:id="@+id/tvSeal"
@@ -238,6 +230,31 @@
                 />
         </RadioGroup>
 
+
+        <TextView
+            android:id="@+id/tvSealNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Seal Numbers {four sides}"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSeal"
+            android:layout_marginTop="15dp"
+            />
+        <EditText
+            android:id="@+id/etSealNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Body"
+            app:layout_constraintBottom_toBottomOf="@id/tvSealNum"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvSealNum"
+            />
+
+
+
         <TextView
             android:id="@+id/tvRemarks"
             android:layout_width="0dp"
@@ -246,34 +263,19 @@
             style="@style/Body"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvSeal"
+            app:layout_constraintTop_toBottomOf="@id/tvSealNum"
             android:layout_marginTop="15dp"
             />
-        <RadioGroup
-            android:id="@+id/rgRemarks"
+        <EditText
+            android:id="@+id/etRemarks"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvRemarks"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvRemarks"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rbRemarksYes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="YES"
-
-                />
-
-            <RadioButton
-                android:id="@+id/rbRemarksNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="No"
-                />
-        </RadioGroup>
+            />
 
 
         <TextView

@@ -1,41 +1,34 @@
 package com.example.androidassignment.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.androidassignment.NothingSelectedSpinnerAdapter;
 import com.example.androidassignment.R;
-import com.example.androidassignment.adapter.InspectionAdapter;
 import com.example.androidassignment.base.BaseInspectionActivity;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
-import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.database.model.TruckUnloadingModel;
-import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
+import com.example.androidassignment.database.model.WarehouseTruckUnloadingModel;
 import com.example.androidassignment.databinding.ActivityTruckUnloadingBinding;
-import com.example.androidassignment.viewmodel.InspectionViewModel;
-import com.example.androidassignment.viewmodel.TruckUnloadingViewmodel;
+import com.example.androidassignment.viewmodel.WarehouseTruckUnloadingViewmodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruckUnloadingBinding> {
+public class WarehouseTruckUnloadingActivity extends BaseInspectionActivity<ActivityTruckUnloadingBinding> {
 
     ActivityTruckUnloadingBinding binding;
-    TruckUnloadingViewmodel truckUnloadingViewmodel;
+    WarehouseTruckUnloadingViewmodel truckUnloadingViewmodel;
     ArrayList<Data> itemList;
     int previousID = 0;
     boolean isNew = true;
-    private TruckUnloadingModel truckUnloadingModel;
+    private WarehouseTruckUnloadingModel truckUnloadingModel;
     ArrayAdapter<String> stackAdapter;
     ArrayAdapter<String> orderNumAdapter;
     ArrayAdapter<String> warehouseAdapter;
@@ -86,7 +79,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
 
     @Override
     public void initViewModel() {
-        truckUnloadingViewmodel = new ViewModelProvider(this).get(TruckUnloadingViewmodel.class);
+        truckUnloadingViewmodel = new ViewModelProvider(this).get(WarehouseTruckUnloadingViewmodel.class);
         createDataBase();
         truckUnloadingViewmodel.initRepository();
 
@@ -241,9 +234,9 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
             }
         });
 
-        truckUnloadingViewmodel.previousInspection.observe(this, new Observer<TruckUnloadingModel>() {
+        truckUnloadingViewmodel.previousInspection.observe(this, new Observer<WarehouseTruckUnloadingModel>() {
             @Override
-            public void onChanged(TruckUnloadingModel dataModel) {
+            public void onChanged(WarehouseTruckUnloadingModel dataModel) {
                 truckUnloadingViewmodel.currentId = dataModel.getId();
                 previousID = dataModel.getId();
                 isNew = false;
@@ -251,7 +244,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
             }
         });
     }
-    void setInspection(TruckUnloadingModel truckUnloadingModel) {
+    void setInspection(WarehouseTruckUnloadingModel truckUnloadingModel) {
         this.truckUnloadingModel = truckUnloadingModel;
         binding.autoCompleteUnLoadingNum.setText(truckUnloadingModel.getRakeLoadingNumber());
         setOrderNumber(truckUnloadingModel.getRakeLoadingNumber());
@@ -285,7 +278,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     }
 
     void saveInspection(boolean isNext) {
-        TruckUnloadingModel truckUnloadingModel = new TruckUnloadingModel();
+        WarehouseTruckUnloadingModel truckUnloadingModel = new WarehouseTruckUnloadingModel();
         truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteUnLoadingNum.getText().toString());
         truckUnloadingModel.setUnloadedBags(binding.etNoOfBags.getText().toString());
 
@@ -324,7 +317,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
         }
     }
 
-    void callSaveInspection(TruckUnloadingModel truckUnloadingModel){
+    void callSaveInspection(WarehouseTruckUnloadingModel truckUnloadingModel){
         if(binding.tvSync.getVisibility() == View.GONE){
             this.truckUnloadingModel = truckUnloadingModel;
             truckUnloadingViewmodel.addData(truckUnloadingModel);

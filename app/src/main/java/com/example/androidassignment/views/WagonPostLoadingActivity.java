@@ -42,7 +42,7 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
     public ActivityWagonPostLoadingBinding getBinding() {
         binding = ActivityWagonPostLoadingBinding.inflate(getLayoutInflater());
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
-        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
+        binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP )));
         binding.toolbar.toolbarTitle.setText("Wagon Post Loading Inspection");
 
         return binding;
@@ -208,11 +208,36 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
             return false;
         } else if (binding.spWagonSerialNo.getSelectedItem() == null) {
             Toast.makeText(this,
-                    "Select Wagon Serial Number", Toast.LENGTH_SHORT).show();
+                    "Enter Wagon Serial Number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.etNoOfTrucks.getText().toString().isEmpty()) {
+        }
+        else if (binding.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
-                    "Enter Truck Number", Toast.LENGTH_SHORT).show();
+                    "Check Tarpauline placed at doors after closing", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etDoorLocked.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Check Door Locked or Not", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.rgSeal.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Seal Placed or Not", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etRemarks.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Remarks", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etNoOfTrucks.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Number Of Trucks", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etSpillBeans.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Spillage beans collecte", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etTotalWeight.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Total Weight", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -244,6 +269,22 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding.etTotalWeight.setText(inspectionDataModel.getTotalWeight());
         binding.etNoOfTrucks.setText(inspectionDataModel.getTruckNo());
         binding.etSpillBeans.setText(inspectionDataModel.getSpillBeans());
+        binding.etDoorLocked.setText(inspectionDataModel.getDoorLocked());
+        binding.etRemarks.setText(inspectionDataModel.getRemarks());
+        if(inspectionDataModel.getTarpauline() == 0)
+        {
+            binding.rbTarpaulineyes.setChecked(true);
+        }
+        else
+            binding.rbTarpaulineNo.setChecked(true);
+
+        if(inspectionDataModel.getSeal() == 0)
+        {
+            binding.rbSealYes.setChecked(true);
+        }
+        else
+            binding.rbSealNo.setChecked(true);
+
         setOrderNumber(inspectionDataModel.getRakeLoadingNumber());
         binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
         toggleAction(!inspectionDataModel.isSync());
@@ -274,6 +315,21 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         inspectionDataModel.setTruckNo(binding.etNoOfTrucks.getText().toString());
         inspectionDataModel.setSpillBeans(binding.etSpillBeans.getText().toString());
         inspectionDataModel.setTotalWeight(binding.etTotalWeight.getText().toString());
+        inspectionDataModel.setRemarks(binding.etRemarks.getText().toString());
+        inspectionDataModel.setDoorLocked(binding.etDoorLocked.getText().toString());
+
+        if(binding.rbTarpaulineyes.isChecked())
+            inspectionDataModel.setTarpauline(0);
+        else
+            inspectionDataModel.setTarpauline(1);
+
+
+
+        if(binding.rbSealYes.isChecked())
+            inspectionDataModel.setSeal(0);
+        else
+            inspectionDataModel.setSeal(1);
+
         if (previousID != 0)
             inspectionDataModel.setId(previousID);
 
@@ -311,9 +367,9 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding.spWagonCapacity.setSelection(0);
         binding.etNoOfTrucks.setText("");
         binding.etSpillBeans.setText("");
+        binding.etRemarks.setText("");
         binding.etTotalWeight.setText("");
-        binding.rgDoorLocked.clearCheck();
-        binding.rgRemarks.clearCheck();
+        binding.etDoorLocked.setText("");
         binding.rgSeal.clearCheck();
         binding.rgTarpauline.clearCheck();
         binding.tvSync.setVisibility(View.GONE);

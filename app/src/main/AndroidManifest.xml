@@ -13,10 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidAssignment"
         android:usesCleartextTraffic="true">
-        <activity android:name=".views.StackQualityInspectionActivity"></activity>
-        <activity android:name=".views.RakeUnloadingActivity" />
+        <activity android:name=".views.UnloadingTruckLoadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+        <activity android:name=".views.StackQualityInspectionActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity android:name=".views.RakeUnloadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".views.LoginActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,19 +29,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.HomeActivity" />
-        <activity android:name=".views.WagonPostLoadingActivity" />
-        <activity android:name=".views.WagonPreLoadingActivity" />
-        <activity android:name=".views.WagonLoadingActivity" />
-        <activity android:name=".views.TruckUnloadingActivity" />
+        <activity android:name=".views.HomeActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity android:name=".views.WagonPostLoadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity android:name=".views.WagonPreLoadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity android:name=".views.WagonLoadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
+        <activity android:name=".views.TruckUnloadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".views.RakeLoadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="true" />
         <activity
             android:name=".views.InspectionActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="true" />
         <activity
             android:name=".views.TruckLoadingActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             android:exported="true" />
     </application>
 

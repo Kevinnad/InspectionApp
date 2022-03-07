@@ -85,6 +85,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@id/tvOrderNum"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:spinnerMode="dialog"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
                 app:layout_constraintTop_toTopOf="@id/tvOrderNum" />
 
@@ -128,6 +129,7 @@
                 style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:spinnerMode="dialog"
                 app:layout_constraintBottom_toBottomOf="@id/tvStack"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
@@ -198,6 +200,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:inputType="number"
                 app:layout_constraintBottom_toBottomOf="@id/tvNoOfBags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
