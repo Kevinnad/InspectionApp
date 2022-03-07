@@ -71,7 +71,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     @Override
     public void prevAction() {
-        if (inspectionViewModel.lastId > 0  && inspectionViewModel.currentId > 1)
+        if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId > 1)
             inspectionViewModel.getPreviousData();
         else
             Toast.makeText(this, "No Previous Data", Toast.LENGTH_SHORT).show();
@@ -79,9 +79,10 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     @Override
     public void submitAction() {
-        if (inspectionViewModel.lastId > 0){
+        if (inspectionViewModel.lastId > 0) {
+            inspectionDataModel.setSync(true);
             inspectionViewModel.syncAllData();
-        }else
+        } else
             Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
     }
 
@@ -114,7 +115,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
+        if (inspectionDataModel != null) {
             binding.spStack.setSelection(inspectionDataModel.getStack());
         }
 
@@ -156,7 +157,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
+        if (inspectionDataModel != null) {
             binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
         }
         binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -191,7 +192,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
+        if (inspectionDataModel != null) {
             binding.spWarehouse.setSelection(inspectionDataModel.getWareHouse());
         }
         binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -218,7 +219,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                         R.layout.contact_spinner_row_nothing_selected,
                         // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
-        if(inspectionDataModel != null){
+        if (inspectionDataModel != null) {
             binding.spOrderNum.setSelection(inspectionDataModel.getOrderNumber());
         }
         binding.spOrderNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -259,7 +260,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             Toast.makeText(this,
                     "Select Stack", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (!validateItemList()) {
+        } else if (!validateItemList()) {
             Toast.makeText(this,
                     "Enter Actual Value", Toast.LENGTH_SHORT).show();
             return false;
@@ -267,10 +268,10 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         return true;
     }
 
-    boolean validateItemList(){
+    boolean validateItemList() {
         boolean isValid = true;
-        for(Data data : itemList){
-            if(TextUtils.isEmpty(data.getActualValue())){
+        for (Data data : itemList) {
+            if (TextUtils.isEmpty(data.getActualValue())) {
                 isValid = false;
                 break;
             }
@@ -282,7 +283,11 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         inspectionViewModel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                inspectionViewModel.getLastInspection();
+                if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId){
+
+                }else{
+                    inspectionViewModel.getLastInspection();
+                }
             }
         });
 
@@ -296,6 +301,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             }
         });
     }
+
     void setInspection(InspectionDataModel inspectionDataModel) {
         this.inspectionDataModel = inspectionDataModel;
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
@@ -306,10 +312,10 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         toggleAction(!inspectionDataModel.isSync());
     }
 
-    void setOrderNumber(String rake){
-        if(rake.equals("20/B124/RAK/0000001/2021")){
+    void setOrderNumber(String rake) {
+        if (rake.equals("20/B124/RAK/0000001/2021")) {
             initSpinnerData(0);
-        }else{
+        } else {
             initSpinnerData(1);
         }
     }
@@ -321,7 +327,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         binding.spWarehouse.setEnabled(isEnable);
         binding.spStack.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
-
+        binding.btSubmit.setEnabled(isEnable);
         inspectionAdapter.setSync(!isEnable);
         inspectionAdapter.notifyDataSetChanged();
     }
@@ -339,12 +345,13 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
         if (isNext) {
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
+                callSaveInspection(inspectionDataModel);
                 inspectionViewModel.getNextData();
-            } else{
+            } else {
                 if (this.inspectionDataModel != null && this.inspectionDataModel.isSync()) {
                     Toast.makeText(this,
                             "No Next Data", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     callSaveInspection(inspectionDataModel);
                     resetInspectionScreen();
                 }
@@ -356,8 +363,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         }
     }
 
-    void callSaveInspection(InspectionDataModel minspectionDataModel){
-        if(binding.tvSync.getVisibility() == View.GONE){
+    void callSaveInspection(InspectionDataModel minspectionDataModel) {
+        if (binding.tvSync.getVisibility() == View.GONE) {
             this.inspectionDataModel = minspectionDataModel;
             inspectionViewModel.addData(minspectionDataModel);
             Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
