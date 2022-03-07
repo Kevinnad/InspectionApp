@@ -194,7 +194,17 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
             Toast.makeText(this,
                     "Input Rake loading number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spWagonType.getSelectedItem() == null) {
+        }
+        else if (binding.etWagonId.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Wagon ID", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etWagonNo.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Wagon Number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (binding.spWagonType.getSelectedItem() == null) {
             Toast.makeText(this,
                     "Select Wagon Type", Toast.LENGTH_SHORT).show();
             return false;
@@ -204,19 +214,40 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
             return false;
         } else if (binding.spPreviousCargo.getSelectedItem() == null) {
             Toast.makeText(this,
-                    "Select Wagon Serial Number", Toast.LENGTH_SHORT).show();
+                    "Enter Previous", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.etWagonId.getText().toString().isEmpty()) {
-            Toast.makeText(this,
-                    "Enter Wagon ID", Toast.LENGTH_SHORT).show();
-            return false;
-        }else if (binding.etWagonNo.getText().toString().isEmpty()) {
-            Toast.makeText(this,
-                    "Enter Wagon Number", Toast.LENGTH_SHORT).show();
-            return false;
-        }else if (binding.etWagonSerialNo.getText().toString().isEmpty()) {
+        } else if (binding.etWagonSerialNo.getText().toString().isEmpty()) {
             Toast.makeText(this,
                     "Enter Wagon Serial Number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (binding.clFloor.rgTarpauline.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Whether floor is cleaned or not", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.clSidleHoles.rgTarpauline.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Sides for holes are checked or Not", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.clTopHoles.rgTarpauline.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Top for holes are checked or Not", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.clGround.rgTarpauline.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Tarpauline placed at ground between Wagon & Truck", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.clTfloors.rgTarpauline.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Tarpauline In Wagon Floors", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.clDoors.rgTarpauline.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Tarpauline In doors which are not used for loading", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.clSides.rgTarpauline.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this,
+                    "Check Tarpauline In sides", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
