@@ -81,6 +81,7 @@ public class StackQualityInspectionActivity extends BaseInspectionActivity<Activ
     @Override
     public void submitAction() {
         if (inspectionViewModel.lastId > 0){
+            inspectionDataModel.setSync(true);
             inspectionViewModel.syncAllData();
         }else
             Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
@@ -283,7 +284,11 @@ public class StackQualityInspectionActivity extends BaseInspectionActivity<Activ
         inspectionViewModel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                inspectionViewModel.getLastInspection();
+                if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId){
+
+                }else{
+                    inspectionViewModel.getLastInspection();
+                }
             }
         });
 
@@ -322,7 +327,7 @@ public class StackQualityInspectionActivity extends BaseInspectionActivity<Activ
         binding.spWarehouse.setEnabled(isEnable);
         binding.spStack.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
-
+        binding.btSubmit.setEnabled(isEnable);
         inspectionAdapter.setSync(!isEnable);
         inspectionAdapter.notifyDataSetChanged();
     }

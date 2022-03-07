@@ -71,6 +71,7 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
     @Override
     public void submitAction() {
         if (inspectionViewModel.lastId > 0){
+            inspectionDataModel.setSync(true);
             inspectionViewModel.syncAllData();
         }else
             Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
@@ -216,7 +217,11 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
         inspectionViewModel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                inspectionViewModel.getLastInspection();
+                if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId){
+
+                }else{
+                    inspectionViewModel.getLastInspection();
+                }
             }
         });
 
@@ -273,6 +278,7 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
         binding.spWagonCapacity.setEnabled(isEnable);
         binding.spWagonType.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
+        binding.btSubmit.setEnabled(isEnable);
     }
 
     void saveInspection(boolean isNext) {
@@ -305,6 +311,7 @@ public class WagonPreLoadingActivity extends BaseInspectionActivity<ActivityWago
 
         if (isNext) {
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
+                callSaveInspection(inspectionDataModel);
                 inspectionViewModel.getNextData();
             } else {
 

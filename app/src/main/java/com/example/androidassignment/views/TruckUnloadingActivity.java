@@ -79,6 +79,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
     @Override
     public void submitAction() {
         if (truckUnloadingViewmodel.lastId > 0){
+            truckUnloadingModel.setSync(true);
             truckUnloadingViewmodel.syncAllData();
         }else
             Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
@@ -233,7 +234,11 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
         truckUnloadingViewmodel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                truckUnloadingViewmodel.getLastInspection();
+                if (truckUnloadingViewmodel.lastId > 0 && truckUnloadingViewmodel.currentId + 1 <= truckUnloadingViewmodel.lastId){
+
+                }else{
+                    truckUnloadingViewmodel.getLastInspection();
+                }
             }
         });
 
@@ -278,6 +283,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
         binding.spWarehouse.setEnabled(isEnable);
         binding.spStack.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
+        binding.btSubmit.setEnabled(isEnable);
     }
 
     void saveInspection(boolean isNext) {

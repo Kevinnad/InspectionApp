@@ -192,6 +192,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
 
         binding.btSubmit.setOnClickListener(view -> {
             if (truckLoadingViewModel.lastId > 0){
+                truckLoadingDataModel.setSync(true);
                 truckLoadingViewModel.syncAllData();
             }else
                 Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
@@ -262,6 +263,12 @@ public class TruckLoadingActivity extends AppCompatActivity {
             @Override
             public void onChanged(Boolean aBoolean) {
 
+                if (truckLoadingViewModel.lastId > 0 && truckLoadingViewModel.currentId + 1 <= truckLoadingViewModel.lastId){
+
+                }else{
+                    truckLoadingViewModel.getLastInspection();
+                }
+
             }
         });
 
@@ -312,6 +319,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
         binding.etNoOfBags.setEnabled(isEnable);
         binding.etBagStickQuality.setEnabled(isEnable);
         binding.etTruckID.setEnabled(isEnable);
+        binding.btSubmit.setEnabled(isEnable);
     }
 
     void saveInspection(boolean isNext) {
