@@ -178,18 +178,31 @@
             app:layout_constraintTop_toBottomOf="@id/tvTarpauline"
             android:layout_marginTop="15dp"
             />
-        <EditText
-            android:id="@+id/etDoorLocked"
+        <RadioGroup
+            android:id="@+id/rgDoorLocked"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvDoorLocked"
             app:layout_constraintEnd_toEndOf="parent"
-            android:maxLength="3"
-            android:inputType="number"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvDoorLocked"
-            />
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbDoorYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="YES"
+
+                />
+
+            <RadioButton
+                android:id="@+id/rbDoorno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text ="No"
+                />
+        </RadioGroup>
 
         <TextView
             android:id="@+id/tvSeal"

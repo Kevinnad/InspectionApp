@@ -20,7 +20,7 @@ public class WagonPreLoadingDataModel {
     int tarpauline;
     int seal;
     String remarks;
-    String  doorLocked;
+    int  doorLocked;
     String truckNo;
     String spillBeans;
     String sealNum;
@@ -107,11 +107,11 @@ public class WagonPreLoadingDataModel {
         this.remarks = remarks;
     }
 
-    public String getDoorLocked() {
+    public int getDoorLocked() {
         return doorLocked;
     }
 
-    public void setDoorLocked(String  doorLocked) {
+    public void setDoorLocked(int  doorLocked) {
         this.doorLocked = doorLocked;
     }
 

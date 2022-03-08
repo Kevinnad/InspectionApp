@@ -216,7 +216,7 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
             Toast.makeText(this,
                     "Check Tarpauline placed at doors after closing", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (binding.etDoorLocked.getText().toString().isEmpty()) {
+        }else if (binding.rgDoorLocked.getCheckedRadioButtonId()==-1) {
             Toast.makeText(this,
                     "Check Door Locked or Not", Toast.LENGTH_SHORT).show();
             return false;
@@ -274,7 +274,6 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding.etTotalWeight.setText(inspectionDataModel.getTotalWeight());
         binding.etNoOfTrucks.setText(inspectionDataModel.getTruckNo());
         binding.etSpillBeans.setText(inspectionDataModel.getSpillBeans());
-        binding.etDoorLocked.setText(inspectionDataModel.getDoorLocked());
         binding.etRemarks.setText(inspectionDataModel.getRemarks());
         if(inspectionDataModel.getTarpauline() == 0)
         {
@@ -282,6 +281,12 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         }
         else
             binding.rbTarpaulineNo.setChecked(true);
+        if(inspectionDataModel.getDoorLocked() == 0)
+        {
+            binding.rbDoorYes.setChecked(true);
+        }
+        else
+            binding.rbDoorno.setChecked(true);
 
         if(inspectionDataModel.getSeal() == 0)
         {
@@ -322,12 +327,16 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         inspectionDataModel.setSpillBeans(binding.etSpillBeans.getText().toString());
         inspectionDataModel.setTotalWeight(binding.etTotalWeight.getText().toString());
         inspectionDataModel.setRemarks(binding.etRemarks.getText().toString());
-        inspectionDataModel.setDoorLocked(binding.etDoorLocked.getText().toString());
 
         if(binding.rbTarpaulineyes.isChecked())
             inspectionDataModel.setTarpauline(0);
         else
             inspectionDataModel.setTarpauline(1);
+
+ if(binding.rbDoorYes.isChecked())
+            inspectionDataModel.setDoorLocked(0);
+        else
+            inspectionDataModel.setDoorLocked(1);
 
 
 
@@ -375,9 +384,9 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding.etSpillBeans.setText("");
         binding.etRemarks.setText("");
         binding.etTotalWeight.setText("");
-        binding.etDoorLocked.setText("");
         binding.rgSeal.clearCheck();
         binding.rgTarpauline.clearCheck();
+        binding.rgDoorLocked.clearCheck();
         binding.tvSync.setVisibility(View.GONE);
         isNew = true;
         inspectionDataModel = null;
