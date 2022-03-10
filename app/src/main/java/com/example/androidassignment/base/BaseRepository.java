@@ -27,9 +27,9 @@ public abstract class BaseRepository {
 
     public abstract void insertData(Object object, MutableLiveData mutableLiveData);
 
-    public abstract void getNext(Object object, MutableLiveData mutableLiveData);
+    public abstract void getNext(Object object, MutableLiveData mutableLiveData, Object object2);
 
-    public abstract void getPrevious(Object object, MutableLiveData mutableLiveData);
+    public abstract void getPrevious(Object object, MutableLiveData mutableLiveData, Object object2);
 
     public abstract void getLastData(Object object, MutableLiveData mutableLiveData);
 

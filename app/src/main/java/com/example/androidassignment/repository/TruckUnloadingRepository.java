@@ -6,25 +6,19 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.androidassignment.base.BaseRepository;
-import com.example.androidassignment.dataStore.TruckLoadingDataStore;
 import com.example.androidassignment.dataStore.TruckUnloadingDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
-import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.TruckUnloadingModel;
-import com.example.androidassignment.mapper.NetworkMapper;
-import com.example.network.model.InspectionAPIModel;
 import com.example.network.service.Services;
 
 import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Action;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import retrofit2.Response;
 
 public class TruckUnloadingRepository extends BaseRepository {
 
@@ -86,7 +80,7 @@ public class TruckUnloadingRepository extends BaseRepository {
     }
 
     @Override
-    public void getNext(Object object, MutableLiveData mutableLiveData) {
+    public void getNext(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
         dataBaseProvider.getAppDatabase().truckUnloadingDao().getSingleInspection(currentId + 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<TruckUnloadingModel>() {
             @Override
@@ -97,7 +91,7 @@ public class TruckUnloadingRepository extends BaseRepository {
     }
 
     @Override
-    public void getPrevious(Object object, MutableLiveData mutableLiveData) {
+    public void getPrevious(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
         dataBaseProvider.getAppDatabase().truckUnloadingDao().getSingleInspection(currentId - 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<TruckUnloadingModel>() {
             @Override

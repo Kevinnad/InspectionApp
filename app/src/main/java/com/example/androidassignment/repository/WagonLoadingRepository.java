@@ -9,7 +9,6 @@ import com.example.androidassignment.base.BaseRepository;
 import com.example.androidassignment.dataStore.InspectionDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
-import com.example.androidassignment.database.model.TruckUnloadingModel;
 import com.example.androidassignment.database.model.WagonLoadingDataModel;
 import com.example.network.service.Services;
 
@@ -82,7 +81,7 @@ public class WagonLoadingRepository extends BaseRepository {
     }
 
     @Override
-    public void getNext(Object object, MutableLiveData mutableLiveData) {
+    public void getNext(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
         dataBaseProvider.getAppDatabase().wagonLoadingDao().getSingleInspection(currentId + 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<WagonLoadingDataModel>() {
             @Override
@@ -93,7 +92,7 @@ public class WagonLoadingRepository extends BaseRepository {
     }
 
     @Override
-    public void getPrevious(Object object, MutableLiveData mutableLiveData) {
+    public void getPrevious(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
         dataBaseProvider.getAppDatabase().wagonLoadingDao().getSingleInspection(currentId - 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<WagonLoadingDataModel>() {
             @Override
@@ -147,7 +146,7 @@ public class WagonLoadingRepository extends BaseRepository {
     }
 
     public List<String> getWagonSerialNum(int i) {
-        return inspectionDataStore.getItemCode(i);
+        return inspectionDataStore.getItemCode("880000021");
     }
 }
 

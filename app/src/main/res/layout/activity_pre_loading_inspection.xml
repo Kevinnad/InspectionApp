@@ -50,7 +50,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        <TextView
             android:id="@+id/autoCompleteLoadingNum"
             style="@style/Title.Small"
             android:layout_width="0dp"
@@ -78,13 +78,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/autoCompleteLoadingNum" />
 
-        <Spinner
+        <TextView
             android:id="@+id/spOrderNum"
             style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/tvOrderNum"
             app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="10dp"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvOrderNum" />
 
@@ -95,7 +96,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:text="Item Code"
-
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOrderNum" />

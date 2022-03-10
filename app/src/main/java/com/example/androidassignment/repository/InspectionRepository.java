@@ -10,20 +10,16 @@ import com.example.androidassignment.dataStore.InspectionDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
-import com.example.androidassignment.mapper.NetworkMapper;
-import com.example.network.model.InspectionAPIModel;
 import com.example.network.service.Services;
 
 import java.util.List;
 
-import io.reactivex.Observer;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Action;
 import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import retrofit2.Response;
 
 public class InspectionRepository extends BaseRepository {
 
@@ -82,9 +78,9 @@ public class InspectionRepository extends BaseRepository {
     }
 
     @Override
-    public void getNext(Object object, MutableLiveData mutableLiveData) {
+    public void getNext(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
-        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId + 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
+        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId + 1,(String) object2).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
             @Override
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
@@ -93,9 +89,9 @@ public class InspectionRepository extends BaseRepository {
     }
 
     @Override
-    public void getPrevious(Object object, MutableLiveData mutableLiveData) {
+    public void getPrevious(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
-        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId - 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
+        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId - 1,(String) object2).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
             @Override
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
@@ -106,7 +102,7 @@ public class InspectionRepository extends BaseRepository {
     @Override
     public void getLastData(Object object, MutableLiveData mutableLiveData) {
 
-        dataBaseProvider.getAppDatabase().inspectionDao().getLastInspection().subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
+        dataBaseProvider.getAppDatabase().inspectionDao().getLastInspection((String) object).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
             @Override
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
@@ -173,7 +169,7 @@ public class InspectionRepository extends BaseRepository {
         return inspectionDataStore.getStackList(i);
     }
 
-    public List<String> getItemCode(int i) {
+    public List<String> getItemCode(String i) {
         return inspectionDataStore.getItemCode(i);
     }
 }

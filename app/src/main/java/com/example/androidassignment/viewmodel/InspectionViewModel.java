@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.database.model.TestInspectionModel;
 import com.example.androidassignment.repository.InspectionRepository;
 
 import java.util.List;
@@ -31,17 +30,17 @@ public class InspectionViewModel extends ViewModel {
         inspectionRepository.insertData(dataModel, inserSuccessLiveData);
     }
 
-    public void getPreviousData() {
+    public void getPreviousData(String orderNo) {
         if (currentId > 1)
-            inspectionRepository.getPrevious(currentId, previousInspection);
+            inspectionRepository.getPrevious(currentId, previousInspection, orderNo);
     }
 
-    public void getNextData() {
+    public void getNextData(String orderNo) {
         if (currentId <= lastId)
-            inspectionRepository.getNext(currentId, previousInspection);
+            inspectionRepository.getNext(currentId, previousInspection,orderNo);
     }
 
-    public void getLastInspection() {
+    public void getLastInspection(String orderNo) {
         lastInspection.observeForever(new Observer<InspectionDataModel>() {
             @Override
             public void onChanged(InspectionDataModel dataModel) {
@@ -52,7 +51,7 @@ public class InspectionViewModel extends ViewModel {
                 }
             }
         });
-        inspectionRepository.getLastData(currentId, lastInspection);
+        inspectionRepository.getLastData(orderNo, lastInspection);
     }
 
     public void syncAllData(){

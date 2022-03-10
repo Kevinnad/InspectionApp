@@ -1,26 +1,23 @@
 package com.example.androidassignment.views;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidassignment.NothingSelectedSpinnerAdapter;
 import com.example.androidassignment.R;
 import com.example.androidassignment.adapter.InspectionAdapter;
-import com.example.androidassignment.base.BaseActivity;
 import com.example.androidassignment.base.BaseInspectionActivity;
+import com.example.androidassignment.dataStore.CommonDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
 import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
 import com.example.androidassignment.viewmodel.InspectionViewModel;
 
@@ -36,11 +33,11 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     boolean isNew = true;
     private InspectionDataModel inspectionDataModel;
     ArrayAdapter<String> stackAdapter;
-    ArrayAdapter<String> autoCompleteAdapter;
-    ArrayAdapter<String> orderNumAdapter;
     ArrayAdapter<String> warehouseAdapter;
     ArrayAdapter<String> itemCodeAdapter;
     InspectionAdapter inspectionAdapter;
+
+    String orderNumber = "";
 
     @Override
     public ActivityPreLoadingInspectionBinding getBinding() {
@@ -72,7 +69,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     @Override
     public void prevAction() {
         if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId > 1)
-            inspectionViewModel.getPreviousData();
+            inspectionViewModel.getPreviousData(orderNumber);
         else
             Toast.makeText(this, "No Previous Data", Toast.LENGTH_SHORT).show();
     }
@@ -99,7 +96,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
     void loadData() {
-        inspectionViewModel.getLastInspection();
+        orderNumber = getIntent().getStringExtra(CommonDataStore.ORDER_NO);
+        inspectionViewModel.getLastInspection(orderNumber);
     }
 
 
@@ -113,7 +111,6 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                 new NothingSelectedSpinnerAdapter(
                         stackAdapter,
                         R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                         this));
         if (inspectionDataModel != null) {
             binding.spStack.setSelection(inspectionDataModel.getStack());
@@ -130,22 +127,13 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
     private void initAutocompleteAdapter() {
-        final List<String> list = inspectionViewModel.inspectionRepository.getRackLoadingData();
 
-        autoCompleteAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list);
-        binding.autoCompleteLoadingNum.setAdapter(autoCompleteAdapter);
+        binding.autoCompleteLoadingNum.setText(CommonDataStore.getStringInPrefernce(this,CommonDataStore.RAKE_LOADING_NO));
 
-        binding.autoCompleteLoadingNum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                initSpinnerData(i);
-            }
-        });
+        initSpinnerData();
     }
 
-    private void setItemCode(int i) {
+    private void setItemCode(String i) {
 
         final List<String> list1 = inspectionViewModel.inspectionRepository.getItemCode(i);
 
@@ -208,47 +196,13 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         });
     }
 
-    private void initSpinnerData(int i) {
-        final List<String> list = inspectionViewModel.inspectionRepository.getOrderNumber(i);
-
-        orderNumAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list);
-        binding.spOrderNum.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        orderNumAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if (inspectionDataModel != null) {
-            binding.spOrderNum.setSelection(inspectionDataModel.getOrderNumber());
-        }
-        binding.spOrderNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setItemCode(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+    private void initSpinnerData() {
+        binding.spOrderNum.setText(orderNumber);
+        setItemCode(orderNumber);
     }
 
     private boolean isValid() {
-        if (binding.autoCompleteLoadingNum.getText() == null || binding.autoCompleteLoadingNum.getText().toString().isEmpty()) {
-            Toast.makeText(this,
-                    "Input Rake loading number", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (binding.spOrderNum.getSelectedItem() == null) {
-            Toast.makeText(this,
-                    "Select Order number", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (binding.spOrderNum.getSelectedItem() == null) {
-            Toast.makeText(this,
-                    "Select Order number", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (binding.spItemCode.getSelectedItem() == null) {
+         if (binding.spItemCode.getSelectedItem() == null) {
             Toast.makeText(this,
                     "Select Itemcode", Toast.LENGTH_SHORT).show();
             return false;
@@ -261,8 +215,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                     "Select Stack", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!validateItemList()) {
-            Toast.makeText(this,
-                    "Enter Actual Value", Toast.LENGTH_SHORT).show();
+
             return false;
         }
         return true;
@@ -273,6 +226,18 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         for (Data data : itemList) {
             if (TextUtils.isEmpty(data.getActualValue())) {
                 isValid = false;
+                Toast.makeText(this,
+                        "Enter Actual Value", Toast.LENGTH_SHORT).show();
+                break;
+            }else if(Integer.parseInt(data.getMinValue()) > Integer.parseInt(data.getActualValue())){
+                isValid = false;
+                Toast.makeText(this,
+                        "Actual Value is less than minimum value", Toast.LENGTH_SHORT).show();
+                break;
+            }else if(Integer.parseInt(data.getMaxValue()) < Integer.parseInt(data.getActualValue())){
+                isValid = false;
+                Toast.makeText(this,
+                        "Actual Value is greater than maximum value", Toast.LENGTH_SHORT).show();
                 break;
             }
         }
@@ -283,10 +248,10 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         inspectionViewModel.inserSuccessLiveData.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId){
+                if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
 
-                }else{
-                    inspectionViewModel.getLastInspection();
+                } else {
+                    inspectionViewModel.getLastInspection(orderNumber);
                 }
             }
         });
@@ -305,19 +270,11 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     void setInspection(InspectionDataModel inspectionDataModel) {
         this.inspectionDataModel = inspectionDataModel;
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
-        setOrderNumber(inspectionDataModel.getRakeLoadingNumber());
         binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
         itemList = inspectionDataModel.getItems();
         setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
-    }
-
-    void setOrderNumber(String rake) {
-        if (rake.equals("20/B124/RAK/0000001/2021")) {
-            initSpinnerData(0);
-        } else {
-            initSpinnerData(1);
-        }
+        initSpinnerData();
     }
 
     void toggleAction(boolean isEnable) {
@@ -335,7 +292,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     void saveInspection(boolean isNext) {
         InspectionDataModel inspectionDataModel = new InspectionDataModel();
         inspectionDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
-        inspectionDataModel.setOrderNumber(binding.spOrderNum.getSelectedItemPosition());
+        inspectionDataModel.setOrderNumber(orderNumber);
         inspectionDataModel.setItemCode(binding.spItemCode.getSelectedItemPosition());
         inspectionDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
         inspectionDataModel.setStack(binding.spStack.getSelectedItemPosition());
@@ -346,7 +303,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         if (isNext) {
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
                 callSaveInspection(inspectionDataModel);
-                inspectionViewModel.getNextData();
+                inspectionViewModel.getNextData(orderNumber);
             } else {
                 if (this.inspectionDataModel != null && this.inspectionDataModel.isSync()) {
                     Toast.makeText(this,

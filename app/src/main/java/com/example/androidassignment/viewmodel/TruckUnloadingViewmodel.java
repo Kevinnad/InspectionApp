@@ -1,28 +1,14 @@
 package com.example.androidassignment.viewmodel;
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.example.androidassignment.database.database.DataBaseProvider;
-import com.example.androidassignment.database.model.Data;
-import com.example.androidassignment.database.model.InspectionDataModel;
-import com.example.androidassignment.database.model.TruckLoadingDataModel;
 import com.example.androidassignment.database.model.TruckUnloadingModel;
-import com.example.androidassignment.repository.InspectionRepository;
 import com.example.androidassignment.repository.TruckUnloadingRepository;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.CompletableObserver;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Action;
-import io.reactivex.rxjava3.functions.Consumer;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class TruckUnloadingViewmodel extends ViewModel {
 
@@ -47,12 +33,12 @@ public class TruckUnloadingViewmodel extends ViewModel {
 
     public void getPreviousData() {
         if (currentId > 1)
-            inspectionRepository.getPrevious(currentId, previousInspection);
+            inspectionRepository.getPrevious(currentId, previousInspection, "");
     }
 
     public void getNextData() {
         if (currentId <= lastId)
-            inspectionRepository.getNext(currentId, previousInspection);
+            inspectionRepository.getNext(currentId, previousInspection, "");
     }
 
     public void getLastInspection() {

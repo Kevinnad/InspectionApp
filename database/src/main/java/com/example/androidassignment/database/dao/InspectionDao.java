@@ -23,12 +23,12 @@ public interface InspectionDao {
     @Query("SELECT * FROM inspectiontable")
     Single<List<InspectionDataModel>> getAll();
 
-    @Query("SELECT * FROM inspectiontable WHERE id = :id")
-    Single<InspectionDataModel> getSingleInspection(int id);
+    @Query("SELECT * FROM inspectiontable WHERE id = :id AND orderNumber = :orderNo")
+    Single<InspectionDataModel> getSingleInspection(int id, String orderNo);
 
 
-    @Query("SELECT * FROM inspectiontable ORDER BY id DESC LIMIT 1")
-    Single<InspectionDataModel> getLastInspection();
+    @Query("SELECT * FROM inspectiontable WHERE orderNumber = :orderNo ORDER BY id DESC LIMIT 1")
+    Single<InspectionDataModel> getLastInspection(String orderNo);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(InspectionDataModel model);

@@ -5,9 +5,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.example.androidassignment.database.database.DataBaseProvider;
-import com.example.androidassignment.database.model.TestInspectionModel;
 import com.example.androidassignment.database.model.WagonLoadingDataModel;
-import com.example.androidassignment.database.model.WagonPreLoadingDataModel;
 import com.example.androidassignment.repository.WagonLoadingRepository;
 
 import java.util.List;
@@ -34,12 +32,12 @@ public class WagonLoadingViewModel extends ViewModel {
 
     public void getPreviousData() {
         if (currentId > 1)
-            inspectionRepository.getPrevious(currentId, previousInspection);
+            inspectionRepository.getPrevious(currentId, previousInspection,"" );
     }
 
     public void getNextData() {
         if (currentId <= lastId)
-            inspectionRepository.getNext(currentId, previousInspection);
+            inspectionRepository.getNext(currentId, previousInspection, "");
     }
 
     public void getLastInspection() {

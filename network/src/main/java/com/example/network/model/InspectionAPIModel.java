@@ -4,7 +4,7 @@ public class InspectionAPIModel {
 
     int id;
     String rakeLoadingNumber;
-    int orderNumber;
+    String orderNumber;
     int itemCode;
     int wareHouse;
 
@@ -24,11 +24,11 @@ public class InspectionAPIModel {
         this.rakeLoadingNumber = rakeLoadingNumber;
     }
 
-    public int getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 

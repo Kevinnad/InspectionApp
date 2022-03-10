@@ -14,7 +14,7 @@ public class InspectionDataModel {
     @PrimaryKey(autoGenerate = true)
     int id;
     String rakeLoadingNumber;
-    int orderNumber;
+    String orderNumber;
     int itemCode;
     int wareHouse;
     boolean isSync;
@@ -48,11 +48,11 @@ public class InspectionDataModel {
         this.rakeLoadingNumber = rakeLoadingNumber;
     }
 
-    public int getOrderNumber() {
+    public String getOrderNumber() {
         return orderNumber;
     }
 
-    public void setOrderNumber(int orderNumber) {
+    public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
     }
 

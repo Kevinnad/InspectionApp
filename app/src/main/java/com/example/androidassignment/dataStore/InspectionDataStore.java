@@ -36,22 +36,22 @@ public class InspectionDataStore {
 
             ItemCodeAttributesDataModel itemCodeAttributesDataModel = new ItemCodeAttributesDataModel();
             ArrayList<Data> list2 = new ArrayList<>();
-            list2.add(new Data("HL", "76", "82", ""));
-            list2.add(new Data("KB", "0", "0.1", ""));
-            list2.add(new Data("RDGRN", "0", "12", ""));
+            list2.add(new Data("HL", "12", "32", ""));
+            list2.add(new Data("KB", "0", "5", ""));
+            list2.add(new Data("RDGRN", "2", "18", ""));
             itemCodeAttributesDataModel.dataList = list2;
             return itemCodeAttributesDataModel;
         }
 
     }
 
-    public List<String> getWareHouse(int i){
+    public List<String> getWareHouse(int i) {
         ArrayList<String> list = new ArrayList<String>();
         if (i == 1) {
             list.add("MW01");
             list.add("MW02");
             list.add("MW03");
-        }else {
+        } else {
             list.add("SW01");
             list.add("SW02");
             list.add("SW03");
@@ -59,18 +59,17 @@ public class InspectionDataStore {
         return list;
     }
 
-    public List<String> getStackList(int i){
+    public List<String> getStackList(int i) {
         ArrayList<String> list = new ArrayList<String>();
         if (i == 1) {
             list.add("001MW01");
             list.add("001MW02");
             list.add("001MW02");
-        }
-        else if (i == 2) {
+        } else if (i == 2) {
             list.add("002MW01");
             list.add("002MW02");
             list.add("002MW02");
-        }else {
+        } else {
             list.add("003MW01");
             list.add("003MW02");
             list.add("003MW02");
@@ -78,14 +77,20 @@ public class InspectionDataStore {
         return list;
     }
 
-    public List<String> getItemCode(int i){
+    public List<String> getItemCode(String i) {
         ArrayList<String> list = new ArrayList<String>();
-        if (i == 1) {
+        if (i.equals("880000021")) {
             list.add("F02002TJ60A");
             list.add("F02002TJ60B");
-        }else {
+        } else if (i.equals("880000020")) {
             list.add("A02002TJ60A");
             list.add("A02002TJ60B");
+        } else if (i.equals("480000020")) {
+            list.add("B02002TJ60A");
+            list.add("B02002TJ60B");
+        } else {
+            list.add("C02002TJ60A");
+            list.add("C02002TJ60B");
         }
         return list;
     }

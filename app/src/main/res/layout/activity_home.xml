@@ -10,10 +10,35 @@
         android:id="@+id/toolbar"
         layout="@layout/layout_toolbar"/>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txt_rakeNumber"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="271dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="20dp"
+        android:hint="Rake Loading Number"
+        android:textColorHint="#A7A7A7"
+        app:boxStrokeColor="#EAEAEE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+            android:id="@+id/input_rake_number"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:textColor="@color/blue"
+            android:paddingStart="10dp"
+            android:textSize="15sp"
+            android:completionThreshold="1"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_rake_loading"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_rakeNumber"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bt_rake_unloading"
         android:text="Rake Loading"

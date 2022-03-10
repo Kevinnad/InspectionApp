@@ -1,14 +1,9 @@
 package com.example.androidassignment.views;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 
-import com.example.androidassignment.R;
 import com.example.androidassignment.base.BaseActivity;
-import com.example.androidassignment.databinding.ActivityHomeBinding;
 import com.example.androidassignment.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends BaseActivity<ActivityLoginBinding> {
