@@ -8,7 +8,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.androidassignment.base.BaseRepository;
 import com.example.androidassignment.dataStore.InspectionDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
+import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
+import com.example.androidassignment.database.model.ItemCode;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
 import com.example.network.service.Services;
 
@@ -66,7 +68,7 @@ public class InspectionRepository extends BaseRepository {
 
                     @Override
                     public void onComplete() {
-                            mutableLiveData.postValue(true);
+                        mutableLiveData.postValue(true);
                     }
 
                     @Override
@@ -80,7 +82,7 @@ public class InspectionRepository extends BaseRepository {
     @Override
     public void getNext(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
-        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId + 1,(String) object2).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
+        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId + 1, (String) object2).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
             @Override
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
@@ -91,7 +93,7 @@ public class InspectionRepository extends BaseRepository {
     @Override
     public void getPrevious(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
-        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId - 1,(String) object2).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
+        dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId - 1, (String) object2).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
             @Override
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
@@ -118,7 +120,7 @@ public class InspectionRepository extends BaseRepository {
             @Override
             public void accept(List<InspectionDataModel> inspectionDataModels) throws Throwable {
 
-                for(InspectionDataModel dataModel : inspectionDataModels){
+                for (InspectionDataModel dataModel : inspectionDataModels) {
                     dataModel.setSync(true);
                 }
 
@@ -156,7 +158,6 @@ public class InspectionRepository extends BaseRepository {
     }
 
 
-
     public ItemCodeAttributesDataModel getInspectionItemList(int itemCode) {
         return inspectionDataStore.formInspectionItemList(itemCode);
     }
@@ -171,5 +172,81 @@ public class InspectionRepository extends BaseRepository {
 
     public List<String> getItemCode(String i) {
         return inspectionDataStore.getItemCode(i);
+    }
+
+    public void getItemCodes(String orderNo,MutableLiveData mutableLiveData) {
+
+        dataBaseProvider.getAppDatabase().itemCodeDao().getAllItemData(orderNo).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<ItemCode>>() {
+            @Override
+            public void accept(@NonNull List<ItemCode> data) throws Exception {
+                mutableLiveData.postValue(data);
+            }
+        }, throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+    }
+
+    public void seedItemCode() {
+
+        List<ItemCode> itemCodeList = inspectionDataStore.getItemCode();
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+
+                int count = dataBaseProvider.getAppDatabase().itemCodeDao().getCount();
+                if(count < 1){
+                    dataBaseProvider.getAppDatabase().itemCodeDao().insertAll(itemCodeList);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+    }
+
+    public void updateItemCode(String OrderId) {
+
+        List<ItemCode> itemCodeList = inspectionDataStore.getItemCode();
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+
+                int count = dataBaseProvider.getAppDatabase().itemCodeDao().getCount();
+                if(count < 1){
+                    dataBaseProvider.getAppDatabase().itemCodeDao().insertAll(itemCodeList);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
     }
 }

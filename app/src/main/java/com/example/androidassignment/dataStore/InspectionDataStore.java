@@ -1,6 +1,7 @@
 package com.example.androidassignment.dataStore;
 
 import com.example.androidassignment.database.model.Data;
+import com.example.androidassignment.database.model.ItemCode;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
 
 import java.util.ArrayList;
@@ -92,6 +93,22 @@ public class InspectionDataStore {
             list.add("C02002TJ60A");
             list.add("C02002TJ60B");
         }
+        return list;
+    }
+
+    public List<ItemCode> getItemCode() {
+        ArrayList<ItemCode> list = new ArrayList<ItemCode>();
+        list.add(new ItemCode("F02002TJ60A","880000021"));
+        list.add(new ItemCode("F02002TJ60B","880000021"));
+
+        list.add(new ItemCode("A02002TJ60A","880000020"));
+        list.add(new ItemCode("A02002TJ60B","880000020"));
+
+        list.add(new ItemCode("B02002TJ60A","480000020"));
+        list.add(new ItemCode("B02002TJ60B","480000020"));
+
+        list.add(new ItemCode("C02002TJ60A","4800000212"));
+        list.add(new ItemCode("C02002TJ60B","4800000212"));
         return list;
     }
 

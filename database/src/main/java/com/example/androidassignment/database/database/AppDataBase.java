@@ -13,6 +13,7 @@ import com.example.androidassignment.database.dao.WagonLoadingDao;
 import com.example.androidassignment.database.dao.WagonPreLoadingDao;
 import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
+import com.example.androidassignment.database.model.ItemCode;
 import com.example.androidassignment.database.model.StackQualityInspectionModel;
 import com.example.androidassignment.database.model.TestInspectionModel;
 import com.example.androidassignment.database.model.TruckLoadingDataModel;
@@ -21,15 +22,21 @@ import com.example.androidassignment.database.model.WagonLoadingDataModel;
 import com.example.androidassignment.database.model.WagonPreLoadingDataModel;
 
 @Database(entities = {InspectionDataModel.class, Data.class, TruckLoadingDataModel.class, TruckUnloadingModel.class,
-        WagonLoadingDataModel.class,
-        WagonPreLoadingDataModel.class,StackQualityInspectionModel.class}, version = 2)
+        WagonLoadingDataModel.class, ItemCode.class,
+        WagonPreLoadingDataModel.class, StackQualityInspectionModel.class}, version = 2)
 @TypeConverters(Converters.class)
 public abstract class AppDataBase extends RoomDatabase {
     public abstract InspectionDao inspectionDao();
+
     public abstract ItemCodeDao itemCodeDao();
+
     public abstract TruckLoadingDao truckLoadingDao();
+
     public abstract TruckUnloadingDao truckUnloadingDao();
+
     public abstract WagonPreLoadingDao wagonPreLoadingDao();
+
     public abstract WagonLoadingDao wagonLoadingDao();
+
     public abstract StackQualityInspectionDao stackQualityInspectionDao();
 }

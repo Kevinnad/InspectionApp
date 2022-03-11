@@ -18,6 +18,7 @@ import com.example.androidassignment.dataStore.CommonDataStore;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
+import com.example.androidassignment.database.model.ItemCode;
 import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
 import com.example.androidassignment.viewmodel.InspectionViewModel;
 
@@ -88,6 +89,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         inspectionViewModel = new ViewModelProvider(this).get(InspectionViewModel.class);
         createDataBase();
         inspectionViewModel.initRepository();
+        inspectionViewModel.inspectionRepository.seedItemCode();
 
     }
 
@@ -135,37 +137,46 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     private void setItemCode(String i) {
 
-        final List<String> list1 = inspectionViewModel.inspectionRepository.getItemCode(i);
+        inspectionViewModel.getItemCode(i);
 
-        itemCodeAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list1);
-        binding.spItemCode.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        itemCodeAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if (inspectionDataModel != null) {
-            binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
-        }
-        binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (adapterView == null || adapterView.getItemAtPosition(i) == null || adapterView.getItemAtPosition(i).equals("[Select]")) {
+        inspectionViewModel.itemCodeLiveData.observe(this,itemCodes -> {
 
-                } else if (isNew) {
-                    itemList = inspectionViewModel.inspectionRepository.getInspectionItemList(i).dataList;
-                    setAdapter(itemList);
+            List<String> list = new ArrayList<>();
+            for(ItemCode itemcode : itemCodes){
+                list.add(itemcode.value);
+            }
+
+            itemCodeAdapter = new ArrayAdapter<String>(
+                    this, android.R.layout.simple_dropdown_item_1line,list);
+            binding.spItemCode.setAdapter(
+                    new NothingSelectedSpinnerAdapter(
+                            itemCodeAdapter,
+                            R.layout.contact_spinner_row_nothing_selected,
+                            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                            this));
+            if (inspectionDataModel != null) {
+                binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
+            }
+            binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (adapterView == null || adapterView.getItemAtPosition(i) == null || adapterView.getItemAtPosition(i).equals("[Select]")) {
+
+                    } else if (isNew) {
+                        itemList = inspectionViewModel.inspectionRepository.getInspectionItemList(i).dataList;
+                        setAdapter(itemList);
+                    }
+
+                    setWareHouse(i);
                 }
 
-                setWareHouse(i);
-            }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
+                }
+            });
         });
+
     }
 
     private void setWareHouse(int i) {

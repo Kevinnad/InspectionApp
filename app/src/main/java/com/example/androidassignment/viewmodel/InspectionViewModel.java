@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.InspectionDataModel;
+import com.example.androidassignment.database.model.ItemCode;
 import com.example.androidassignment.repository.InspectionRepository;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public class InspectionViewModel extends ViewModel {
     public MutableLiveData<InspectionDataModel> previousInspection = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> lastInspection = new MutableLiveData();
     public MutableLiveData<List<InspectionDataModel>> syncInspection = new MutableLiveData();
+
+    public MutableLiveData<List<ItemCode>> itemCodeLiveData = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
     public InspectionRepository inspectionRepository;
@@ -56,6 +59,10 @@ public class InspectionViewModel extends ViewModel {
 
     public void syncAllData(){
         inspectionRepository.syncData("",syncInspection);
+    }
+
+    public void getItemCode(String orderNo){
+        inspectionRepository.getItemCodes(orderNo,itemCodeLiveData);
     }
 
 }
