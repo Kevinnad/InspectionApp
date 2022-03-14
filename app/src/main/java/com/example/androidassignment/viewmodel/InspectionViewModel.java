@@ -30,6 +30,12 @@ public class InspectionViewModel extends ViewModel {
         inspectionRepository.insertData(dataModel, inserSuccessLiveData);
     }
 
+
+    public void deleteSingleInspection(InspectionDataModel dataModel) {
+
+        inspectionRepository.insertData(dataModel, inserSuccessLiveData);
+    }
+
     public void getPreviousData(String orderNo) {
         if (currentId > 1)
             inspectionRepository.getPrevious(currentId, previousInspection, orderNo);

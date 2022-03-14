@@ -81,6 +81,11 @@ public class WagonLoadingRepository extends BaseRepository {
     }
 
     @Override
+    public void deleteData(Object object, MutableLiveData mutableLiveData) {
+
+    }
+
+    @Override
     public void getNext(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
         dataBaseProvider.getAppDatabase().wagonLoadingDao().getSingleInspection(currentId + 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<WagonLoadingDataModel>() {

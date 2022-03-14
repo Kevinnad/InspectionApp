@@ -80,6 +80,11 @@ public class TruckUnloadingRepository extends BaseRepository {
     }
 
     @Override
+    public void deleteData(Object object, MutableLiveData mutableLiveData) {
+
+    }
+
+    @Override
     public void getNext(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
         dataBaseProvider.getAppDatabase().truckUnloadingDao().getSingleInspection(currentId + 1).subscribeOn(Schedulers.io()).subscribe(new Consumer<TruckUnloadingModel>() {

@@ -271,6 +271,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         this.inspectionDataModel = inspectionDataModel;
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
         binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
+        binding.tvDelete.setVisibility((!inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
         itemList = inspectionDataModel.getItems();
         setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
@@ -317,6 +318,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             inspectionDataModel.setSync(true);
             callSaveInspection(inspectionDataModel);
             binding.tvSync.setVisibility(View.VISIBLE);
+            binding.tvDelete.setVisibility(View.GONE);
         }
     }
 
@@ -339,6 +341,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         binding.tvMax.setVisibility(View.GONE);
         binding.tvActual.setVisibility(View.GONE);
         binding.tvSync.setVisibility(View.GONE);
+        binding.tvDelete.setVisibility(View.VISIBLE);
         isNew = true;
         inspectionDataModel = null;
         toggleAction(true);

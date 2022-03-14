@@ -78,6 +78,38 @@ public class InspectionRepository extends BaseRepository {
     }
 
     @Override
+    public void deleteData(Object object, MutableLiveData mutableLiveData) {
+
+        InspectionDataModel inspectionDataModel = (InspectionDataModel) object;
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                dataBaseProvider.getAppDatabase().inspectionDao().delete(inspectionDataModel);
+                Log.e("Delete Success", "" );
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        mutableLiveData.postValue(true);
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+
+    }
+
+    @Override
     public void getNext(Object object, MutableLiveData mutableLiveData, Object object2) {
         int currentId = (int) object;
         dataBaseProvider.getAppDatabase().inspectionDao().getSingleInspection(currentId + 1,(String) object2).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
