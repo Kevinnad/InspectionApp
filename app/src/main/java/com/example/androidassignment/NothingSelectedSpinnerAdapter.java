@@ -21,6 +21,7 @@ public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapte
      * Use this constructor to have NO 'Select One...' item, instead use
      * the standard prompt or nothing at all.
      * @param spinnerAdapter wrapped Adapter.
+     *
      * @param nothingSelectedLayout layout for nothing selected, perhaps
      * you want text grayed out like a prompt...
      * @param context

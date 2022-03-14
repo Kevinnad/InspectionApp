@@ -1,5 +1,6 @@
 package com.example.androidassignment.views;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -49,8 +51,37 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setOnClickListener(view -> startActivity(new Intent(this, HomeActivity.class)));
         binding.toolbar.toolbarTitle.setText("Pre Loading Inspection");
+        binding.tvDelete.setOnClickListener(view -> {
+            showAlertDialogForDelete();
+        });
 
         return binding;
+    }
+
+    private void showAlertDialogForDelete() {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Are you sure? Do you want to delete the inspection");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder1.create();
+        alert.show();
     }
 
     @Override
