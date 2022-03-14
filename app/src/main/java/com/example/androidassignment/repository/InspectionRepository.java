@@ -12,6 +12,8 @@ import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.ItemCode;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
+import com.example.androidassignment.database.model.StackModel;
+import com.example.androidassignment.database.model.WareHouse;
 import com.example.network.service.Services;
 
 import java.util.List;
@@ -69,6 +71,7 @@ public class InspectionRepository extends BaseRepository {
                     @Override
                     public void onComplete() {
                         mutableLiveData.postValue(true);
+                        updateStack(inspectionDataModel, true);
                     }
 
                     @Override
@@ -162,19 +165,27 @@ public class InspectionRepository extends BaseRepository {
         return inspectionDataStore.formInspectionItemList(itemCode);
     }
 
-    public List<String> getWareHouseList(int i) {
-        return inspectionDataStore.getWareHouse(i);
+    public void getWareHouseList(String itemCode, MutableLiveData mutableLiveData) {
+
+        dataBaseProvider.getAppDatabase().wareHouseCodeDao().getAllItemData(itemCode).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<WareHouse>>() {
+            @Override
+            public void accept(@NonNull List<WareHouse> data) throws Exception {
+                mutableLiveData.postValue(data);
+            }
+        }, throwable -> Log.e("", "Throwable " + throwable.getMessage()));
     }
 
-    public List<String> getStackList(int i) {
-        return inspectionDataStore.getStackList(i);
+    public void getStackList(String wareHouse, MutableLiveData mutableLiveData) {
+
+        dataBaseProvider.getAppDatabase().stackCodeDao().getAllItemData(wareHouse).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<StackModel>>() {
+            @Override
+            public void accept(@NonNull List<StackModel> data) throws Exception {
+                mutableLiveData.postValue(data);
+            }
+        }, throwable -> Log.e("", "Throwable " + throwable.getMessage()));
     }
 
-    public List<String> getItemCode(String i) {
-        return inspectionDataStore.getItemCode(i);
-    }
-
-    public void getItemCodes(String orderNo,MutableLiveData mutableLiveData) {
+    public void getItemCodes(String orderNo, MutableLiveData mutableLiveData) {
 
         dataBaseProvider.getAppDatabase().itemCodeDao().getAllItemData(orderNo).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<ItemCode>>() {
             @Override
@@ -193,7 +204,7 @@ public class InspectionRepository extends BaseRepository {
             public void run() throws Throwable {
 
                 int count = dataBaseProvider.getAppDatabase().itemCodeDao().getCount();
-                if(count < 1){
+                if (count < 1) {
                     dataBaseProvider.getAppDatabase().itemCodeDao().insertAll(itemCodeList);
                 }
             }
@@ -217,17 +228,17 @@ public class InspectionRepository extends BaseRepository {
                 });
     }
 
-    public void updateItemCode(String OrderId) {
+    public void seedWareHouse() {
 
-        List<ItemCode> itemCodeList = inspectionDataStore.getItemCode();
+        List<WareHouse> wareHouseList = inspectionDataStore.getWareHouse();
 
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Throwable {
 
-                int count = dataBaseProvider.getAppDatabase().itemCodeDao().getCount();
-                if(count < 1){
-                    dataBaseProvider.getAppDatabase().itemCodeDao().insertAll(itemCodeList);
+                int count = dataBaseProvider.getAppDatabase().wareHouseCodeDao().getCount();
+                if (count < 1) {
+                    dataBaseProvider.getAppDatabase().wareHouseCodeDao().insertAll(wareHouseList);
                 }
             }
         }).subscribeOn(Schedulers.io())
@@ -241,6 +252,133 @@ public class InspectionRepository extends BaseRepository {
                     @Override
                     public void onComplete() {
 
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+    }
+
+    public void seedStack() {
+
+        List<StackModel> stackList = inspectionDataStore.getStackList();
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+
+                int count = dataBaseProvider.getAppDatabase().stackCodeDao().getCount();
+                if (count < 1) {
+                    dataBaseProvider.getAppDatabase().stackCodeDao().insertAll(stackList);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+    }
+
+    public void updateItemCode(InspectionDataModel inspectionDataModel, boolean submited) {
+
+        ItemCode itemCode1 = new ItemCode(inspectionDataModel.getItemCode(), inspectionDataModel.getOrderNumber(), submited);
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                dataBaseProvider.getAppDatabase().itemCodeDao().update(itemCode1);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+    }
+
+    public void updateWareHouse(InspectionDataModel inspectionDataModel, boolean submited) {
+
+        WareHouse wareHouse1 = new WareHouse(inspectionDataModel.getWareHouse(), inspectionDataModel.getItemCode(), submited);
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                dataBaseProvider.getAppDatabase().wareHouseCodeDao().update(wareHouse1);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        List<WareHouse> wareHouseList = dataBaseProvider.getAppDatabase().wareHouseCodeDao().getItemDataOnSubmited(inspectionDataModel.getItemCode());
+                        if(wareHouseList == null || wareHouseList.size() < 1){
+                            updateItemCode(inspectionDataModel,true);
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+    }
+
+    public void updateStack(InspectionDataModel inspectionDataModel,boolean submited) {
+
+        StackModel stackModel = new StackModel(inspectionDataModel.getStack(), inspectionDataModel.getWareHouse(), submited);
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                dataBaseProvider.getAppDatabase().stackCodeDao().update(stackModel);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        List<StackModel> stackModels = dataBaseProvider.getAppDatabase().stackCodeDao().getItemDataOnSubmited(inspectionDataModel.getWareHouse());
+                        if(stackModels == null || stackModels.size() < 1){
+                            updateWareHouse(inspectionDataModel,true);
+                        }
                     }
 
                     @Override

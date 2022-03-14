@@ -20,8 +20,8 @@ public interface ItemCodeDao {
     @Query("SELECT * FROM itemcode WHERE orderNoId = :orderNo")
     Single<List<ItemCode>> getAllItemData(String orderNo);
 
-    @Query("SELECT * FROM itemcode WHERE orderNoId = :orderNo AND submitedTo = :onSubmited")
-    Single<List<ItemCode>> getItemDataOnSubmited(String orderNo, boolean onSubmited);
+    @Query("SELECT * FROM itemcode WHERE orderNoId = :orderNo AND submitedTo = 0")
+    Single<List<ItemCode>> getItemDataOnSubmited(String orderNo);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertAll(List<ItemCode> model);
@@ -29,6 +29,6 @@ public interface ItemCodeDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     int update(ItemCode model);
 
-    @Query("SELECT COUNT(id) FROM itemcode")
+    @Query("SELECT COUNT(value) FROM itemcode")
     int getCount();
 }

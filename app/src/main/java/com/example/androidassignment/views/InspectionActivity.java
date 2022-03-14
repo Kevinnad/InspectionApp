@@ -1,6 +1,7 @@
 package com.example.androidassignment.views;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +20,8 @@ import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.ItemCode;
+import com.example.androidassignment.database.model.StackModel;
+import com.example.androidassignment.database.model.WareHouse;
 import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
 import com.example.androidassignment.viewmodel.InspectionViewModel;
 
@@ -53,7 +56,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     @Override
     public void initInspectionView() {
         loadData();
-        initAutocompleteAdapter();
+        new Handler().postDelayed(() -> initAutocompleteAdapter(),500);
     }
 
     @Override
@@ -90,6 +93,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         createDataBase();
         inspectionViewModel.initRepository();
         inspectionViewModel.inspectionRepository.seedItemCode();
+        inspectionViewModel.inspectionRepository.seedWareHouse();
+        inspectionViewModel.inspectionRepository.seedStack();
 
     }
 
@@ -103,20 +108,33 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
 
-    private void initOtherSpinnerData(int i) {
+    private void initOtherSpinnerData(String wareHouse) {
 
-        final List<String> list3 = inspectionViewModel.inspectionRepository.getStackList(i);
+        inspectionViewModel.getStackList(wareHouse);
 
-        stackAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list3);
-        binding.spStack.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        stackAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        this));
-        if (inspectionDataModel != null) {
-            binding.spStack.setSelection(inspectionDataModel.getStack());
-        }
+        inspectionViewModel.stackLiveData.observe(this, stackModels -> {
+
+            List<String> list = new ArrayList<>();
+            for (int i = 0; i < stackModels.size(); i++) {
+                StackModel stackModel = stackModels.get(i);
+                if (isNew && !stackModel.submitedTo)
+                    list.add(stackModel.value);
+            }
+            if (inspectionDataModel != null)
+                list.add(inspectionDataModel.getStack());
+
+            stackAdapter = new ArrayAdapter<String>(
+                    this, android.R.layout.simple_dropdown_item_1line, list);
+            binding.spStack.setAdapter(
+                    new NothingSelectedSpinnerAdapter(
+                            stackAdapter,
+                            R.layout.contact_spinner_row_nothing_selected,
+                            this));
+            if (inspectionDataModel != null) {
+                binding.spStack.setSelection(1);
+            }
+        });
+
 
     }
 
@@ -130,24 +148,28 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     private void initAutocompleteAdapter() {
 
-        binding.autoCompleteLoadingNum.setText(CommonDataStore.getStringInPrefernce(this,CommonDataStore.RAKE_LOADING_NO));
+        binding.autoCompleteLoadingNum.setText(CommonDataStore.getStringInPrefernce(this, CommonDataStore.RAKE_LOADING_NO));
 
         initSpinnerData();
     }
 
-    private void setItemCode(String i) {
+    private void setItemCode(String orderNO) {
 
-        inspectionViewModel.getItemCode(i);
+        inspectionViewModel.getItemCode(orderNO);
 
-        inspectionViewModel.itemCodeLiveData.observe(this,itemCodes -> {
+        inspectionViewModel.itemCodeLiveData.observe(this, itemCodes -> {
 
             List<String> list = new ArrayList<>();
-            for(ItemCode itemcode : itemCodes){
-                list.add(itemcode.value);
+            for (int i = 0; i < itemCodes.size(); i++) {
+                ItemCode itemCode = itemCodes.get(i);
+                if (isNew && !itemCode.submitedTo)
+                    list.add(itemCode.value);
             }
+            if (inspectionDataModel != null)
+                list.add(inspectionDataModel.getItemCode());
 
             itemCodeAdapter = new ArrayAdapter<String>(
-                    this, android.R.layout.simple_dropdown_item_1line,list);
+                    this, android.R.layout.simple_dropdown_item_1line, list);
             binding.spItemCode.setAdapter(
                     new NothingSelectedSpinnerAdapter(
                             itemCodeAdapter,
@@ -155,19 +177,19 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                             // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
                             this));
             if (inspectionDataModel != null) {
-                binding.spItemCode.setSelection(inspectionDataModel.getItemCode());
+                binding.spItemCode.setSelection(1);
             }
             binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (adapterView == null || adapterView.getItemAtPosition(i) == null || adapterView.getItemAtPosition(i).equals("[Select]")) {
-
-                    } else if (isNew) {
-                        itemList = inspectionViewModel.inspectionRepository.getInspectionItemList(i).dataList;
-                        setAdapter(itemList);
+                    if (i != 0) {
+                        setWareHouse(list.get(i-1));
+                        if(isNew){
+                            itemList = inspectionViewModel.inspectionRepository.getInspectionItemList(i).dataList;
+                            setAdapter(itemList);
+                        }
                     }
 
-                    setWareHouse(i);
                 }
 
                 @Override
@@ -179,32 +201,47 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     }
 
-    private void setWareHouse(int i) {
+    private void setWareHouse(String itemCode) {
 
-        final List<String> list2 = inspectionViewModel.inspectionRepository.getWareHouseList(i);
+        inspectionViewModel.getWareHouse(itemCode);
 
-        warehouseAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list2);
-        binding.spWarehouse.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        warehouseAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if (inspectionDataModel != null) {
-            binding.spWarehouse.setSelection(inspectionDataModel.getWareHouse());
-        }
-        binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                initOtherSpinnerData(i);
+        inspectionViewModel.wareHouseLiveData.observe(this, wareHouses -> {
+
+            final List<String> list = new ArrayList<>();
+
+            for (int i = 0; i < wareHouses.size(); i++) {
+                WareHouse wareHouse = wareHouses.get(i);
+                if (isNew && !wareHouse.submitedTo)
+                    list.add(wareHouse.value);
             }
+            if (inspectionDataModel != null)
+                list.add(inspectionDataModel.getWareHouse());
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            warehouseAdapter = new ArrayAdapter<String>(
+                    this, android.R.layout.simple_dropdown_item_1line, list);
+            binding.spWarehouse.setAdapter(
+                    new NothingSelectedSpinnerAdapter(
+                            warehouseAdapter,
+                            R.layout.contact_spinner_row_nothing_selected,
+                            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                            this));
+            if (inspectionDataModel != null) {
+                binding.spWarehouse.setSelection(1);
             }
+            binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    if(i != 0)
+                    initOtherSpinnerData(list.get(i-1));
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
         });
+
+
     }
 
     private void initSpinnerData() {
@@ -213,7 +250,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
     private boolean isValid() {
-         if (binding.spItemCode.getSelectedItem() == null) {
+        if (binding.spItemCode.getSelectedItem() == null) {
             Toast.makeText(this,
                     "Select Itemcode", Toast.LENGTH_SHORT).show();
             return false;
@@ -240,12 +277,12 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                 Toast.makeText(this,
                         "Enter Actual Value", Toast.LENGTH_SHORT).show();
                 break;
-            }else if(Integer.parseInt(data.getMinValue()) > Integer.parseInt(data.getActualValue())){
+            } else if (Integer.parseInt(data.getMinValue()) > Integer.parseInt(data.getActualValue())) {
                 isValid = false;
                 Toast.makeText(this,
                         "Actual Value is less than minimum value", Toast.LENGTH_SHORT).show();
                 break;
-            }else if(Integer.parseInt(data.getMaxValue()) < Integer.parseInt(data.getActualValue())){
+            } else if (Integer.parseInt(data.getMaxValue()) < Integer.parseInt(data.getActualValue())) {
                 isValid = false;
                 Toast.makeText(this,
                         "Actual Value is greater than maximum value", Toast.LENGTH_SHORT).show();
@@ -304,9 +341,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         InspectionDataModel inspectionDataModel = new InspectionDataModel();
         inspectionDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
         inspectionDataModel.setOrderNumber(orderNumber);
-        inspectionDataModel.setItemCode(binding.spItemCode.getSelectedItemPosition());
-        inspectionDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
-        inspectionDataModel.setStack(binding.spStack.getSelectedItemPosition());
+        inspectionDataModel.setItemCode(binding.spItemCode.getSelectedItem().toString());
+        inspectionDataModel.setWareHouse(binding.spWarehouse.getSelectedItem().toString());
+        inspectionDataModel.setStack(binding.spStack.getSelectedItem().toString());
         inspectionDataModel.setItems(itemList);
         if (previousID != 0)
             inspectionDataModel.setId(previousID);
@@ -353,5 +390,6 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         isNew = true;
         inspectionDataModel = null;
         toggleAction(true);
+        setItemCode(orderNumber);
     }
 }

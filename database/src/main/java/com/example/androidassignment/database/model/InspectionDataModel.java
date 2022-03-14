@@ -15,8 +15,8 @@ public class InspectionDataModel {
     int id;
     String rakeLoadingNumber;
     String orderNumber;
-    int itemCode;
-    int wareHouse;
+    String itemCode;
+    String wareHouse;
     boolean isSync;
     @TypeConverters(Converters.class)
     ArrayList<Data> items;
@@ -25,7 +25,7 @@ public class InspectionDataModel {
         this.id = id;
     }
 
-    int stack;
+    String stack;
     String updatedAt;
 
     public String getUpdatedAt() {
@@ -56,27 +56,27 @@ public class InspectionDataModel {
         this.orderNumber = orderNumber;
     }
 
-    public int getItemCode() {
+    public String getItemCode() {
         return itemCode;
     }
 
-    public void setItemCode(int itemCode) {
+    public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
     }
 
-    public int getWareHouse() {
+    public String getWareHouse() {
         return wareHouse;
     }
 
-    public void setWareHouse(int wareHouse) {
+    public void setWareHouse(String wareHouse) {
         this.wareHouse = wareHouse;
     }
 
-    public int getStack() {
+    public String getStack() {
         return stack;
     }
 
-    public void setStack(int stack) {
+    public void setStack(String stack) {
         this.stack = stack;
     }
 

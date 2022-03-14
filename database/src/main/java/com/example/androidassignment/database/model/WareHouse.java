@@ -6,23 +6,23 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class ItemCode {
+public class WareHouse {
 
     @PrimaryKey
     @NonNull
     public String value;
-    public String orderNoId;
+    public String itemCode;
     public boolean submitedTo;
 
     @Ignore
-    public ItemCode(String value, String orderNoId) {
+    public WareHouse(String value, String itemCode) {
         this.value = value;
-        this.orderNoId = orderNoId;
+        this.itemCode = itemCode;
     }
 
-    public ItemCode(String value, String orderNoId, boolean submitedTo) {
+    public WareHouse(String value, String itemCode, boolean submitedTo) {
         this.value = value;
-        this.orderNoId = orderNoId;
+        this.itemCode = itemCode;
         this.submitedTo = submitedTo;
     }
 
@@ -34,12 +34,12 @@ public class ItemCode {
         this.value = value;
     }
 
-    public String getOrderNoId() {
-        return orderNoId;
+    public String getItemCode() {
+        return itemCode;
     }
 
-    public void setOrderNoId(String orderNoId) {
-        this.orderNoId = orderNoId;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
     public boolean isSubmitedTo() {
