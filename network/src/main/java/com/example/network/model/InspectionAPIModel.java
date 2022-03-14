@@ -5,8 +5,8 @@ public class InspectionAPIModel {
     int id;
     String rakeLoadingNumber;
     String orderNumber;
-    int itemCode;
-    int wareHouse;
+    String itemCode;
+    String wareHouse;
 
     public int getId() {
         return id;
@@ -32,19 +32,19 @@ public class InspectionAPIModel {
         this.orderNumber = orderNumber;
     }
 
-    public int getItemCode() {
+    public String getItemCode() {
         return itemCode;
     }
 
-    public void setItemCode(int itemCode) {
+    public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
     }
 
-    public int getWareHouse() {
+    public String getWareHouse() {
         return wareHouse;
     }
 
-    public void setWareHouse(int wareHouse) {
+    public void setWareHouse(String wareHouse) {
         this.wareHouse = wareHouse;
     }
 }

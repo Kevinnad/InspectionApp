@@ -76,17 +76,7 @@ public class TruckLoadingViewModel extends ViewModel {
 
         }
     }
-   public void getAllItemData(String itemCode) {
 
-            dataBaseProvider.getAppDatabase().itemCodeDao().getAllItemData(itemCode).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<Data>>() {
-                @Override
-                public void accept(@NonNull List<Data> data) throws Exception {
-
-                }
-            },throwable -> Log.e("", "Throwable " + throwable.getMessage()));
-
-
-    }
 
     public void getNextData() {
 
