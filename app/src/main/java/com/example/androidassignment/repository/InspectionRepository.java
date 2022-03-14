@@ -104,6 +104,7 @@ public class InspectionRepository extends BaseRepository {
                     @Override
                     public void onComplete() {
                         mutableLiveData.postValue(true);
+                        updateStack(inspectionDataModel,false);
                     }
 
                     @Override
@@ -375,8 +376,15 @@ public class InspectionRepository extends BaseRepository {
                     @Override
                     public void onComplete() {
                         List<WareHouse> wareHouseList = dataBaseProvider.getAppDatabase().wareHouseCodeDao().getItemDataOnSubmited(inspectionDataModel.getItemCode());
-                        if(wareHouseList == null || wareHouseList.size() < 1){
-                            updateItemCode(inspectionDataModel,true);
+
+                        if(submited){
+                            if(wareHouseList == null || wareHouseList.size() < 1){
+                                updateItemCode(inspectionDataModel,true);
+                            }
+                        }else {
+                            if(wareHouseList == null || wareHouseList.size() == 1){
+                                updateItemCode(inspectionDataModel,false);
+                            }
                         }
 
                     }
@@ -408,9 +416,16 @@ public class InspectionRepository extends BaseRepository {
                     @Override
                     public void onComplete() {
                         List<StackModel> stackModels = dataBaseProvider.getAppDatabase().stackCodeDao().getItemDataOnSubmited(inspectionDataModel.getWareHouse());
-                        if(stackModels == null || stackModels.size() < 1){
-                            updateWareHouse(inspectionDataModel,true);
+                        if(submited){
+                            if(stackModels == null || stackModels.size() < 1){
+                                updateWareHouse(inspectionDataModel,true);
+                            }
+                        }else{
+                            if(stackModels == null || stackModels.size() == 1){
+                                updateWareHouse(inspectionDataModel,false);
+                            }
                         }
+
                     }
 
                     @Override

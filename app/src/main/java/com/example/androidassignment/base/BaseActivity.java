@@ -1,8 +1,10 @@
 package com.example.androidassignment.base;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
@@ -24,5 +26,36 @@ public abstract class BaseActivity<B> extends AppCompatActivity {
     public abstract void initView();
 
     public abstract void initViewModel();
+
+    public void showAlertDialogForDelete(String message, OnAlertButtonClickListener onAlertButtonClickListener) {
+
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage(message);
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onAlertButtonClickListener.onPositiveButton();
+                        dialog.cancel();
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder1.create();
+        alert.show();
+    }
+
+    public interface OnAlertButtonClickListener{
+        public void onPositiveButton();
+    }
 
 }

@@ -17,6 +17,8 @@ public class InspectionViewModel extends ViewModel {
 
     public DataBaseProvider dataBaseProvider;
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
+    public MutableLiveData<Boolean> deleteSuccessLiveData = new MutableLiveData();
+
     public MutableLiveData<InspectionDataModel> previousInspection = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> lastInspection = new MutableLiveData();
     public MutableLiveData<List<InspectionDataModel>> syncInspection = new MutableLiveData();
@@ -35,6 +37,10 @@ public class InspectionViewModel extends ViewModel {
     public void addData(InspectionDataModel dataModel) {
 
         inspectionRepository.insertData(dataModel, inserSuccessLiveData);
+    }
+
+    public void deleteData(InspectionDataModel dataModel){
+        inspectionRepository.deleteData(dataModel, deleteSuccessLiveData);
     }
 
 

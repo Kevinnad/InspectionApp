@@ -52,42 +52,25 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         binding.toolbar.btnHome.setOnClickListener(view -> startActivity(new Intent(this, HomeActivity.class)));
         binding.toolbar.toolbarTitle.setText("Pre Loading Inspection");
         binding.tvDelete.setOnClickListener(view -> {
-            showAlertDialogForDelete();
+            showAlertDialogForDelete("Are you sure? Do you want to delete the inspection", new OnAlertButtonClickListener() {
+                @Override
+                public void onPositiveButton() {
+                    if (inspectionDataModel != null)
+                        inspectionViewModel.deleteData(inspectionDataModel);
+                    else
+                        Toast.makeText(InspectionActivity.this, "This Inspection cannot be deleted", Toast.LENGTH_LONG).show();
+                }
+            });
         });
 
         return binding;
     }
 
-    private void showAlertDialogForDelete() {
-
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setMessage("Are you sure? Do you want to delete the inspection");
-        builder1.setCancelable(true);
-
-        builder1.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        builder1.setNegativeButton(
-                "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog alert = builder1.create();
-        alert.show();
-    }
 
     @Override
     public void initInspectionView() {
         loadData();
-        new Handler().postDelayed(() -> initAutocompleteAdapter(),500);
+        new Handler().postDelayed(() -> initAutocompleteAdapter(), 500);
     }
 
     @Override
@@ -112,8 +95,15 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     @Override
     public void submitAction() {
         if (inspectionViewModel.lastId > 0) {
-            inspectionDataModel.setSync(true);
-            inspectionViewModel.syncAllData();
+            showAlertDialogForDelete("Are you sure? You want to Sync the Complete Order", new OnAlertButtonClickListener() {
+                @Override
+                public void onPositiveButton() {
+                    if (inspectionDataModel != null) {
+                        inspectionDataModel.setSync(true);
+                    }
+                    inspectionViewModel.syncAllData();
+                }
+            });
         } else
             Toast.makeText(this, "No Data to Sync", Toast.LENGTH_SHORT).show();
     }
@@ -214,8 +204,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (i != 0) {
-                        setWareHouse(list.get(i-1));
-                        if(isNew){
+                        setWareHouse(list.get(i - 1));
+                        if (isNew) {
                             itemList = inspectionViewModel.inspectionRepository.getInspectionItemList(i).dataList;
                             setAdapter(itemList);
                         }
@@ -262,9 +252,10 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if(i != 0)
-                    initOtherSpinnerData(list.get(i-1));
+                    if (i != 0)
+                        initOtherSpinnerData(list.get(i - 1));
                 }
+
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -335,6 +326,13 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             }
         });
 
+        inspectionViewModel.deleteSuccessLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                resetInspectionScreen();
+            }
+        });
+
         inspectionViewModel.previousInspection.observe(this, new Observer<InspectionDataModel>() {
             @Override
             public void onChanged(InspectionDataModel dataModel) {
@@ -349,8 +347,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     void setInspection(InspectionDataModel inspectionDataModel) {
         this.inspectionDataModel = inspectionDataModel;
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
-        binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
-        binding.tvDelete.setVisibility((!inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
+        binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.INVISIBLE);
+        binding.tvDelete.setVisibility((!inspectionDataModel.isSync()) ? View.VISIBLE : View.INVISIBLE);
         itemList = inspectionDataModel.getItems();
         setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
@@ -402,7 +400,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
     void callSaveInspection(InspectionDataModel minspectionDataModel) {
-        if (binding.tvSync.getVisibility() == View.GONE) {
+        if (binding.tvSync.getVisibility() == View.INVISIBLE) {
             this.inspectionDataModel = minspectionDataModel;
             inspectionViewModel.addData(minspectionDataModel);
             Toast.makeText(this, "Data Saved", Toast.LENGTH_SHORT).show();
@@ -419,7 +417,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         binding.tvMin.setVisibility(View.GONE);
         binding.tvMax.setVisibility(View.GONE);
         binding.tvActual.setVisibility(View.GONE);
-        binding.tvSync.setVisibility(View.GONE);
+        binding.tvSync.setVisibility(View.INVISIBLE);
         binding.tvDelete.setVisibility(View.VISIBLE);
         isNew = true;
         inspectionDataModel = null;
