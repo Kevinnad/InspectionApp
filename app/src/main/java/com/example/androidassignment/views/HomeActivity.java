@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.example.androidassignment.base.BaseActivity;
 import com.example.androidassignment.base.BaseRepository;
 import com.example.androidassignment.dataStore.CommonDataStore;
+import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.databinding.ActivityHomeBinding;
 import com.example.androidassignment.repository.InspectionRepository;
 
@@ -38,7 +39,8 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setVisibility(View.GONE);
 
-        InspectionRepository inspectionRepository = new InspectionRepository(null);
+        DataBaseProvider dataBaseProvider = DataBaseProvider.getInstance(getApplicationContext());
+        InspectionRepository inspectionRepository = new InspectionRepository(dataBaseProvider);
 
         final List<String> list = inspectionRepository.getRackLoadingData();
 
@@ -58,6 +60,17 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
                 selectedRakeLoading = list.get(i);
                 CommonDataStore.saveStringInPrefernce(HomeActivity.this,RAKE_LOADING_NO,list.get(i));
             }
+        });
+
+        binding.ivDelete.setOnClickListener(v -> {
+
+            showAlertDialogForDelete("Are you sure, you want delete all the records?", new OnAlertButtonClickListener() {
+                @Override
+                public void onPositiveButton() {
+                    inspectionRepository.deleteAllData();
+                }
+            });
+
         });
 
     }

@@ -91,7 +91,7 @@ public class InspectionRepository extends BaseRepository {
             @Override
             public void run() throws Throwable {
                 dataBaseProvider.getAppDatabase().inspectionDao().delete(inspectionDataModel);
-                Log.e("Delete Success", "" );
+                Log.e("Delete Success", "");
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
@@ -104,7 +104,7 @@ public class InspectionRepository extends BaseRepository {
                     @Override
                     public void onComplete() {
                         mutableLiveData.postValue(true);
-                        updateStack(inspectionDataModel,false);
+                        updateStack(inspectionDataModel, false);
                     }
 
                     @Override
@@ -377,13 +377,13 @@ public class InspectionRepository extends BaseRepository {
                     public void onComplete() {
                         List<WareHouse> wareHouseList = dataBaseProvider.getAppDatabase().wareHouseCodeDao().getItemDataOnSubmited(inspectionDataModel.getItemCode());
 
-                        if(submited){
-                            if(wareHouseList == null || wareHouseList.size() < 1){
-                                updateItemCode(inspectionDataModel,true);
+                        if (submited) {
+                            if (wareHouseList == null || wareHouseList.size() < 1) {
+                                updateItemCode(inspectionDataModel, true);
                             }
-                        }else {
-                            if(wareHouseList == null || wareHouseList.size() == 1){
-                                updateItemCode(inspectionDataModel,false);
+                        } else {
+                            if (wareHouseList == null || wareHouseList.size() == 1) {
+                                updateItemCode(inspectionDataModel, false);
                             }
                         }
 
@@ -396,7 +396,7 @@ public class InspectionRepository extends BaseRepository {
                 });
     }
 
-    public void updateStack(InspectionDataModel inspectionDataModel,boolean submited) {
+    public void updateStack(InspectionDataModel inspectionDataModel, boolean submited) {
 
         StackModel stackModel = new StackModel(inspectionDataModel.getStack(), inspectionDataModel.getWareHouse(), submited);
 
@@ -416,16 +416,43 @@ public class InspectionRepository extends BaseRepository {
                     @Override
                     public void onComplete() {
                         List<StackModel> stackModels = dataBaseProvider.getAppDatabase().stackCodeDao().getItemDataOnSubmited(inspectionDataModel.getWareHouse());
-                        if(submited){
-                            if(stackModels == null || stackModels.size() < 1){
-                                updateWareHouse(inspectionDataModel,true);
+                        if (submited) {
+                            if (stackModels == null || stackModels.size() < 1) {
+                                updateWareHouse(inspectionDataModel, true);
                             }
-                        }else{
-                            if(stackModels == null || stackModels.size() == 1){
-                                updateWareHouse(inspectionDataModel,false);
+                        } else {
+                            if (stackModels == null || stackModels.size() == 1) {
+                                updateWareHouse(inspectionDataModel, false);
                             }
                         }
 
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+    }
+
+    public void deleteAllData() {
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                dataBaseProvider.getAppDatabase().clearAllTables();
+                Log.e("Delete Success", "");
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
                     }
 
                     @Override

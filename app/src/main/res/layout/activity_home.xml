@@ -35,6 +35,18 @@
             tools:ignore="TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txt_rakeNumber"
+        app:layout_constraintBottom_toBottomOf="@id/txt_rakeNumber"
+        android:padding="20dp"
+        app:srcCompat="@drawable/ic_delete"
+        android:tint="@color/blue"
+        />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_rake_loading"
         app:layout_constraintStart_toStartOf="parent"
