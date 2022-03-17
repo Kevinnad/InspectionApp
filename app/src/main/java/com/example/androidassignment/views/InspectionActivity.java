@@ -62,7 +62,8 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                 }
             });
         });
-
+        binding.spWarehouse.setTitle("Select Warehouse");
+        binding.spWarehouse.setPositiveButton("OK");
         return binding;
     }
 
@@ -241,11 +242,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             warehouseAdapter = new ArrayAdapter<String>(
                     this, android.R.layout.simple_dropdown_item_1line, list);
             binding.spWarehouse.setAdapter(
-                    new NothingSelectedSpinnerAdapter(
-                            warehouseAdapter,
-                            R.layout.contact_spinner_row_nothing_selected,
-                            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                            this));
+                   warehouseAdapter);
             if (inspectionDataModel != null) {
                 binding.spWarehouse.setSelection(1);
             }
