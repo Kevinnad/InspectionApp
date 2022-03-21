@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.ItemCode;
+import com.example.androidassignment.database.model.RakeLoadingNumber;
 import com.example.androidassignment.database.model.StackModel;
 import com.example.androidassignment.database.model.WareHouse;
 import com.example.androidassignment.repository.InspectionRepository;
@@ -21,11 +22,13 @@ public class InspectionViewModel extends ViewModel {
 
     public MutableLiveData<InspectionDataModel> previousInspection = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> lastInspection = new MutableLiveData();
+    public MutableLiveData<InspectionDataModel> lastInspectionCompleted = new MutableLiveData();
     public MutableLiveData<List<InspectionDataModel>> syncInspection = new MutableLiveData();
 
     public MutableLiveData<List<ItemCode>> itemCodeLiveData = new MutableLiveData();
     public MutableLiveData<List<WareHouse>> wareHouseLiveData = new MutableLiveData();
     public MutableLiveData<List<StackModel>> stackLiveData = new MutableLiveData();
+    public MutableLiveData<List<RakeLoadingNumber>> rakeLoadingLiveData = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
     public InspectionRepository inspectionRepository;
@@ -60,16 +63,27 @@ public class InspectionViewModel extends ViewModel {
     }
 
     public void getLastInspection(String orderNo) {
-        lastInspection.observeForever(new Observer<InspectionDataModel>() {
+        Observer observer = new Observer<InspectionDataModel>() {
+
             @Override
             public void onChanged(InspectionDataModel dataModel) {
-                lastId = dataModel.getId();
-                currentId = lastId + 1;
-                if(dataModel.isSync()){
-                    previousInspection.postValue(dataModel);
+                if(dataModel != null){
+                    lastId = dataModel.getId();
+                    currentId = lastId + 1;
+                    if(dataModel.isSync()){
+                        previousInspection.postValue(dataModel);
+                    }else{
+                        lastInspectionCompleted.postValue(dataModel);
+                    }
+                }else {
+                    lastInspectionCompleted.postValue(dataModel);
                 }
+
             }
-        });
+        };
+
+        lastInspection.removeObserver(observer);
+        lastInspection.observeForever(observer);
         inspectionRepository.getLastData(orderNo, lastInspection);
     }
 
@@ -87,6 +101,14 @@ public class InspectionViewModel extends ViewModel {
 
     public void getStackList(String wareHouse){
         inspectionRepository.getStackList(wareHouse,stackLiveData);
+    }
+
+    public void getRakeLoadingNumber(){
+        inspectionRepository.getRakeLoadingFromDB(rakeLoadingLiveData);
+    }
+
+    public void addRakeLoadingNumber(int i){
+        inspectionRepository.insertRakeLoading(rakeLoadingLiveData,i);
     }
 
 }

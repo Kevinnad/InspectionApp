@@ -35,20 +35,14 @@ public abstract class BaseActivity<B> extends AppCompatActivity {
 
         builder1.setPositiveButton(
                 "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        onAlertButtonClickListener.onPositiveButton();
-                        dialog.cancel();
-                    }
+                (dialog, id) -> {
+                    onAlertButtonClickListener.onPositiveButton();
+                    dialog.cancel();
                 });
 
         builder1.setNegativeButton(
                 "No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+                (dialog, id) -> dialog.cancel());
 
         AlertDialog alert = builder1.create();
         alert.show();

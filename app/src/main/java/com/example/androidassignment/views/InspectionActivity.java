@@ -1,6 +1,7 @@
 package com.example.androidassignment.views;
 
-import android.content.DialogInterface;
+import static com.example.androidassignment.dataStore.CommonDataStore.RAKE_LOADING_NO;
+
 import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -9,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -22,6 +22,7 @@ import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.ItemCode;
+import com.example.androidassignment.database.model.RakeLoadingNumber;
 import com.example.androidassignment.database.model.StackModel;
 import com.example.androidassignment.database.model.WareHouse;
 import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
@@ -43,7 +44,10 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     ArrayAdapter<String> itemCodeAdapter;
     InspectionAdapter inspectionAdapter;
 
+    List<RakeLoadingNumber> rakeLoadingNumbers;
+
     String orderNumber = "";
+    String selectedRakeLoading = "";
 
     @Override
     public ActivityPreLoadingInspectionBinding getBinding() {
@@ -69,7 +73,6 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     @Override
     public void initInspectionView() {
-        loadData();
         new Handler().postDelayed(() -> initAutocompleteAdapter(), 500);
     }
 
@@ -124,7 +127,6 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
     void loadData() {
-        orderNumber = getIntent().getStringExtra(CommonDataStore.ORDER_NO);
         inspectionViewModel.getLastInspection(orderNumber);
     }
 
@@ -169,9 +171,57 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     private void initAutocompleteAdapter() {
 
-        binding.autoCompleteLoadingNum.setText(CommonDataStore.getStringInPrefernce(this, CommonDataStore.RAKE_LOADING_NO));
+        inspectionViewModel.getRakeLoadingNumber();
+        inspectionViewModel.rakeLoadingLiveData.observe(this, rakeLoadingNumbers -> {
+            if (rakeLoadingNumbers != null && rakeLoadingNumbers.size() > 0) {
+                this.rakeLoadingNumbers = rakeLoadingNumbers;
+                final List<String> list = new ArrayList<>();
+                for (RakeLoadingNumber rakeLoading : rakeLoadingNumbers
+                ) {
+                    list.add(rakeLoading.value);
+                }
 
-        initSpinnerData();
+                ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(
+                        this, android.R.layout.simple_dropdown_item_1line, list);
+                binding.autoCompleteLoadingNum.setAdapter(autoCompleteAdapter);
+
+                selectedRakeLoading = CommonDataStore.getStringInPrefernce(this, RAKE_LOADING_NO);
+                if (!TextUtils.isEmpty(selectedRakeLoading)) {
+                    binding.autoCompleteLoadingNum.setText(selectedRakeLoading);
+                } else if (list.size() == 1) {
+                    binding.autoCompleteLoadingNum.setText(list.get(0));
+                }
+
+                binding.autoCompleteLoadingNum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        selectedRakeLoading = list.get(i);
+                        CommonDataStore.saveStringInPrefernce(InspectionActivity.this, RAKE_LOADING_NO, list.get(i));
+                        initSpinnerData();
+                    }
+                });
+
+                initSpinnerData();
+            }
+        });
+
+        binding.ivRakeLoadingAdd.setOnClickListener(v -> {
+
+            if (rakeLoadingNumbers != null && rakeLoadingNumbers.size() > 1) {
+                showAlertDialogForDelete("Currently you can have only two Rake Loading Number", () -> {
+                });
+            } else if (rakeLoadingNumbers != null && rakeLoadingNumbers.size() > 0) {
+                showAlertDialogForDelete("Do you want to add a Rake Loading Number?", () -> {
+                    inspectionViewModel.addRakeLoadingNumber(1);
+                });
+            } else {
+                showAlertDialogForDelete("Do you want to add a Rake Loading Number?", () -> {
+                    inspectionViewModel.addRakeLoadingNumber(0);
+                });
+            }
+        });
+
     }
 
     private void setItemCode(String orderNO) {
@@ -267,8 +317,32 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     }
 
     private void initSpinnerData() {
-        binding.spOrderNum.setText(orderNumber);
-        setItemCode(orderNumber);
+        CommonDataStore commonDataStore = new CommonDataStore();
+        final List<String> list = commonDataStore.getOrderNumber(selectedRakeLoading);
+
+        ArrayAdapter<String> orderNumAdapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_dropdown_item_1line, list);
+        binding.spOrderNum.setAdapter(
+                new NothingSelectedSpinnerAdapter(
+                        orderNumAdapter,
+                        R.layout.contact_spinner_row_nothing_selected,
+                        this));
+        binding.spOrderNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i != 0) {
+                    orderNumber = list.get(i - 1);
+                    setItemCode(orderNumber);
+                    loadData();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private boolean isValid() {
@@ -326,21 +400,18 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             }
         });
 
-        inspectionViewModel.deleteSuccessLiveData.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                resetInspectionScreen();
-            }
+        inspectionViewModel.deleteSuccessLiveData.observe(this, aBoolean -> resetInspectionScreen());
+
+        inspectionViewModel.previousInspection.observe(this, dataModel -> {
+            inspectionViewModel.currentId = dataModel.getId();
+            previousID = dataModel.getId();
+            isNew = false;
+            setInspection(dataModel);
         });
 
-        inspectionViewModel.previousInspection.observe(this, new Observer<InspectionDataModel>() {
-            @Override
-            public void onChanged(InspectionDataModel dataModel) {
-                inspectionViewModel.currentId = dataModel.getId();
-                previousID = dataModel.getId();
-                isNew = false;
-                setInspection(dataModel);
-            }
+        inspectionViewModel.lastInspectionCompleted.observe(this, inspectionDataModel -> {
+
+            resetInspectionScreen();
         });
     }
 
@@ -352,19 +423,20 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         itemList = inspectionDataModel.getItems();
         setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
-        initSpinnerData();
+        setItemCode(orderNumber);
     }
 
     void toggleAction(boolean isEnable) {
         binding.autoCompleteLoadingNum.setEnabled(isEnable);
         binding.spItemCode.setEnabled(isEnable);
-        binding.spOrderNum.setEnabled(isEnable);
         binding.spWarehouse.setEnabled(isEnable);
         binding.spStack.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
         binding.btSubmit.setEnabled(isEnable);
-        inspectionAdapter.setSync(!isEnable);
-        inspectionAdapter.notifyDataSetChanged();
+        if(inspectionAdapter != null){
+            inspectionAdapter.setSync(!isEnable);
+            inspectionAdapter.notifyDataSetChanged();
+        }
     }
 
     void saveInspection(boolean isNext) {

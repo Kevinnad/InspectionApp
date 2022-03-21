@@ -64,14 +64,24 @@
         <TextView
             android:id="@+id/tvRakeLoadingNum"
             style="@style/Title"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rake Loading Number"
-            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_rake_loading_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_add_box"
+            android:padding="5dp"
+            app:layout_constraintStart_toEndOf="@id/tvRakeLoadingNum"
+            app:layout_constraintTop_toTopOf="@id/tvRakeLoadingNum"
+            app:layout_constraintBottom_toBottomOf="@id/tvRakeLoadingNum"
+            />
+
+        <AutoCompleteTextView
             android:id="@+id/autoCompleteLoadingNum"
             style="@style/Title.Small"
             android:layout_width="0dp"
@@ -99,7 +109,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/autoCompleteLoadingNum" />
 
-        <TextView
+        <Spinner
             android:id="@+id/spOrderNum"
             style="@style/Body"
             android:layout_width="0dp"

@@ -19,7 +19,6 @@ import java.util.List;
 public class RakeLoadingActivity extends BaseActivity<ActivityLandingBinding> {
 
     ActivityLandingBinding activityLandingBinding;
-    String selectedOrderNumber = "";
 
     @Override
     public ActivityLandingBinding getBinding() {
@@ -43,15 +42,9 @@ public class RakeLoadingActivity extends BaseActivity<ActivityLandingBinding> {
     }
 
     private void navigateTo(Class<?> c){
-        if(TextUtils.isEmpty(selectedOrderNumber)){
-            Toast.makeText(this,
-                    "Please select the Order Number", Toast.LENGTH_SHORT).show();
-        }else {
-            Intent intent = new Intent(RakeLoadingActivity.this, c);
-            intent.putExtra(CommonDataStore.ORDER_NO,selectedOrderNumber);
-            startActivity(intent);
-        }
 
+            Intent intent = new Intent(RakeLoadingActivity.this, c);
+            startActivity(intent);
     }
 
     @Override
@@ -61,27 +54,5 @@ public class RakeLoadingActivity extends BaseActivity<ActivityLandingBinding> {
 
     private void initSpinnerData() {
 
-        CommonDataStore commonDataStore = new CommonDataStore();
-        final List<String> list = commonDataStore.getOrderNumber(CommonDataStore.getStringInPrefernce(this,CommonDataStore.RAKE_LOADING_NO));
-
-        ArrayAdapter<String> orderNumAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list);
-        activityLandingBinding.spOrderNum.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        orderNumAdapter,
-                        R.layout.contact_spinner_row_order,
-                        this));
-        activityLandingBinding.spOrderNum.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i !=0)
-                selectedOrderNumber = list.get(i-1);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
     }
 }

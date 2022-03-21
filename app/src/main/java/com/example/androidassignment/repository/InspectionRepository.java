@@ -12,6 +12,7 @@ import com.example.androidassignment.database.model.Data;
 import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.ItemCode;
 import com.example.androidassignment.database.model.ItemCodeAttributesDataModel;
+import com.example.androidassignment.database.model.RakeLoadingNumber;
 import com.example.androidassignment.database.model.StackModel;
 import com.example.androidassignment.database.model.WareHouse;
 import com.example.network.service.Services;
@@ -145,7 +146,10 @@ public class InspectionRepository extends BaseRepository {
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
             }
-        }, throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+        }, throwable -> {
+            Log.e("", "Throwable " + throwable.getMessage());
+            mutableLiveData.postValue(null);
+        });
 
     }
 
@@ -460,5 +464,48 @@ public class InspectionRepository extends BaseRepository {
 
                     }
                 });
+    }
+
+    public void getRakeLoadingFromDB(MutableLiveData mutableLiveData){
+
+        dataBaseProvider.getAppDatabase().rakeLoadingDao().getAllItemData().subscribeOn(Schedulers.io()).subscribe(new Consumer<List<RakeLoadingNumber>>() {
+            @Override
+            public void accept(@NonNull List<RakeLoadingNumber> data) throws Exception {
+                mutableLiveData.postValue(data);
+            }
+        }, throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+
+    }
+
+    public void insertRakeLoading(MutableLiveData mutableLiveData, int i){
+
+        RakeLoadingNumber rakeLoadingNumber = new RakeLoadingNumber(getRackLoadingData().get(i));
+
+        Completable.fromAction(new Action() {
+            @Override
+            public void run() throws Throwable {
+                dataBaseProvider.getAppDatabase().rakeLoadingDao().insert(rakeLoadingNumber);
+                Log.e("Delete Success", "");
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new CompletableObserver() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                        getRakeLoadingFromDB(mutableLiveData);
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+                });
+
     }
 }
