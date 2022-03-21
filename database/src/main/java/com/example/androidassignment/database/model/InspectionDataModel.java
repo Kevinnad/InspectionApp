@@ -27,6 +27,7 @@ public class InspectionDataModel {
 
     String stack;
     String updatedAt;
+    int count;
 
     public String getUpdatedAt() {
         return updatedAt;
@@ -94,5 +95,13 @@ public class InspectionDataModel {
 
     public void setSync(boolean sync) {
         isSync = sync;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

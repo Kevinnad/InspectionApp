@@ -405,7 +405,11 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         });
 
         inspectionViewModel.lastInspectionCompleted.observe(this, inspectionDataModel -> {
-
+            if(inspectionDataModel != null){
+                binding.tvCount.setText(""+(inspectionDataModel.getCount()+1));
+            }else {
+                binding.tvCount.setText("1");
+            }
             resetInspectionScreen();
         });
     }
@@ -419,6 +423,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
         setItemCode(orderNumber);
+        binding.tvCount.setText(""+inspectionDataModel.getCount());
     }
 
     void toggleAction(boolean isEnable) {
@@ -447,6 +452,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
         if (isNext) {
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
+                if(this.inspectionDataModel != null){
+                    inspectionDataModel.setCount(this.inspectionDataModel.getCount());
+                }
                 callSaveInspection(inspectionDataModel);
                 inspectionViewModel.getNextData(orderNumber);
             } else {
@@ -454,6 +462,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                     Toast.makeText(this,
                             "No Next Data", Toast.LENGTH_SHORT).show();
                 } else {
+                    if(this.inspectionDataModel != null){
+                        inspectionDataModel.setCount(this.inspectionDataModel.getCount());
+                    }
                     callSaveInspection(inspectionDataModel);
                     resetInspectionScreen();
                 }

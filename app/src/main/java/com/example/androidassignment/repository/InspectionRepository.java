@@ -58,6 +58,11 @@ public class InspectionRepository extends BaseRepository {
         Completable.fromAction(new Action() {
             @Override
             public void run() throws Throwable {
+                int count = dataBaseProvider.getAppDatabase().inspectionDao().getCount(inspectionDataModel.getOrderNumber());
+                if(inspectionDataModel.getCount() == 0){
+                    inspectionDataModel.setCount(count + 1);
+                }
+
                 Long key = dataBaseProvider.getAppDatabase().inspectionDao().insert(inspectionDataModel);
                 Log.e("Insert Success", "" + key);
             }
@@ -196,7 +201,6 @@ public class InspectionRepository extends BaseRepository {
 //                    }
 //                });
     }
-
 
     public ItemCodeAttributesDataModel getInspectionItemList(int itemCode) {
         return inspectionDataStore.formInspectionItemList(itemCode);
