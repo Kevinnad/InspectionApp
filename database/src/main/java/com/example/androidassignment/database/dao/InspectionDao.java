@@ -39,7 +39,9 @@ public interface InspectionDao {
     @Delete
     void delete(InspectionDataModel model);
 
-
     @Update
     void update(InspectionDataModel model);
+
+    @Query("SELECT COUNT(id) FROM inspectiontable WHERE orderNumber = :orderNo")
+    int getCount(String orderNo);
 }

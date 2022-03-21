@@ -31,6 +31,22 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <TextView
+        android:id="@+id/tvCount"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#355BA1"
+        android:gravity="center"
+        android:padding="7dp"
+        android:layout_marginRight="10dp"
+        android:textSize="13sp"
+        android:text="1"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <TextView
         android:id="@+id/tvDelete"
         style="@style/Title"
         android:layout_width="wrap_content"
@@ -75,8 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_add_box"
-            android:padding="5dp"
-            app:layout_constraintStart_toEndOf="@id/tvRakeLoadingNum"
+            android:padding="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvRakeLoadingNum"
             app:layout_constraintBottom_toBottomOf="@id/tvRakeLoadingNum"
             />
@@ -92,7 +108,7 @@
             android:padding="8dp"
             android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="@id/tvRakeLoadingNum"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_rake_loading_add"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvRakeLoadingNum"
             tools:text="ffdfdffdfdfdfdfdfdfdfdfdfdfdf" />

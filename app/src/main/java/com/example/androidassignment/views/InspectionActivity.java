@@ -410,7 +410,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         });
 
         inspectionViewModel.lastInspectionCompleted.observe(this, inspectionDataModel -> {
-
+            if(inspectionDataModel != null){
+                binding.tvCount.setText(""+(inspectionDataModel.getCount()+1));
+            }
             resetInspectionScreen();
         });
     }
@@ -424,6 +426,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
         setItemCode(orderNumber);
+        binding.tvCount.setText(""+inspectionDataModel.getCount());
     }
 
     void toggleAction(boolean isEnable) {
