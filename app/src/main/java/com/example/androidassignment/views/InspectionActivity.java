@@ -288,26 +288,21 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             if (inspectionDataModel != null)
                 list.add(inspectionDataModel.getWareHouse());
 
-            warehouseAdapter = new ArrayAdapter<String>(
-                    this, android.R.layout.simple_dropdown_item_1line, list);
-            binding.spWarehouse.setAdapter(
-                    new NothingSelectedSpinnerAdapter(
-                            warehouseAdapter,
-                            R.layout.contact_spinner_row_nothing_selected,
-                            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                            this));
+           binding.spWarehouse.setItem(list);
             if (inspectionDataModel != null) {
-                binding.spWarehouse.setSelection(1);
+                binding.spWarehouse.setSelection(0);
             }
             binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (i != 0)
+                    binding.spWarehouse.setHint("");
+                    if(i!=0)
                         initOtherSpinnerData(list.get(i - 1));
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
+                    binding.spWarehouse.setHint("Select Warehouse");
 
                 }
             });
@@ -482,7 +477,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     void resetInspectionScreen() {
         previousID = 0;
         binding.spItemCode.setSelection(0);
-        binding.spWarehouse.setSelection(0);
+        binding.spWarehouse.setSelection(-1);
         binding.spStack.setSelection(0);
         binding.spItemCode.setSelection(0);
         binding.rvList.setAdapter(null);
