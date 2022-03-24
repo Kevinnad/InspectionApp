@@ -18,7 +18,7 @@ public class InspectionDataStore {
 
             ArrayList<Data> list1 = new ArrayList<>();
             list1.add(new Data("HL", "76", "82", ""));
-            list1.add(new Data("KB", "0", "0.1", ""));
+            list1.add(new Data("KB", "0", "43", ""));
             list1.add(new Data("RDGRN", "0", "12", ""));
             list1.add(new Data("POTIA", "0", "5", ""));
 

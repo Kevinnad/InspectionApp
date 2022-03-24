@@ -147,7 +147,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvOrderNum" />
 
-        <Spinner
+        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
             android:id="@+id/spItemCode"
             style="@style/SpinnerTextViewItem"
             android:layout_width="0dp"
@@ -155,6 +155,11 @@
             app:layout_constraintBottom_toBottomOf="@id/tvItemCode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:smsp_searchHint="Search ItemCode"
+            app:smsp_isSearchable="true"
+            app:smsp_isReSelectable="true"
+            app:smsp_hint="Select ItemCode"
+            app:smsp_underlineColor="@android:color/transparent"
             app:layout_constraintTop_toTopOf="@id/tvItemCode" />
 
         <TextView
@@ -178,6 +183,7 @@
             app:smsp_searchHint="Search Warehouse"
             app:smsp_isSearchable="true"
             app:smsp_hint="Select Warehouse"
+            app:smsp_isReSelectable="true"
             app:smsp_underlineColor="@android:color/transparent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvWarehouse" />
@@ -189,17 +195,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Stack"
+            app:smsp_searchHint="Search Warehouse"
+            app:smsp_isSearchable="true"
+            app:smsp_hint="Select Warehouse"
+            app:smsp_underlineColor="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvWarehouse" />
 
-        <Spinner
+        <com.chivorn.smartmaterialspinner.SmartMaterialSpinner
             android:id="@+id/spStack"
             style="@style/Body"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="@id/tvStack"
             app:layout_constraintEnd_toEndOf="parent"
+            app:smsp_searchHint="Search Stack"
+            app:smsp_isSearchable="true"
+            app:smsp_hint="Select Stack"
+            app:smsp_isReSelectable="true"
+            app:smsp_underlineColor="@android:color/transparent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvStack" />
 

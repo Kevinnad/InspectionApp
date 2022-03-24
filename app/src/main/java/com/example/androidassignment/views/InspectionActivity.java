@@ -146,18 +146,25 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             if (inspectionDataModel != null)
                 list.add(inspectionDataModel.getStack());
 
-            stackAdapter = new ArrayAdapter<String>(
-                    this, android.R.layout.simple_dropdown_item_1line, list);
-            binding.spStack.setAdapter(
-                    new NothingSelectedSpinnerAdapter(
-                            stackAdapter,
-                            R.layout.contact_spinner_row_nothing_selected,
-                            this));
+            binding.spStack.setItem(list);
             if (inspectionDataModel != null) {
-                binding.spStack.setSelection(1);
+                if(list.size() > 0)
+                    binding.spStack.setSelection(0);
             }
         });
 
+        binding.spStack.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                binding.spStack.setHint("");
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                binding.spStack.setHint("Select Stack");
+
+            }
+        });
 
     }
 
@@ -239,32 +246,27 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
             if (inspectionDataModel != null)
                 list.add(inspectionDataModel.getItemCode());
 
-            itemCodeAdapter = new ArrayAdapter<String>(
-                    this, android.R.layout.simple_dropdown_item_1line, list);
-            binding.spItemCode.setAdapter(
-                    new NothingSelectedSpinnerAdapter(
-                            itemCodeAdapter,
-                            R.layout.contact_spinner_row_nothing_selected,
-                            // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                            this));
+            binding.spItemCode.setItem(list);
             if (inspectionDataModel != null) {
-                binding.spItemCode.setSelection(1);
+                if(list.size() > 0)
+                binding.spItemCode.setSelection(0);
             }
             binding.spItemCode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (i != 0) {
-                        setWareHouse(list.get(i - 1));
+                    binding.spItemCode.setHint("");
+                        setWareHouse(list.get(i));
                         if (isNew) {
                             itemList = inspectionViewModel.inspectionRepository.getInspectionItemList(i).dataList;
                             setAdapter(itemList);
-                        }
+
                     }
 
                 }
 
                 @Override
                 public void onNothingSelected(AdapterView<?> adapterView) {
+                    binding.spItemCode.setHint("Select Itemcode");
 
                 }
             });
@@ -290,14 +292,14 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
            binding.spWarehouse.setItem(list);
             if (inspectionDataModel != null) {
-                binding.spWarehouse.setSelection(0);
+                if(list.size() > 0)
+                    binding.spWarehouse.setSelection(0);
             }
             binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     binding.spWarehouse.setHint("");
-                    if(i!=0)
-                        initOtherSpinnerData(list.get(i - 1));
+                        initOtherSpinnerData(list.get(i));
                 }
 
                 @Override
@@ -487,10 +489,9 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     void resetInspectionScreen() {
         previousID = 0;
-        binding.spItemCode.setSelection(0);
         binding.spWarehouse.setSelection(-1);
-        binding.spStack.setSelection(0);
-        binding.spItemCode.setSelection(0);
+        binding.spStack.setSelection(-1);
+        binding.spItemCode.setSelection(-1);
         binding.rvList.setAdapter(null);
         binding.tvMin.setVisibility(View.GONE);
         binding.tvMax.setVisibility(View.GONE);
