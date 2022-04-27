@@ -1,5 +1,7 @@
 package com.example.androidassignment.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -12,6 +14,7 @@ import com.example.androidassignment.database.model.StackModel;
 import com.example.androidassignment.database.model.WareHouse;
 import com.example.androidassignment.repository.InspectionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InspectionViewModel extends ViewModel {
@@ -20,6 +23,7 @@ public class InspectionViewModel extends ViewModel {
     public MutableLiveData<Boolean> inserSuccessLiveData = new MutableLiveData();
     public MutableLiveData<Boolean> deleteSuccessLiveData = new MutableLiveData();
 
+    public MutableLiveData<InspectionDataModel> inspectionList = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> previousInspection = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> lastInspection = new MutableLiveData();
     public MutableLiveData<InspectionDataModel> lastInspectionCompleted = new MutableLiveData();
@@ -31,6 +35,7 @@ public class InspectionViewModel extends ViewModel {
     public MutableLiveData<List<RakeLoadingNumber>> rakeLoadingLiveData = new MutableLiveData();
     public int currentId = 0;
     public int lastId = 0;
+    public List<InspectionDataModel> list = new ArrayList<>();
     public InspectionRepository inspectionRepository;
 
     public void initRepository() {
@@ -53,38 +58,67 @@ public class InspectionViewModel extends ViewModel {
     }
 
     public void getPreviousData(String orderNo) {
-        if (currentId > 1)
-            inspectionRepository.getPrevious(currentId, previousInspection, orderNo);
+        if (currentId > 0) {
+            currentId = currentId - 1;
+            previousInspection.postValue(list.get(currentId));
+        }
     }
 
     public void getNextData(String orderNo) {
-        if (currentId <= lastId)
-            inspectionRepository.getNext(currentId, previousInspection,orderNo);
+        if (currentId <= lastId) {
+            currentId = currentId + 1;
+            previousInspection.postValue(list.get(currentId));
+        }
     }
 
     public void getLastInspection(String orderNo) {
-        Observer observer = new Observer<InspectionDataModel>() {
+//        Observer observer = new Observer<InspectionDataModel>() {
+//
+//            @Override
+//            public void onChanged(InspectionDataModel dataModel) {
+//                if(dataModel != null){
+//
+//                    lastId = dataModel.getId();
+//                    currentId = lastId + 1;
+//                    if(dataModel.isSync()){
+//                        previousInspection.postValue(dataModel);
+//                    }else{
+//                        lastInspectionCompleted.postValue(dataModel);
+//                    }
+//                }else {
+//                    lastInspectionCompleted.postValue(dataModel);
+//                }
+//
+//            }
+//        };
+ Observer observer1 = new Observer<List<InspectionDataModel>>() {
 
             @Override
-            public void onChanged(InspectionDataModel dataModel) {
-                if(dataModel != null){
-                    lastId = dataModel.getId();
+            public void onChanged(List<InspectionDataModel> dataModel) {
+                if(!dataModel.isEmpty()){
+                    list = dataModel;
+                    lastId = dataModel.size()-1;
                     currentId = lastId + 1;
-                    if(dataModel.isSync()){
-                        previousInspection.postValue(dataModel);
+                    if(dataModel.get(lastId).isSync()){
+                        previousInspection.postValue(dataModel.get(lastId));
                     }else{
-                        lastInspectionCompleted.postValue(dataModel);
+                        lastInspectionCompleted.postValue(dataModel.get(lastId));
                     }
+
                 }else {
-                    lastInspectionCompleted.postValue(dataModel);
+                    lastInspectionCompleted.postValue(null);
                 }
 
             }
         };
 
-        lastInspection.removeObserver(observer);
-        lastInspection.observeForever(observer);
+//        lastInspection.removeObserver(observer);
+//        lastInspection.observeForever(observer);
+        inspectionList.removeObserver(observer1);
+        inspectionList.observeForever(observer1
+        );
         inspectionRepository.getLastData(orderNo, lastInspection);
+        inspectionRepository.getDataList(orderNo, inspectionList);
     }
 
     public void syncAllData(){

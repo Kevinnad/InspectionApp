@@ -129,7 +129,8 @@ public class InspectionRepository extends BaseRepository {
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
             }
-        }, throwable -> Log.e("", "Throwable " + throwable.getMessage()));
+        }, throwable ->
+                Log.e("", "Throwable " + throwable.getMessage()));
     }
 
     @Override
@@ -149,6 +150,20 @@ public class InspectionRepository extends BaseRepository {
         dataBaseProvider.getAppDatabase().inspectionDao().getLastInspection((String) object).subscribeOn(Schedulers.io()).subscribe(new Consumer<InspectionDataModel>() {
             @Override
             public void accept(@NonNull InspectionDataModel inspectionDataModels) throws Exception {
+                mutableLiveData.postValue(inspectionDataModels);
+            }
+        }, throwable -> {
+            Log.e("", "Throwable " + throwable.getMessage());
+            mutableLiveData.postValue(null);
+        });
+
+    }
+
+    public void getDataList(Object object, MutableLiveData mutableLiveData) {
+
+        dataBaseProvider.getAppDatabase().inspectionDao().getInspectionList((String) object).subscribeOn(Schedulers.io()).subscribe(new Consumer<List<InspectionDataModel>>() {
+            @Override
+            public void accept(@NonNull List<InspectionDataModel> inspectionDataModels) throws Exception {
                 mutableLiveData.postValue(inspectionDataModels);
             }
         }, throwable -> {

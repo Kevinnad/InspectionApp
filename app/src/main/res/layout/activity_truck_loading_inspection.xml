@@ -80,7 +80,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/autoCompleteLoadingNum" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/spOrderNum"
                 style="@style/Body"
                 android:layout_width="0dp"
@@ -169,13 +169,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNoTruck" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etTruckID"
                 style="@style/SpinnerTextViewItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:inputType="number"
+                android:text="1"
                 app:layout_constraintBottom_toBottomOf="@id/tvTruckID"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
@@ -222,6 +222,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:inputType="number"
                 app:layout_constraintBottom_toBottomOf="@id/tvNoOfBags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
@@ -233,7 +234,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Bags Stick Quality"
+                android:text="Bags Stitch Quality"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvNoOfBags" />
@@ -262,29 +263,42 @@
                     android:layout_height="wrap_content"
                     android:text="Average" />
             </RadioGroup>
-
-            <TextView
-                android:id="@+id/tvChelliCount"
+ <TextView
+                android:id="@+id/tvBagQuality"
                 style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Chelli Count"
+                android:text="Bags Quality"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvBagStickQuality" />
 
-            <EditText
-                android:id="@+id/etChelliCount"
+            <RadioGroup
+                android:id="@+id/etBagQuality"
                 style="@style/SpinnerTextViewItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:inputType="number"
-                app:layout_constraintBottom_toBottomOf="@id/tvChelliCount"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/tvBagQuality"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
-                app:layout_constraintTop_toTopOf="@id/tvChelliCount" />
+                app:layout_constraintTop_toTopOf="@id/tvBagQuality">
+
+                <RadioButton
+                    android:id="@+id/rbBagGood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Good" />
+
+                <RadioButton
+                    android:id="@+id/rbBagAverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Average" />
+            </RadioGroup>
+
 
             <Button
                 android:id="@+id/bt_submit"

@@ -80,6 +80,24 @@ public class InspectionDataStore {
         return list;
     }
 
+    public List<String> getWagonList(int i) {
+        ArrayList<String> list = new ArrayList<String>();
+        if (i == 1) {
+            list.add("63 MT");
+            list.add("62 MT");
+            list.add("75 MT");
+        } else if (i == 2) {
+            list.add("63 MT");
+            list.add("62 MT");
+            list.add("75 MT");
+        } else {
+            list.add("63 MT");
+            list.add("62 MT");
+            list.add("75 MT");
+        }
+        return list;
+    }
+
     public List<String> getItemCode(String i) {
         ArrayList<String> list = new ArrayList<String>();
         if (i.equals("880000021")) {

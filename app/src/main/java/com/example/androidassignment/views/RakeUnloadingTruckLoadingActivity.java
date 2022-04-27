@@ -2,7 +2,6 @@ package com.example.androidassignment.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,20 +13,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidassignment.NothingSelectedSpinnerAdapter;
 import com.example.androidassignment.R;
-import com.example.androidassignment.adapter.InspectionAdapter;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
-import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.TruckLoadingDataModel;
-import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
+import com.example.androidassignment.databinding.ActivityRakeUnloadingTruckLoadingBinding;
 import com.example.androidassignment.databinding.ActivityTruckLoadingInspectionBinding;
 import com.example.androidassignment.viewmodel.TruckLoadingViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TruckLoadingActivity extends AppCompatActivity {
+public class RakeUnloadingTruckLoadingActivity extends AppCompatActivity {
 
-    ActivityTruckLoadingInspectionBinding binding;
+    ActivityRakeUnloadingTruckLoadingBinding binding;
     TruckLoadingViewModel truckLoadingViewModel;
     ArrayList<Data> itemList;
     int previousID = 0;
@@ -35,13 +33,13 @@ public class TruckLoadingActivity extends AppCompatActivity {
     private TruckLoadingDataModel truckLoadingDataModel;
     ArrayAdapter<String> stackAdapter;
     ArrayAdapter<String> autoCompleteAdapter;
-    ArrayAdapter<String> orderNumAdapter;
+    ArrayAdapter<String> wagonNumAdapter;
     ArrayAdapter<String> warehouseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityTruckLoadingInspectionBinding.inflate(getLayoutInflater());
+        binding = ActivityRakeUnloadingTruckLoadingBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
         binding.toolbar.btnBack.setOnClickListener(view1 -> finish());
@@ -67,37 +65,6 @@ public class TruckLoadingActivity extends AppCompatActivity {
     }
 
 
-    private void initOtherSpinnerData(int i) {
-
-        final ArrayList<String> list3 = new ArrayList<String>();
-        if (i == 1) {
-            list3.add("001MW01");
-            list3.add("001MW02");
-            list3.add("001MW02");
-        }
-        else if (i == 2) {
-            list3.add("002MW01");
-            list3.add("002MW02");
-            list3.add("002MW02");
-        }else {
-            list3.add("003MW01");
-            list3.add("003MW02");
-            list3.add("003MW02");
-        }
-
-        stackAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list3);
-        binding.spStack.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        stackAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if(truckLoadingDataModel != null){
-            binding.spStack.setSelection(truckLoadingDataModel.getStack());
-        }
-
-    }
 
     private void initAutocompleteAdapter() {
         final ArrayList<String> list = new ArrayList<String>();
@@ -117,41 +84,6 @@ public class TruckLoadingActivity extends AppCompatActivity {
     }
 
 
-    private void setWareHouse(int i) {
-
-        final ArrayList<String> list2 = new ArrayList<String>();
-        if (i == 1) {
-            list2.add("MW01");
-            list2.add("MW02");
-            list2.add("MW03");
-        }else {
-            list2.add("SW01");
-            list2.add("SW02");
-            list2.add("SW03");
-        }
-        warehouseAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list2);
-        binding.spWarehouse.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        warehouseAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if(truckLoadingDataModel != null){
-            binding.spWarehouse.setSelection(truckLoadingDataModel.getWareHouse());
-        }
-        binding.spWarehouse.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                initOtherSpinnerData(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
 
     private void initSpinnerData(int i) {
         final ArrayList<String> list = new ArrayList<String>();
@@ -164,9 +96,22 @@ public class TruckLoadingActivity extends AppCompatActivity {
         }
 
        binding.spOrderNum.setText(list.get(0));
-        setWareHouse(i);
-    }
+        initWagonSpinnerData();
 
+    } private void initWagonSpinnerData() {
+
+        final List<String> list3 = truckLoadingViewModel.getWagonNumberList();
+
+        wagonNumAdapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_dropdown_item_1line, list3);
+        binding.spWagonNo.setAdapter(
+                new NothingSelectedSpinnerAdapter(
+                        wagonNumAdapter,
+                        R.layout.contact_spinner_row_nothing_selected,
+                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                        this));
+
+    }
     private void initInspectionAdapter() {
 
         binding.btSubmit.setOnClickListener(view -> {
@@ -195,19 +140,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
             Toast.makeText(this,
                     "Input Rake loading number", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spWarehouse.getSelectedItem() == null || binding.spWarehouse.getSelectedItemPosition() ==0) {
-            Toast.makeText(this,
-                    "Select Warehouse", Toast.LENGTH_SHORT).show();
-            return false;
-        } else if (binding.spStack.getSelectedItem() == null || binding.spStack.getSelectedItemPosition() ==0) {
-            Toast.makeText(this,
-                    "Select Stack", Toast.LENGTH_SHORT).show();
-            return false;
-        }else if (binding.etNoTruck.getText() == null || binding.etNoTruck.getText().toString().isEmpty()) {
-            Toast.makeText(this,
-                    "Enter Number of Trucks", Toast.LENGTH_SHORT).show();
-            return false;
-        }else if (binding.etTruckID.getText() == null || binding.etTruckID.getText().toString().isEmpty()) {
+        } else if (binding.etTruckID.getText() == null || binding.etTruckID.getText().toString().isEmpty()) {
             Toast.makeText(this,
                     "Enter Truck Id", Toast.LENGTH_SHORT).show();
             return false;
@@ -219,7 +152,7 @@ public class TruckLoadingActivity extends AppCompatActivity {
             Toast.makeText(this,
                     "Enter Number of Bags", Toast.LENGTH_SHORT).show();
             return false;
-        }else if (binding.etBagStickQuality.getCheckedRadioButtonId() == -1) {
+        }else if (binding.etBagQuality.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
                     "Input Bag Stitch Quality", Toast.LENGTH_SHORT).show();
             return false;
@@ -258,14 +191,13 @@ public class TruckLoadingActivity extends AppCompatActivity {
         setOrderNumber(truckLoadingDataModel.getRakeLoadingNumber());
         binding.etTruckNo.setText(truckLoadingDataModel.getTruckNumber());
         binding.etTruckID.setText(String.valueOf(truckLoadingDataModel.getTruckID()));
-        binding.etNoTruck.setText(String.valueOf(truckLoadingDataModel.getNoOfTrucks()));
         binding.etNoOfBags.setText(truckLoadingDataModel.getNumOfBags());
         if(truckLoadingDataModel.getQuality() == 0)
         {
-            binding.rbGood.setChecked(true);
+            binding.rbBagGood.setChecked(true);
         }
         else
-            binding.rbAverage.setChecked(true);
+            binding.rbBagAverage.setChecked(true);
         binding.tvSync.setVisibility((truckLoadingDataModel.isSync()) ? View.VISIBLE : View.GONE);
         toggleAction(!truckLoadingDataModel.isSync());
     }
@@ -281,12 +213,10 @@ public class TruckLoadingActivity extends AppCompatActivity {
     void toggleAction(boolean isEnable) {
         binding.autoCompleteLoadingNum.setEnabled(isEnable);
         binding.spOrderNum.setEnabled(isEnable);
-        binding.spWarehouse.setEnabled(isEnable);
-        binding.spStack.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
         binding.etTruckNo.setEnabled(isEnable);
         binding.etNoOfBags.setEnabled(isEnable);
-        binding.etBagStickQuality.setEnabled(isEnable);
+        binding.etBagQuality.setEnabled(isEnable);
         binding.etTruckID.setEnabled(isEnable);
         binding.btSubmit.setEnabled(isEnable);
     }
@@ -295,13 +225,11 @@ public class TruckLoadingActivity extends AppCompatActivity {
         TruckLoadingDataModel truckLoadingDataModel = new TruckLoadingDataModel();
         truckLoadingDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
         truckLoadingDataModel.setOrderNumber(0);
-        truckLoadingDataModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
-        truckLoadingDataModel.setStack(binding.spStack.getSelectedItemPosition());
-        truckLoadingDataModel.setNoOfTrucks(Integer.parseInt(binding.etNoTruck.getText().toString()));
+
         truckLoadingDataModel.setTruckID(Integer.parseInt(binding.etTruckID.getText().toString()));
         truckLoadingDataModel.setNumOfBags(binding.etNoOfBags.getText().toString());
         truckLoadingDataModel.setTruckNumber(binding.etTruckNo.getText().toString());
-        if(binding.rbAverage.isChecked())
+        if(binding.rbBagAverage.isChecked())
             truckLoadingDataModel.setQuality(1);
         else
             truckLoadingDataModel.setQuality(0);
@@ -339,14 +267,13 @@ public class TruckLoadingActivity extends AppCompatActivity {
 
     void resetInspectionScreen() {
         previousID = 0;
-        binding.spWarehouse.setSelection(0);
-        binding.spStack.setSelection(0);
+
         binding.tvSync.setVisibility(View.GONE);
-        binding.etNoTruck.setText("");
+
         binding.etTruckID.setText("");
         binding.etTruckNo.setText("");
         binding.etNoOfBags.setText("");
-        binding.etBagStickQuality.clearCheck();
+        binding.etBagQuality.clearCheck();
         binding.etBagQuality.clearCheck();
         isNew = true;
         truckLoadingDataModel = null;

@@ -96,23 +96,7 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
     }
 
 
-    private void initOtherSpinnerData(int i) {
 
-        final List<String> list3 = inspectionViewModel.inspectionRepository.getWagonSerialNum(i);
-
-        stackAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list3);
-        binding.spPreviousCargo.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        stackAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if (inspectionDataModel != null) {
-            binding.spPreviousCargo.setSelection(inspectionDataModel.getSeal());
-        }
-
-    }
 
 
     private void initAutocompleteAdapter() {
@@ -150,7 +134,7 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
         binding.spWagonCapacity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                initOtherSpinnerData(i);
+
             }
 
             @Override
@@ -212,7 +196,7 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
             Toast.makeText(this,
                     "Select Wagon Capacity", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spPreviousCargo.getSelectedItem() == null) {
+        } else if (binding.etPreviousCargo.getText().toString().isEmpty()) {
             Toast.makeText(this,
                     "Enter Previous", Toast.LENGTH_SHORT).show();
             return false;
@@ -223,15 +207,15 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
         }
         else if (binding.clFloor.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
-                    "Check Whether floor is cleaned or not", Toast.LENGTH_SHORT).show();
+                    "Check Whether floor is cleaned", Toast.LENGTH_SHORT).show();
             return false;
         }else if (binding.clSidleHoles.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
-                    "Check Sides for holes are checked or Not", Toast.LENGTH_SHORT).show();
+                    "Check Sides for holes are checked", Toast.LENGTH_SHORT).show();
             return false;
         }else if (binding.clTopHoles.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
-                    "Check Top for holes are checked or Not", Toast.LENGTH_SHORT).show();
+                    "Check Top for holes are checked", Toast.LENGTH_SHORT).show();
             return false;
         }else if (binding.clGround.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
@@ -240,10 +224,6 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
         }else if (binding.clTfloors.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
                     "Check Tarpauline In Wagon Floors", Toast.LENGTH_SHORT).show();
-            return false;
-        }else if (binding.clDoors.rgTarpauline.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(this,
-                    "Check Tarpauline In doors which are not used for loading", Toast.LENGTH_SHORT).show();
             return false;
         }else if (binding.clSides.rgTarpauline.getCheckedRadioButtonId() == -1) {
             Toast.makeText(this,
@@ -303,10 +283,7 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
             binding.clTfloors.yes.setChecked(true);
         } else
             binding.clTfloors.No.setChecked(true);
-        if (inspectionDataModel.getTarpauline() == 0) {
-            binding.clDoors.yes.setChecked(true);
-        } else
-            binding.clDoors.No.setChecked(true);
+
         if (inspectionDataModel.getTarpauline() == 0) {
             binding.clSides.yes.setChecked(true);
         } else
@@ -341,10 +318,7 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
         inspectionDataModel.setWagonSerialNum(binding.etWagonSerialNo.getText().toString());
         inspectionDataModel.setWagonID(binding.etWagonId.getText().toString());
         inspectionDataModel.setWagonNumber(binding.etWagonNo.getText().toString());
-        if(binding.clDoors.yes.isChecked())
-            inspectionDataModel.setDoorLocked(1);
-        else
-            inspectionDataModel.setDoorLocked(0);
+
         if(binding.clTopHoles.yes.isChecked())
             inspectionDataModel.setTarpauline(1);
         else
@@ -391,10 +365,12 @@ public class WagonLoadingActivity extends BaseInspectionActivity<ActivityWagonLo
         previousID = 0;
         binding.spWagonType.setSelection(0);
         binding.spWagonCapacity.setSelection(0);
+        binding.etPreviousCargo.setText("");
         binding.tvSync.setVisibility(View.GONE);
         isNew = true;
         inspectionDataModel = null;
         toggleAction(true);
     }
+    
 
 }

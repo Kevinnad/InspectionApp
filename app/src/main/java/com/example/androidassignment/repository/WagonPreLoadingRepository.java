@@ -172,7 +172,7 @@ public class WagonPreLoadingRepository extends BaseRepository {
     }
 
     public List<String> getWagonCapacity(int i) {
-        return inspectionDataStore.getStackList(i);
+        return inspectionDataStore.getWagonList(i);
     }
 
     public List<String> getWagonSerialNum(int i) {

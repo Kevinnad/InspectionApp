@@ -52,6 +52,7 @@ public class TruckUnloadingViewmodel extends ViewModel {
                 }
             }
         });
+
         inspectionRepository.getLastData(currentId, lastInspection);
     }
 

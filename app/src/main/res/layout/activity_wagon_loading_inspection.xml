@@ -81,14 +81,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/autoCompleteLoadingNum" />
 
-            <EditText
+            <TextView
                 android:id="@+id/etWagonId"
                 style="@style/SpinnerTextViewItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:inputType="number"
                 android:maxLength="2"
+                android:text="1"
                 app:layout_constraintBottom_toBottomOf="@id/tvWagonId"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
@@ -113,6 +113,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:inputType="number"
                 android:maxLength="2"
                 app:layout_constraintBottom_toBottomOf="@id/tvWagonNo"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -193,8 +194,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvWagonSerialNo" />
 
-            <Spinner
-                android:id="@+id/spPreviousCargo"
+            <EditText
+                android:id="@+id/etPreviousCargo"
                 style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -209,7 +210,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Whether floor is cleaned or not"
+                android:text="Is floor cleaned?"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvPreviousCargo" />
@@ -230,7 +231,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Sides for holes are checked or Not"
+                android:text="Are sides for holes checked?"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvFloor" />
@@ -252,7 +253,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Top for holes are checked or Not"
+                android:text="Are top for holes checked?"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvSideHoles" />
@@ -309,28 +310,10 @@
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
                 app:layout_constraintTop_toTopOf="@id/tvTfloors" />
 
-            <TextView
-                android:id="@+id/tvDoors"
-                style="@style/Body"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Tarpauline In doors which are not used for loading"
-                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTfloors" />
 
-            <include
-                android:id="@+id/clDoors"
-                layout="@layout/row_yes_or_no"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/tvDoors"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
-                app:layout_constraintTop_toTopOf="@id/tvDoors" />
 
             <TextView
+                android:layout_marginBottom="20dp"
                 android:id="@+id/tvSides"
                 style="@style/Body"
                 android:layout_width="0dp"
@@ -339,7 +322,7 @@
                 android:text="Tarpauline In sides (If required)"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDoors" />
+                app:layout_constraintTop_toBottomOf="@id/tvTfloors" />
 
             <include
                 android:id="@+id/clSides"
@@ -424,6 +407,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
+        android:text="1/63"
         app:layout_constraintStart_toEndOf="@id/gEnd"
         app:layout_constraintBottom_toBottomOf="@id/tvWeight"
         app:layout_constraintTop_toTopOf="@id/tvWeight" />

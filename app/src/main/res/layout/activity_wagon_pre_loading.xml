@@ -116,8 +116,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvWagonCapacity"
             android:layout_marginTop="15dp"/>
-        <Spinner
-            android:id="@+id/spWagonSerialNo"
+        <EditText
+            android:id="@+id/etWagonSerialNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/Body"
@@ -168,7 +168,7 @@
             android:id="@+id/tvDoorLocked"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Door Locked or Not"
+            android:text="Is Door Locked"
             style="@style/Body"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
@@ -205,7 +205,7 @@
             android:id="@+id/tvSeal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Seal Placed or Not"
+            android:text="Is seal placed"
             style="@style/Body"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
@@ -249,32 +249,38 @@
             app:layout_constraintTop_toBottomOf="@id/tvSeal"
             android:layout_marginTop="15dp"
             />
-        <RadioGroup
-            android:id="@+id/rgRemarks"
+        <EditText
+            android:id="@+id/etRemarks"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/Body"
             app:layout_constraintBottom_toBottomOf="@id/tvRemarks"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/guideLineEnd"
             app:layout_constraintTop_toTopOf="@id/tvRemarks"
-            android:orientation="horizontal">
+            />
 
-            <RadioButton
-                android:id="@+id/rbRemarksYes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="YES"
 
-                />
-
-            <RadioButton
-                android:id="@+id/rbRemarksNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text ="No"
-                />
-        </RadioGroup>
-
+        <TextView
+            android:id="@+id/tvLockNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="One Time Lock No"
+            style="@style/Body"
+            app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRemarks"
+            android:layout_marginTop="15dp"/>
+        <EditText
+            android:id="@+id/etLockNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Body"
+            app:layout_constraintBottom_toBottomOf="@id/tvNoOfTrucks"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+            app:layout_constraintTop_toTopOf="@id/tvRemarks"
+            />
 
         <TextView
             android:id="@+id/tvNoOfTrucks"
@@ -284,7 +290,7 @@
             style="@style/Body"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvRemarks"
+            app:layout_constraintTop_toBottomOf="@id/tvLockNo"
             android:layout_marginTop="15dp"/>
         <EditText
             android:id="@+id/etNoOfTrucks"
@@ -302,7 +308,7 @@
             android:id="@+id/tvSpillBeans"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Spillage Beans Collected"
+            android:text="Spillage Bags Collected"
             style="@style/Body"
             app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
             app:layout_constraintStart_toStartOf="parent"

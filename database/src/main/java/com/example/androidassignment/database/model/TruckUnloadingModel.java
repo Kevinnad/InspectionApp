@@ -9,9 +9,10 @@ public class TruckUnloadingModel {
     @PrimaryKey(autoGenerate = true)
     int id;
     String rakeLoadingNumber;
-    String truckNumber;
+    int truckNumber;
     String unloadedBags;
-    String wagonNum;
+    String unloadedQuantity;
+    int wagonNum;
     int quality;
     int orderNumber;
     int wareHouse;
@@ -51,6 +52,13 @@ public class TruckUnloadingModel {
         this.orderNumber = orderNumber;
     }
 
+    public String getUnloadedQuantity() {
+        return unloadedQuantity;
+    }
+
+    public void setUnloadedQuantity(String unloadedQuantity) {
+        this.unloadedQuantity = unloadedQuantity;
+    }
 
     public int getWareHouse() {
         return wareHouse;
@@ -76,13 +84,7 @@ public class TruckUnloadingModel {
         isSync = sync;
     }
 
-    public String getTruckNumber() {
-        return truckNumber;
-    }
 
-    public void setTruckNumber(String truckNumber) {
-        this.truckNumber = truckNumber;
-    }
 
     public String getUnloadedBags() {
         return unloadedBags;
@@ -92,11 +94,19 @@ public class TruckUnloadingModel {
         this.unloadedBags = unloadedBags;
     }
 
-    public String getWagonNum() {
+    public int getTruckNumber() {
+        return truckNumber;
+    }
+
+    public void setTruckNumber(int truckNumber) {
+        this.truckNumber = truckNumber;
+    }
+
+    public int getWagonNum() {
         return wagonNum;
     }
 
-    public void setWagonNum(String wagonNum) {
+    public void setWagonNum(int wagonNum) {
         this.wagonNum = wagonNum;
     }
 

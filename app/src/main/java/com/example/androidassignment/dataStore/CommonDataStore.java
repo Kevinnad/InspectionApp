@@ -45,6 +45,7 @@ public class CommonDataStore {
         return list;
     }
 
+
     public static void saveStringInPrefernce(Context context, String key, String value){
         SharedPreferences.Editor editor = context.getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE).edit();
         editor.putString(key, value);

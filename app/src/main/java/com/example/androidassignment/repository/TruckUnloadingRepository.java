@@ -166,6 +166,10 @@ public class TruckUnloadingRepository extends BaseRepository {
 
     public List<String> getStackList(int i) {
         return truckUnloadingDataStore.getStackList(i);
+    } public List<String> getTruckNumberList() {
+        return truckUnloadingDataStore.getTruckNumberList();
+    } public List<String> getWagonNumberList() {
+        return truckUnloadingDataStore.getWagonNumberList();
     }
 }
 

@@ -99,23 +99,7 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
     }
 
 
-    private void initOtherSpinnerData(int i) {
 
-        final List<String> list3 = inspectionViewModel.inspectionRepository.getWagonSerialNum(i);
-
-        stackAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list3);
-        binding.spWagonSerialNo.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        stackAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-        if(inspectionDataModel != null){
-            binding.spWagonSerialNo.setSelection(inspectionDataModel.getWagonSerialNum());
-        }
-
-    }
 
 
 
@@ -155,7 +139,6 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding.spWagonCapacity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                initOtherSpinnerData(i);
             }
 
             @Override
@@ -207,13 +190,17 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
             Toast.makeText(this,
                     "Select Wagon Capacity", Toast.LENGTH_SHORT).show();
             return false;
-        } else if (binding.spWagonSerialNo.getSelectedItem() == null) {
+        } else if (binding.etWagonSerialNo.getText().toString().isEmpty()) {
             Toast.makeText(this,
-                    "Select Wagon Serial Number", Toast.LENGTH_SHORT).show();
+                    "Enter Wagon Serial Number", Toast.LENGTH_SHORT).show();
             return false;
         } else if (binding.etNoOfTrucks.getText().toString().isEmpty()) {
             Toast.makeText(this,
                     "Enter Truck Number", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etRemarks.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Remarks", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -248,6 +235,7 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         binding.autoCompleteLoadingNum.setText(inspectionDataModel.getRakeLoadingNumber());
         binding.etTotalWeight.setText(inspectionDataModel.getTotalWeight());
         binding.etNoOfTrucks.setText(inspectionDataModel.getTruckNo());
+        binding.etRemarks.setText(inspectionDataModel.getRemarks());
         binding.etSpillBeans.setText(inspectionDataModel.getSpillBeans());
         setOrderNumber(inspectionDataModel.getRakeLoadingNumber());
         binding.tvSync.setVisibility((inspectionDataModel.isSync()) ? View.VISIBLE : View.GONE);
@@ -264,7 +252,6 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
 
     void toggleAction(boolean isEnable) {
         binding.autoCompleteLoadingNum.setEnabled(isEnable);
-        binding.spWagonSerialNo.setEnabled(isEnable);
         binding.spWagonCapacity.setEnabled(isEnable);
         binding.spWagonType.setEnabled(isEnable);
         binding.tvSync.setEnabled(isEnable);
@@ -276,10 +263,11 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
         inspectionDataModel.setRakeLoadingNumber(binding.autoCompleteLoadingNum.getText().toString());
         inspectionDataModel.setWagonCapacity(binding.spWagonCapacity.getSelectedItemPosition());
         inspectionDataModel.setWagonType(binding.spWagonType.getSelectedItemPosition());
-        inspectionDataModel.setWagonSerialNum(binding.spWagonSerialNo.getSelectedItemPosition());
+        inspectionDataModel.setWagonSerialNum(binding.etWagonSerialNo.getText().toString());
         inspectionDataModel.setTruckNo(binding.etNoOfTrucks.getText().toString());
         inspectionDataModel.setSpillBeans(binding.etSpillBeans.getText().toString());
         inspectionDataModel.setTotalWeight(binding.etTotalWeight.getText().toString());
+        inspectionDataModel.setRemarks(binding.etRemarks.getText().toString());
         if (previousID != 0)
             inspectionDataModel.setId(previousID);
 
@@ -312,14 +300,14 @@ public class WagonPostLoadingActivity extends BaseInspectionActivity<ActivityWag
 
     void resetInspectionScreen() {
         previousID = 0;
-        binding.spWagonSerialNo.setSelection(0);
+        binding.etWagonSerialNo.setText("");
         binding.spWagonType.setSelection(0);
         binding.spWagonCapacity.setSelection(0);
         binding.etNoOfTrucks.setText("");
         binding.etSpillBeans.setText("");
         binding.etTotalWeight.setText("");
         binding.rgDoorLocked.clearCheck();
-        binding.rgRemarks.clearCheck();
+        binding.etRemarks.setText("");
         binding.rgSeal.clearCheck();
         binding.rgTarpauline.clearCheck();
         binding.tvSync.setVisibility(View.GONE);

@@ -36,5 +36,23 @@ public class TruckUnloadingDataStore {
         }
         return list;
     }
+    public List<String> getWagonNumberList() {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("MP2345");
+        list.add("MP2366");
+        list.add("MP2898");
+        list.add("MP90687");
 
+        return list;
+    }
+
+    public List<String> getTruckNumberList() {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("SR2345");
+        list.add("SR4366");
+        list.add("SR2898");
+        list.add("SR90687");
+
+        return list;
+    }
 }

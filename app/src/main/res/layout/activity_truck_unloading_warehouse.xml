@@ -88,6 +88,54 @@
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
                 app:layout_constraintTop_toTopOf="@id/tvOrderNum" />
 
+            <TextView
+                android:id="@+id/tvTruckID"
+                style="@style/Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:inputType="number"
+                android:text="Truck ID"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvOrderNum" />
+
+            <TextView
+                android:id="@+id/etTruckID"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="1"
+                app:layout_constraintBottom_toBottomOf="@id/tvTruckID"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvTruckID" />
+
+
+            <TextView
+                android:id="@+id/tvTruckNo"
+                style="@style/Body"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="Truck Number"
+                app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTruckID" />
+
+            <Spinner
+                android:id="@+id/etTruckNo"
+                style="@style/SpinnerTextViewItem"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                app:layout_constraintBottom_toBottomOf="@id/tvTruckNo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/guideLineEnd"
+                app:layout_constraintTop_toTopOf="@id/tvTruckNo" />
+
+
 
 
             <TextView
@@ -99,7 +147,7 @@
                 android:text="Warehouse"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvOrderNum" />
+                app:layout_constraintTop_toBottomOf="@id/tvTruckNo" />
 
             <Spinner
                 android:id="@+id/spWarehouse"
@@ -135,47 +183,65 @@
 
 
 
-
             <TextView
-                android:id="@+id/tvTruckNo"
+                android:id="@+id/tvBagQuality"
                 style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Truck Number"
+                android:text="Bags Quality"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvStack" />
 
-            <Spinner
-                android:id="@+id/etTruckNo"
+            <RadioGroup
+                android:id="@+id/etBagQuality"
+                style="@style/SpinnerTextViewItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/tvTruckNo"
+                android:gravity="start"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/tvBagQuality"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
-                app:layout_constraintTop_toTopOf="@id/tvTruckNo" />
+                app:layout_constraintTop_toTopOf="@id/tvBagQuality">
+
+                <RadioButton
+                    android:id="@+id/rbBagGood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Good" />
+
+                <RadioButton
+                    android:id="@+id/rbBagAverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Average" />
+            </RadioGroup>
+
 
             <TextView
-                android:id="@+id/tvWagonNo"
+                android:id="@+id/tvNoOfBags"
                 style="@style/Body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Wagon Number"
+                android:text="No. of Bags"
+                android:inputType="number"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTruckNo" />
+                app:layout_constraintTop_toBottomOf="@id/tvBagQuality" />
 
-            <Spinner
-                android:id="@+id/etWagonNo"
+            <EditText
+                android:id="@+id/etNoOfBags"
+                style="@style/SpinnerTextViewItem"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@id/tvWagonNo"
+                android:gravity="start"
+                app:layout_constraintBottom_toBottomOf="@id/tvNoOfBags"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/guideLineEnd"
-                app:layout_constraintTop_toTopOf="@id/tvWagonNo" />
-
+                app:layout_constraintTop_toTopOf="@id/tvNoOfBags" />
 
             <TextView
                 android:id="@+id/tvBagStickQuality"
@@ -183,10 +249,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="Unloaded Quantity"
+                android:text="Net Weight"
                 app:layout_constraintEnd_toEndOf="@id/guideLineEnd"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvWagonNo" />
+                app:layout_constraintTop_toBottomOf="@id/tvNoOfBags" />
 
 
             <EditText
@@ -262,7 +328,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="1/500"
+            android:text="2500/50"
             app:layout_constraintStart_toEndOf="@id/gEnd"
             app:layout_constraintBottom_toBottomOf="@id/tvWeight"
             app:layout_constraintTop_toTopOf="@id/tvWeight" />

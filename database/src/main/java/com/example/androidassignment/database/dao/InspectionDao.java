@@ -30,6 +30,9 @@ public interface InspectionDao {
     @Query("SELECT * FROM inspectiontable WHERE orderNumber = :orderNo ORDER BY id DESC LIMIT 1")
     Single<InspectionDataModel> getLastInspection(String orderNo);
 
+    @Query("SELECT * FROM inspectiontable WHERE orderNumber = :orderNo")
+    Single<List<InspectionDataModel>> getInspectionList(String orderNo);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(InspectionDataModel model);
 

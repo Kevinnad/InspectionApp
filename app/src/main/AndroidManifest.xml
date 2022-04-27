@@ -29,11 +29,14 @@
         <activity android:name=".views.WagonPreLoadingActivity" />
         <activity android:name=".views.WagonLoadingActivity" />
         <activity android:name=".views.TruckUnloadingActivity" />
+        <activity android:name=".views.RakeUnloadingTruckLoadingActivity" />
+        <activity android:name=".views.TruckUnloadingWareHouseActivity" />
         <activity
             android:name=".views.RakeLoadingActivity"
             android:exported="true" />
         <activity
-            android:name=".views.InspectionActivity"
+            android:windowSoftInputMode="adjustPan"
+        android:name=".views.InspectionActivity"
             android:exported="true" />
         <activity
             android:name=".views.TruckLoadingActivity"

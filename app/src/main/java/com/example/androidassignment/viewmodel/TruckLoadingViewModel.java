@@ -124,5 +124,13 @@ public class TruckLoadingViewModel extends ViewModel {
             }
         });
     }
+    public List<String> getWagonNumberList() {
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("MP2345");
+        list.add("MP2366");
+        list.add("MP2898");
+        list.add("MP90687");
 
+        return list;
+    }
 }

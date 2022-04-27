@@ -15,11 +15,11 @@ public class WagonPreLoadingDataModel {
     String rakeLoadingNumber;
     int wagonType;
     int wagonCapacity;
-    int wagonSerialNum;
+    String wagonSerialNum;
     boolean isSync;
     int tarpauline;
     int seal;
-    int remarks;
+    String remarks;
     int doorLocked;
     String truckNo;
     String spillBeans;
@@ -66,11 +66,11 @@ public class WagonPreLoadingDataModel {
         this.wagonCapacity = wagonCapacity;
     }
 
-    public int getWagonSerialNum() {
+    public String getWagonSerialNum() {
         return wagonSerialNum;
     }
 
-    public void setWagonSerialNum(int wagonSerialNum) {
+    public void setWagonSerialNum(String wagonSerialNum) {
         this.wagonSerialNum = wagonSerialNum;
     }
 
@@ -90,11 +90,11 @@ public class WagonPreLoadingDataModel {
         this.seal = seal;
     }
 
-    public int getRemarks() {
+    public String getRemarks() {
         return remarks;
     }
 
-    public void setRemarks(int remarks) {
+    public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
 

@@ -48,10 +48,12 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     String orderNumber = "";
     String selectedRakeLoading = "";
+    CommonDataStore commonDataStore;
 
     @Override
     public ActivityPreLoadingInspectionBinding getBinding() {
         binding = ActivityPreLoadingInspectionBinding.inflate(getLayoutInflater());
+        commonDataStore = new CommonDataStore();
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setOnClickListener(view -> startActivity(new Intent(this, HomeActivity.class)));
         binding.toolbar.toolbarTitle.setText("Pre Loading Inspection");
@@ -89,7 +91,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
     @Override
     public void prevAction() {
-        if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId > 1)
+        if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId > 0)
             inspectionViewModel.getPreviousData(orderNumber);
         else
             Toast.makeText(this, "No Previous Data", Toast.LENGTH_SHORT).show();
@@ -129,6 +131,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
     void loadData() {
         inspectionViewModel.getLastInspection(orderNumber);
     }
+
 
 
     private void initOtherSpinnerData(String wareHouse) {
@@ -192,12 +195,13 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                         this, android.R.layout.simple_dropdown_item_1line, list);
                 binding.autoCompleteLoadingNum.setAdapter(autoCompleteAdapter);
 
-                selectedRakeLoading = CommonDataStore.getStringInPrefernce(this, RAKE_LOADING_NO);
-                if (!TextUtils.isEmpty(selectedRakeLoading)) {
-                    binding.autoCompleteLoadingNum.setText(selectedRakeLoading);
-                } else if (list.size() == 1) {
-                    binding.autoCompleteLoadingNum.setText(list.get(0));
-                }
+//                selectedRakeLoading = CommonDataStore.getStringInPrefernce(this, RAKE_LOADING_NO);
+//                if (!TextUtils.isEmpty(selectedRakeLoading)) {
+//                    binding.autoCompleteLoadingNum.setText(selectedRakeLoading);
+//                }
+//                else if (list.size() == 1) {
+//                    binding.autoCompleteLoadingNum.setText(list.get(0));
+//                }
 
                 binding.autoCompleteLoadingNum.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -220,11 +224,17 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                 });
             } else if (rakeLoadingNumbers != null && rakeLoadingNumbers.size() > 0) {
                 showAlertDialogForDelete("Do you want to add a Rake Loading Number?", () -> {
+
                     inspectionViewModel.addRakeLoadingNumber(1);
+                    binding.autoCompleteLoadingNum.setText(commonDataStore.getRackLoadingData().get(1));
+
                 });
             } else {
                 showAlertDialogForDelete("Do you want to add a Rake Loading Number?", () -> {
                     inspectionViewModel.addRakeLoadingNumber(0);
+
+                    binding.autoCompleteLoadingNum.setText(commonDataStore.getRackLoadingData().get(0));
+
                 });
             }
         });
@@ -395,12 +405,22 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                     inspectionViewModel.getLastInspection(orderNumber);
                 }
             }
+        });  inspectionViewModel.deleteSuccessLiveData.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId)
+                {
+
+                    inspectionViewModel.getNextData(orderNumber);
+                }
+                else {
+                    resetInspectionScreen();
+                }
+            }
         });
 
-        inspectionViewModel.deleteSuccessLiveData.observe(this, aBoolean -> resetInspectionScreen());
 
         inspectionViewModel.previousInspection.observe(this, dataModel -> {
-            inspectionViewModel.currentId = dataModel.getId();
             previousID = dataModel.getId();
             isNew = false;
             setInspection(dataModel);
@@ -408,7 +428,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
         inspectionViewModel.lastInspectionCompleted.observe(this, inspectionDataModel -> {
             if(inspectionDataModel != null){
-                binding.tvCount.setText(""+(inspectionDataModel.getCount()+1));
+                binding.tvCount.setText(""+(inspectionViewModel.currentId));
             }else {
                 binding.tvCount.setText("1");
             }
@@ -425,7 +445,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
         setAdapter(inspectionDataModel.getItems());
         toggleAction(!inspectionDataModel.isSync());
         setItemCode(orderNumber);
-        binding.tvCount.setText(""+inspectionDataModel.getCount());
+        binding.tvCount.setText(""+inspectionViewModel.currentId);
     }
 
     void toggleAction(boolean isEnable) {
@@ -454,9 +474,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
 
         if (isNext) {
             if (inspectionViewModel.lastId > 0 && inspectionViewModel.currentId + 1 <= inspectionViewModel.lastId) {
-                if(this.inspectionDataModel != null){
-                    inspectionDataModel.setCount(this.inspectionDataModel.getCount());
-                }
+
                 callSaveInspection(inspectionDataModel);
                 inspectionViewModel.getNextData(orderNumber);
             } else {
@@ -464,9 +482,7 @@ public class InspectionActivity extends BaseInspectionActivity<ActivityPreLoadin
                     Toast.makeText(this,
                             "No Next Data", Toast.LENGTH_SHORT).show();
                 } else {
-                    if(this.inspectionDataModel != null){
-                        inspectionDataModel.setCount(this.inspectionDataModel.getCount());
-                    }
+
                     callSaveInspection(inspectionDataModel);
                     resetInspectionScreen();
                 }

@@ -1,53 +1,46 @@
 package com.example.androidassignment.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.androidassignment.NothingSelectedSpinnerAdapter;
 import com.example.androidassignment.R;
-import com.example.androidassignment.adapter.InspectionAdapter;
 import com.example.androidassignment.base.BaseInspectionActivity;
 import com.example.androidassignment.database.database.DataBaseProvider;
 import com.example.androidassignment.database.model.Data;
-import com.example.androidassignment.database.model.InspectionDataModel;
 import com.example.androidassignment.database.model.TruckUnloadingModel;
-import com.example.androidassignment.databinding.ActivityPreLoadingInspectionBinding;
 import com.example.androidassignment.databinding.ActivityTruckUnloadingBinding;
-import com.example.androidassignment.viewmodel.InspectionViewModel;
+import com.example.androidassignment.databinding.ActivityTruckUnloadingWarehouseBinding;
 import com.example.androidassignment.viewmodel.TruckUnloadingViewmodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruckUnloadingBinding> {
+public class TruckUnloadingWareHouseActivity extends BaseInspectionActivity<ActivityTruckUnloadingWarehouseBinding> {
 
-    ActivityTruckUnloadingBinding binding;
+    ActivityTruckUnloadingWarehouseBinding binding;
     TruckUnloadingViewmodel truckUnloadingViewmodel;
     ArrayList<Data> itemList;
     int previousID = 0;
     boolean isNew = true;
     private TruckUnloadingModel truckUnloadingModel;
     ArrayAdapter<String> stackAdapter;
-    ArrayAdapter<String> truckNumAdapter;
     ArrayAdapter<String> wagonNumAdapter;
     ArrayAdapter<String> warehouseAdapter;
 
 
     @Override
-    public ActivityTruckUnloadingBinding getBinding() {
-        binding = ActivityTruckUnloadingBinding.inflate(getLayoutInflater());
+    public ActivityTruckUnloadingWarehouseBinding getBinding() {
+        binding = ActivityTruckUnloadingWarehouseBinding.inflate(getLayoutInflater());
         binding.toolbar.btnBack.setOnClickListener(view -> finish());
         binding.toolbar.btnHome.setOnClickListener(view ->  startActivity(new Intent(this, HomeActivity.class)));
-        binding.toolbar.toolbarTitle.setText("Truck Unloading");
+        binding.toolbar.toolbarTitle.setText("Truck Unloading At WH");
 
         return binding;
     }
@@ -119,38 +112,6 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
             binding.spStack.setSelection(truckUnloadingModel.getStack());
         }
 
-        initTruckSpinnerData();
-
-    }
-
-    private void initTruckSpinnerData() {
-
-        final List<String> list3 = truckUnloadingViewmodel.inspectionRepository.getTruckNumberList();
-
-        truckNumAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list3);
-        binding.etTruckNo.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        truckNumAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-
-        initWagonSpinnerData();
-
-    } private void initWagonSpinnerData() {
-
-        final List<String> list3 = truckUnloadingViewmodel.inspectionRepository.getWagonNumberList();
-
-        wagonNumAdapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_dropdown_item_1line, list3);
-        binding.etWagonNo.setAdapter(
-                new NothingSelectedSpinnerAdapter(
-                        wagonNumAdapter,
-                        R.layout.contact_spinner_row_nothing_selected,
-                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
-                        this));
-
     }
 
 
@@ -204,8 +165,22 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
 
         binding.spOrderNum.setText(list.get(0));
         setWareHouse(i);
+        initWagonSpinnerData();
     }
+    private void initWagonSpinnerData() {
 
+        final List<String> list3 = truckUnloadingViewmodel.inspectionRepository.getTruckNumberList();
+
+        wagonNumAdapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_dropdown_item_1line, list3);
+        binding.etTruckNo.setAdapter(
+                new NothingSelectedSpinnerAdapter(
+                        wagonNumAdapter,
+                        R.layout.contact_spinner_row_nothing_selected,
+                        // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+                        this));
+
+    }
     private boolean isValid() {
         if (binding.autoCompleteUnLoadingNum.getText() == null || binding.autoCompleteUnLoadingNum.getText().toString().isEmpty()) {
             Toast.makeText(this,
@@ -224,7 +199,11 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
                     "Enter Truck Number", Toast.LENGTH_SHORT).show();
             return false;
         }
-        else if (binding.etUnloadedQuantity.getText() == null || binding.etUnloadedQuantity.getText().toString().isEmpty()) {
+        else if (binding.etNoOfBags.getText() == null || binding.etNoOfBags.getText().toString().isEmpty()) {
+            Toast.makeText(this,
+                    "Enter Number of Bags", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.etUnloadedQuantity.getText() == null || binding.etUnloadedQuantity.getText().toString().isEmpty()) {
             Toast.makeText(this,
                     "Input Bag Stick Quality", Toast.LENGTH_SHORT).show();
             return false;
@@ -262,7 +241,7 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
         binding.autoCompleteUnLoadingNum.setText(truckUnloadingModel.getRakeLoadingNumber());
         setOrderNumber(truckUnloadingModel.getRakeLoadingNumber());
         binding.etTruckNo.setSelection(truckUnloadingModel.getTruckNumber());
-        binding.etWagonNo.setSelection(truckUnloadingModel.getWagonNum());
+        binding.etNoOfBags.setText(truckUnloadingModel.getUnloadedBags());
         binding.etUnloadedQuantity.setText(truckUnloadingModel.getUnloadedQuantity());
 
         binding.tvSync.setVisibility((truckUnloadingModel.isSync()) ? View.VISIBLE : View.GONE);
@@ -291,8 +270,8 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
         truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteUnLoadingNum.getText().toString());
 
         truckUnloadingModel.setRakeLoadingNumber(binding.autoCompleteUnLoadingNum.getText().toString());
-        truckUnloadingModel.setWagonNum(binding.etWagonNo.getSelectedItemPosition());
         truckUnloadingModel.setTruckNumber(binding.etTruckNo.getSelectedItemPosition());
+        truckUnloadingModel.setUnloadedBags(binding.etNoOfBags.getText().toString());
         truckUnloadingModel.setUnloadedQuantity(binding.etUnloadedQuantity.getText().toString());
         truckUnloadingModel.setOrderNumber(0);
         truckUnloadingModel.setWareHouse(binding.spWarehouse.getSelectedItemPosition());
@@ -330,8 +309,8 @@ public class TruckUnloadingActivity extends BaseInspectionActivity<ActivityTruck
 
     void resetInspectionScreen() {
         previousID = 0;
-        binding.etWagonNo.setSelection(0);
         binding.etTruckNo.setSelection(0);
+        binding.etNoOfBags.setText("");
         binding.etUnloadedQuantity.setText("");
         binding.spWarehouse.setSelection(0);
         binding.spStack.setSelection(0);
